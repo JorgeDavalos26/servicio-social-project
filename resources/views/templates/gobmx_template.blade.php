@@ -11,17 +11,24 @@
         <link href="https://framework-gb.cdn.gob.mx/gm/v4/image/favicon.ico" rel="shortcut icon">
         <link href="https://framework-gb.cdn.gob.mx/gm/v4/css/main.css" rel="stylesheet">
 
+        <style>
+            /* .page-content
+            {
+                min-height: calc(100vh - 433.433px - 60px);
+            } */
+        </style>
+
         @stack("styles")
     </head>
     <body>
-        <small>~ gobmx template ~</small>
-
         <!-- Contenido -->
         <main class="page">
-            @yield("content")
+            <div class="page-content">
+                <div class="container mb-5 mt-5">
+                    @yield("content")
+                </div>
+            </div>
         </main>
-        
-        <small>~ gobmx template ~</small>
     </body>
 
     <!-- JS -->
@@ -30,5 +37,4 @@
     <script src="https://framework-gb.cdn.gob.mx/gm/v4/js/jquery-ui-datepicker.js"></script>
 
     @yield("scripts")
-
 </html>

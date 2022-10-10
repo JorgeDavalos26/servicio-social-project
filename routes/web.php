@@ -13,11 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* 
 Route::get('/', function () {
     return view('welcome_view');
 });
+*/
 
 Route::get('/gobmx', function () {
     return view('gobmx_view');
 });
 
+Route::get('/', function () {
+    return view('portal');
+});
+
+Route::get('/inicio', function () {
+    return view('inicio');
+});
+
+Route::get('/ingreso', function () {
+    return view('ingreso');
+});
+
+Route::get('/registro', function () {
+    return view('registro');
+});
