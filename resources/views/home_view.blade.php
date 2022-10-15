@@ -1,6 +1,12 @@
-@extends("templates.gobmx_template")
+@extends("templates.main_gobmx_template")
 
-@section("content")
+@section("script")
+
+    @vite(['resources/js/logout.js'])
+    
+@endsection
+
+@section("template")
 
     <h2>Panel principal de trámites</h1>
     <br><br>

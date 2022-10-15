@@ -1,0 +1,23 @@
+
+/* .page-content
+{
+    min-height: calc(100vh - 433.433px - 60px);
+} 
+*/
+
+.shadowed-card
+{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; 
+    border-radius: 10px; 
+}
+
+.auth-card
+{
+    width: 80%; 
+    padding: 50px 60px; 
+    margin-right: auto; 
+    margin-left: auto; 
+    margin-top: 60px; 
+    margin-bottom: 60px;
+}
+

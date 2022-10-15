@@ -1,6 +1,6 @@
-@extends("templates.gobmx_template")
+@extends("templates.main_gobmx_template")
 
-@section("content")
+@section("template")
 
 <h3>A little title</h3>
 <p>

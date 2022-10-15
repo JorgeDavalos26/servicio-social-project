@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,22 +22,75 @@ Route::get('/', function () {
 });
 */
 
-Route::get('/gobmx', function () {
-    return view('gobmx_view');
+/**
+ * Data
+ * 
+ * Return JSON
+ */
+
+Route::prefix('api')->group(function () 
+{
+
+    Route::prefix('auth')->group(function ()
+    {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('register', [AuthController::class, 'register']);
+    });
+
 });
+
+/** 
+ * Views
+ * 
+ * Return HTML
+ */
 
 Route::get('/', function () {
-    return view('portal');
+
+    return view('portal_view');
+
 });
+
+Route::get('/gobmx', function () {
+
+    return view('gobmx_view');
+
+})->name('gobmx');
+
 
 Route::get('/inicio', function () {
-    return view('inicio');
-});
+
+    return view('home_view');
+
+})->middleware('auth')->name('home_view');
+
 
 Route::get('/ingreso', function () {
-    return view('ingreso');
-});
+
+    if(Auth::check())
+    {
+        return view('home_view');
+    }
+    else
+    {
+        return view('login_view');
+    }
+
+})->name('login_view');
+
 
 Route::get('/registro', function () {
-    return view('registro');
-});
+    
+    if(Auth::check())
+    {
+        return view('home_view');
+    }
+    else
+    {
+        return view('signup_view');
+    }
+
+})->name('signup_view');
+
+

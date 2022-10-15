@@ -1,4 +1,4 @@
-@extends("templates.gobmx_template")
+@extends("templates.main_gobmx_template")
 
 @push("styles")
 
