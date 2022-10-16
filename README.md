@@ -11,7 +11,7 @@
 4. php artisan serve --port=9200
 
 **Bundling y compilacion de codigo Javascript y CSS**
-5. npm run serve
+5. npm run dev
 
 
 #### Nota:

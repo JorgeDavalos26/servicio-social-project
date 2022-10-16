@@ -18,7 +18,7 @@
 
 @endpush
 
-@section('content')
+@section('template')
 
     @include("gobmx_elements.flexbox")
     @include('gobmx_elements.colors')
@@ -38,7 +38,7 @@
 
 @endsection
 
-@section("scripts")
+@section("script")
 
   {{-- <script>
       $gmx(document).ready(function() {
