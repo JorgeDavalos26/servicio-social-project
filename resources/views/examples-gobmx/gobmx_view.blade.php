@@ -1,6 +1,6 @@
 @extends("templates.main_gobmx_template")
 
-@push("styles")
+@section("styles")
 
 <style>
   .block
@@ -16,25 +16,25 @@
   }
 </style>
 
-@endpush
+@endsection
 
 @section('template')
 
-    @include("gobmx_elements.flexbox")
-    @include('gobmx_elements.colors')
-    @include('gobmx_elements.navbar')
-    @include("gobmx_elements.forms")
-    @include("gobmx_elements.form-elements")
-    @include("gobmx_elements.headers_text_and_separator")
-    @include("gobmx_elements.lists")
-    @include("gobmx_elements.breadcrumbs_and_pagination")
-    @include("gobmx_elements.tooltips_and_alerts")
-    @include("gobmx_elements.accordions")
-    @include('gobmx_elements.tabs')
-    @include('gobmx_elements.modals')
-    @include("gobmx_elements.datepicker")
-    @include("gobmx_elements.icons")
-    @include("gobmx_elements.iframes")
+    @include("examples-gobmx.flexbox")
+    @include('examples-gobmx.colors')
+    @include('examples-gobmx.navbar')
+    @include("examples-gobmx.forms")
+    @include("examples-gobmx.form-elements")
+    @include("examples-gobmx.headers_text_and_separator")
+    @include("examples-gobmx.lists")
+    @include("examples-gobmx.breadcrumbs_and_pagination")
+    @include("examples-gobmx.tooltips_and_alerts")
+    @include("examples-gobmx.accordions")
+    @include('examples-gobmx.tabs')
+    @include('examples-gobmx.modals')
+    @include("examples-gobmx.datepicker")
+    @include("examples-gobmx.icons")
+    @include("examples-gobmx.iframes")
 
 @endsection
 

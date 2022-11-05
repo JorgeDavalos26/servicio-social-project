@@ -1,107 +1,33 @@
 @extends("templates.main_gobmx_template")
 
 @section("script")
-
-    @vite(['resources/js/logout.js'])
     
 @endsection
 
 @section("template")
 
-    <h2>Panel principal de trámites</h1>
-    <br><br>
-
-    <?php 
-
-        $levels = [
+    @php 
+        $applications = [
             [
-                "name" => "Tecnólogo",
-                "type" => [
-                    [
-                        "name" => "Propedéutico",
-                    ],
-                    [
-                        "name" => "Nivelación"
-                    ],
-                ]
+                "level" => "Tecnólogo",
+                "courses" => ["Propedéutico", "Nivelación"]
             ],
             [
-                "name" => "Ingeniería",
-                "type" => [
-                    [
-                        "name" => "Propedéutico",
-                    ],
-                    [
-                        "name" => "Nivelación"
-                    ],
-                ]
+                "level" => "Ingeniería",
+                "courses" => ["Propedéutico", "Nivelación"]
             ],
         ];
+    @endphp
 
-    ?>
-
+    <h2>Panel principal de trámites</h2>
     <div class="container">
-
-        @foreach ($levels as $level)
-
-            <div class="my-5">
-
-                <h4>Trámites {{ $level['name'] }}</h4>
-                <div>
-                    <p>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            
-                            @foreach ($level['type'] as $type)
-
-                                <?php 
-                                    if($type['name'] === "Propedéutico") {
-                                        $activeState = true;
-                                    }
-                                    else {
-                                        $activeState = false;
-                                    }
-                                ?>
-
-                                <a class="nav-link {{ $activeState ? "active" : "" }}" 
-                                    id="nav-tab-{{ $level['name'] }}{{ $type['name'] }}" data-toggle="tab" 
-                                    href="#nav-{{ $level['name'] }}{{ $type['name'] }}" role="tab" 
-                                    aria-controls="nav-{{ $level['name'] }}{{ $type['name'] }}" 
-                                    aria-selected="{{ $activeState }}">{{ $type['name'] }}</a>
-
-                            @endforeach
-
-                        </div>
-                    </p>
-                    <div class="tab-content" id="nav-tabContent">
-
-                        @foreach ($level['type'] as $type)
-
-                            <?php 
-                                if($type['name'] === "Propedéutico") {
-                                    $activeState = true;
-                                }
-                                else {
-                                    $activeState = false;
-                                }
-                            ?>
-
-                            <div class="tab-pane fade {{ $activeState ? "show active" : "" }}" 
-                                id="nav-{{ $level['name'] }}{{ $type['name'] }}" role="tabpanel" 
-                                aria-labelledby="nav-tab-{{ $level['name'] }}{{ $type['name'] }}">
-                                <p>
-                                    {{ $type['name'] }} nivel {{ $level['name'] }}
-                                </p>
-                            </div>
-
-                        @endforeach
-
-                    </div>
-                </div>
-
-            </div>
-
+        @foreach ($applications as $application)
+            @include('simple-components.application-sections')
         @endforeach
-
+        <div class="my-4">
+            <button type="button" class="btn btn-secondary" onclick="addAlert('warning', 'a warning alert', 10)">Alert</button>
+            <button type="button" class="btn btn-secondary" onclick="addToast('danger', 'a danger toast', 10)">Toast</button>
+        </div>
     </div>
 
 @endsection

@@ -1,5 +1,6 @@
 
-/* .page-content
+/* 
+.page-content
 {
     min-height: calc(100vh - 433.433px - 60px);
 } 
@@ -21,3 +22,39 @@
     margin-bottom: 60px;
 }
 
+.close-alert-button
+{
+    background: transparent;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    right: 5px;
+}
+
+.gray-layer
+{
+    transform: translate(0%, 0%);
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10000;
+}
+
+#toasts-section
+{
+    transform: translate(0%, 0%);
+    position: fixed;
+    display: block;
+    top: 15px;
+    right: 10px;
+    height: 80px;
+    width: 35vw;
+    z-index: 10000;
+    border-radius: 10px;
+    background-color: transparent;
+    pointer-events: none;
+}

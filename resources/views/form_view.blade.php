@@ -2,12 +2,12 @@
 
 @section("script")
 
-    @vite(['resources/js/fetch_js_api.js'])
-    
 @endsection
 
 @section("template")
 
-    <h1>Portal</h1>
+    <div>
+        <h2>Formulario</h2>
+    </div>
 
 @endsection

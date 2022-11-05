@@ -30,7 +30,6 @@ Route::get('/', function () {
 
 Route::prefix('api')->group(function () 
 {
-
     Route::prefix('auth')->group(function ()
     {
         Route::post('login', [AuthController::class, 'login']);
@@ -54,10 +53,9 @@ Route::get('/', function () {
 
 Route::get('/gobmx', function () {
 
-    return view('gobmx_view');
+    return view('examples-gobmx.gobmx_view');
 
 })->name('gobmx');
-
 
 Route::get('/inicio', function () {
 
@@ -65,32 +63,30 @@ Route::get('/inicio', function () {
 
 })->middleware('auth')->name('home_view');
 
-
 Route::get('/ingreso', function () {
 
-    if(Auth::check())
-    {
-        return view('home_view');
-    }
-    else
-    {
-        return view('login_view');
-    }
+    if(Auth::check()) return redirect()->route('home_view');
+    else return view('login_view');
 
 })->name('login_view');
 
-
 Route::get('/registro', function () {
     
-    if(Auth::check())
-    {
-        return view('home_view');
-    }
-    else
-    {
-        return view('signup_view');
-    }
+    if(Auth::check()) return redirect()->route('home_view');
+    else return view('signup_view');
 
 })->name('signup_view');
 
+Route::get('/perfil', function () {
+    
+    if(Auth::check()) return view('profile_view');
+    else return redirect()->route('login_view');
 
+})->name('profile_view');
+
+Route::get('/formulario', function () {
+    
+    if(Auth::check()) return view('form_view');
+    else return redirect()->route('login_view');
+
+})->name('form_view');

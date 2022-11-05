@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
+
+        if ($validator->fails()) {
+            return response()->error('Credenciales Inválidas');
+        }
 
         $credentials = $request->only('email', 'password');
  
@@ -21,19 +26,23 @@ class AuthController extends Controller
             return response()->success(Auth::user());
         }
         
-        return response()->error('Invalid credentials');
+        return response()->error('Credenciales Inválidas');
     }
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'username' => 'required',
             'email' => ['required', 'email'],
             'password' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return response()->error('Campos inválidos, llenar correctamente');
+        }
+
         if(User::where('email', $request->email)->exists()) {
-            return response()->error('Email repeated');
+            return response()->error('Email repetido');
         }
 
         $user = User::create([
