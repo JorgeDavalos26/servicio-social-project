@@ -1,7 +1,68 @@
 
-.application-section
-{
-    border: 1px solid black;
+.application-section {
+    border: 1px solid #98989A;
     border-radius: 10px;
     padding: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.application-section:first-child {
+    margin-top: 0;
+}
+
+.application-section:last-child {
+    margin-bottom: 0;
+}
+
+.forms-badge {
+    padding: 0.6rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.scholar-level-badge-color {
+    background-color: #235B4E;
+    color: aliceblue;
+}
+
+.course-badge-color {
+    background-color: #DDC9A3;
+}
+
+.application-state-completed-color {
+    background-color: #198754;
+    color: white;
+}
+
+.application-state-in-revision-color {
+    background-color: #0DCAF0;
+}
+
+.application-state-canceled-color {
+    background-color: #DC3545;
+}
+
+.edit-form-icon {
+    text-decoration: none;
+    color: #131314;
+    margin-right: 1rem;
+    transition: all 0.5s;
+}
+
+.edit-form-icon:hover {
+    text-decoration: none;
+    color: #BC955C;
+}
+
+.delete-form-icon {
+    text-decoration: none;
+    color: #131314;
+    margin-right: 1rem;
+    transition: all 0.5s;
+}
+
+.delete-form-icon:hover {
+    text-decoration: none;
+    color: #9F2241;
 }

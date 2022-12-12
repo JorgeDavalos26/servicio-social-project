@@ -5,16 +5,16 @@
     <div>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             @foreach ($application['courses'] as $course)
-                @php 
+                @php
                     $s = $application['level'] . $course
                 @endphp
-                <a 
+                <a
                     @class([
                         'nav-link',
                         'active' => $course === "Propedéutico",
                     ])
-                    id="nav-tab-{{ $s }}" href="#nav-{{ $s }}" data-toggle="tab" role="tab" 
-                    aria-controls="nav-{{ $s }}" 
+                    id="nav-tab-{{ $s }}" href="#nav-{{ $s }}" data-toggle="tab" role="tab"
+                    aria-controls="nav-{{ $s }}"
                     aria-selected="{{ $course === 'Propedéutico' }}">
                     {{ $course }}
                 </a>
@@ -25,13 +25,13 @@
                 @php
                     $s = $application['level'] . $course;
                 @endphp
-                <div 
+                <div
                     @class([
                         'tab-pane',
                         'fade',
                         'show active' => $course === "Propedéutico",
                     ])
-                    id="nav-{{ $s }}" role="tabpanel" 
+                    id="nav-{{ $s }}" role="tabpanel"
                     aria-labelledby="nav-tab-{{ $s }}">
                     <p>
                         {{ $course }} nivel {{ $application['level'] }}
