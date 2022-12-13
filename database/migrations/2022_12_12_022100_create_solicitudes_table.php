@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
-            $table->foreign("form_id")->references("id")->on("forms")->onDelete("cascade");
+            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
+            $table->foreignId("form_id")->references("id")->on("forms")->onDelete("cascade");
+            $table->enum('status', ['NUEVO', 'SOLICITADO', 'ACEPTADO', 'RECHAZADO'])->default('NUEVO');
             $table->timestamps();
         });
     }

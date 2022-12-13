@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreign("form_id")->references("id")->on("forms")->onDelete("cascade");
-            $table->foreign("field_id")->references("id")->on("fields")->onDelete("cascade");
+            $table->foreignId("form_id")->references("id")->on("forms")->onDelete("cascade");
+            $table->foreignId("field_id")->references("id")->on("fields")->onDelete("cascade");
             $table->boolean("hidden")->default(false);
             $table->boolean("blocked")->default(false);
             $table->timestamps();
