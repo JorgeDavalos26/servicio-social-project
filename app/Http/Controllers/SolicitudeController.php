@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
 use Illuminate\Http\Request;
@@ -11,6 +12,14 @@ class SolicitudeController extends Controller
 {
     public function index()
     {
+        if (request()->has('paginated')) {
+            $paginated = request()->input('paginated');
+            $paginated = filter_var($paginated, FILTER_VALIDATE_BOOLEAN);
+            if($paginated) {
+                $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc')->paginate(2);
+                return response()->success(new SolicitudeCollection($solicitudes));
+            }
+        }
         $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc')->get();
         return response()->success(SolicitudeResource::collection($solicitudes));
     }
