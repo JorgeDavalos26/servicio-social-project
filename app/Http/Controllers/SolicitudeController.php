@@ -71,8 +71,8 @@ class SolicitudeController extends Controller
 
     public function destroy(Solicitude $solicitude)
     {
-        $res = $solicitude->delete();
-        return response()->success($res);
+        $solicitude->delete();
+        return response()->success(new SolicitudeResource($solicitude));
     }
 
 }
