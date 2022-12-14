@@ -12,16 +12,22 @@ class SolicitudeController extends Controller
 {
     public function index()
     {
-        if (request()->has('paginated')) {
-            $paginated = request()->input('paginated');
-            $paginated = filter_var($paginated, FILTER_VALIDATE_BOOLEAN);
-            if($paginated) {
-                $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc')->paginate(2);
-                return response()->success(new SolicitudeCollection($solicitudes));
+        $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc');
+
+        if (request()->has('paginated') && filter_var(request()->input('paginated'), FILTER_VALIDATE_BOOLEAN)) {
+            if(request()->has('perPage')) {
+                $solicitudes = $solicitudes->paginate(request()->input('perPage'));
+            }
+            else {
+                $solicitudes = $solicitudes->paginate(10);
             }
         }
-        $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc')->get();
-        return response()->success(SolicitudeResource::collection($solicitudes));
+        else {
+            request()->merge(['page' => 1]);
+            $solicitudes = $solicitudes->paginate(10000);
+        }
+        
+        return response()->success(new SolicitudeCollection($solicitudes));
     }
 
     public function store(Request $request)
