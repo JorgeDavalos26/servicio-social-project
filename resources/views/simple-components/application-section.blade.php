@@ -2,31 +2,33 @@
 @vite(['resources/css/application-section.css'])
 
 <!-- template -->
+@php 
+    use \App\Enums\SolicitudeStatus; 
+@endphp
+
 <div class="application-section row">
     <div class="col d-flex justify-content-start">
         <span class="forms-badge scholar-level-badge-color">
-            {{ \App\Helpers\Base_Enums\ScholarLevel::getText($application['level']) }}
+            {{ $application['level'] }}
         </span>
     </div>
-
 
     <div class="col d-flex justify-content-center">
         <span class="forms-badge course-badge-color">
-            {{ \App\Helpers\Base_Enums\ScholarCourse::getText($application['course']) }}
+            {{ $application['course'] }}
         </span>
     </div>
-
 
     @php
         $color = '';
         switch ($application['state']) {
-            case \App\Helpers\Base_Enums\ApplicationState::COMPLETED:
+            case SolicitudeStatus::COMPLETED->value:
                 $color = 'application-state-completed-color';
                 break;
-            case \App\Helpers\Base_Enums\ApplicationState::IN_REVISION:
+            case SolicitudeStatus::IN_REVIEW->value:
                 $color = 'application-state-in-revision-color';
                 break;
-            case \App\Helpers\Base_Enums\ApplicationState::CANCELED:
+            case SolicitudeStatus::REJECTED->value:
                 $color = 'application-state-canceled-color';
                 break;
         }
@@ -34,7 +36,7 @@
 
     <div class="col d-flex justify-content-center">
         <span class="forms-badge {{$color}}">
-            {{\App\Helpers\Base_Enums\ApplicationState::getText($application['state'])}}
+            {{ $application['state'] }}
         </span>
     </div>
 
