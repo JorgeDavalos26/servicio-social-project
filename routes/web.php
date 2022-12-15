@@ -40,6 +40,7 @@ Route::prefix('api')->group(function ()
 
     Route::get('solicitudes', [SolicitudeController::class, 'index']);
     Route::post('solicitudes', [SolicitudeController::class, 'store']);
+    Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
     Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
     Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
 

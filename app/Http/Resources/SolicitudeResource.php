@@ -19,13 +19,13 @@ class SolicitudeResource extends JsonResource
             "user_id" => $this->user_id,
             "form_id" => $this->form_id,
             "period_id" => $this->period_id,
-            "start_period" => $this->period->start_date,
-            "end_period" => $this->period->end_date,
-            "label_period" => $this->period->label,
+            "period_start" => $this->period->start_date,
+            "period_end" => $this->period->end_date,
+            "period_label" => $this->period->label,
             "username" => $this->user->username,
             "status" => $this->status,
-            "type" => $this->form->scholar_course,
-            "level" => $this->form->scholar_level,
+            "scholar_course" => $this->form->scholar_course,
+            "scholar_level" => $this->form->scholar_level,
             "created_at" => $this->created_at,
         ];
     }

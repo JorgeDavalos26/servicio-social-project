@@ -11,24 +11,39 @@ use Illuminate\Support\Facades\Validator;
 
 class SolicitudeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $solicitudes = Solicitude::with(["form"])->orderBy('id', 'desc');
+        $solicitudes = Solicitude::with(["form"]);
 
-        if (request()->has('paginated') && filter_var(request()->input('paginated'), FILTER_VALIDATE_BOOLEAN)) {
-            if(request()->has('perPage')) {
-                $solicitudes = $solicitudes->paginate(request()->input('perPage'));
+        if ($request->has('period_id')) {
+            $solicitudes = $solicitudes->where("period_id", $request->period_id);
+        }
+        
+        if ($request->has('user_id')) {
+            $solicitudes = $solicitudes->where("user_id", $request->user_id);
+        }
+
+        $solicitudes = $solicitudes->orderBy('id', 'desc');
+
+        if ($request->has('paginated') && filter_var($request->paginated, FILTER_VALIDATE_BOOLEAN)) {
+            if($request->has('perPage')) {
+                $solicitudes = $solicitudes->paginate($request->perPage);
             }
             else {
                 $solicitudes = $solicitudes->paginate(10);
             }
         }
         else {
-            request()->merge(['page' => 1]);
+            $request->merge(['page' => 1]);
             $solicitudes = $solicitudes->paginate(10000);
         }
 
         return response()->success(new SolicitudeCollection($solicitudes), ["total" => $solicitudes->total()]);
+    }
+
+    public function show(Solicitude $solicitude)
+    {
+        return response()->success(new SolicitudeResource($solicitude));
     }
 
     public function store(Request $request)
