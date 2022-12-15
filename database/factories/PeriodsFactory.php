@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class FormFactory extends Factory
+class PeriodsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,7 @@ class FormFactory extends Factory
     public function definition()
     {
         return [
-            "description" => "",
-            'scholar_course' => $this->faker->randomElement(['Propedéutico', 'Nivelación']),
-            "scholar_level" => $this->faker->randomElement(['Tecnólogo', 'Ingeniería']),
-            "label" => "2023",
+            //
         ];
     }
 }

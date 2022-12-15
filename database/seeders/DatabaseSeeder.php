@@ -6,7 +6,9 @@ namespace Database\Seeders;
 
 use App\Models\Field;
 use App\Models\Form;
+use App\Models\Period;
 use App\Models\Question;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -29,45 +31,64 @@ class DatabaseSeeder extends Seeder
         //------------------------------------ users
 
         $user1 = User::factory()->create([
-            "email" => "user1@gmail.com"
+            "email" => "bruno@gmail.com",
+            "username" => "Bruno Hernandez",
+            "is_admin" => true,
+            "is_support" => true
         ]);
 
         $user2 = User::factory()->create([
-            "email" => "user2@gmail.com"
+            "email" => "jesus@gmail.com",
+            "username" => "Jesus Flores",
+            "is_admin" => true,
+            "is_support" => true
         ]);
 
         $user3 = User::factory()->create([
-            "email" => "user3@gmail.com"
+            "email" => "jorge@gmail.com",
+            "username" => "Jorge Davalos",
+            "is_admin" => true,
+            "is_support" => true
         ]);
 
         $user4 = User::factory()->create([
-            "email" => "user4@gmail.com"
+            "email" => "delia@gmail.com",
+            "username" => "Delia",
+            "is_admin" => true,
+            "is_support" => false
+        ]);
+
+        $user5 = User::factory()->create([
+            "email" => "user@gmail.com",
+            "email" => "Bonifacio Mesa",
+            "is_admin" => false,
+            "is_support" => false
         ]);
 
         //------------------------------------ forms
 
         $form1 = Form::factory()->create([
-            "type" => "PROPEDEUTICO",
-            "level" => "TECNOLOGO",
-            "version" => "2023",
+            "scholar_course" => "Propedéutico",
+            "scholar_level" => "Tecnólogo",
+            "label" => "2023A",
         ]);
 
         $form2 = Form::factory()->create([
-            "type" => "PROPEDEUTICO",
-            "level" => "INGENIERIA",
-            "version" => "2023",
+            "scholar_course" => "Propedéutico",
+            "scholar_level" => "Ingeniería",
+            "label" => "2023A",
         ]);
 
         $form3 = Form::factory()->create([
-            "type" => "NIVELACION",
-            "level" => "TECNOLOGO",
-            "version" => "2023",
+            "scholar_course" => "Nivelación",
+            "scholar_level" => "Tecnólogo",
+            "label" => "2023A",
         ]);
 
         $form4 = Form::factory()->create([
-            "type" => "NIVELACION",
-            "level" => "INGENIERIA",
-            "version" => "2023",
+            "scholar_course" => "Nivelación",
+            "scholar_level" => "Ingeniería",
+            "label" => "2023A",
         ]);
 
         //------------------------------------ fields
@@ -136,8 +157,18 @@ class DatabaseSeeder extends Seeder
         
         // WIP too...
 
-        
+        //------------------------------------ periods
 
+        $period1 = Period::create([
+            "start_date" => date_format(date_create('2023-01-02'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-02-04'), 'Y-m-d'),
+            "label" => "2023A"
+        ]);
+
+        //------------------------------------ settings
+
+        Setting::create(["key" => "PERIODS.ACTIVE_PERIOD", "value" => $period1->id]);
+        Setting::create(["key" => "PERIODS.DEFAULT_PERIOD", "value" => $period1->id]);
 
     }
 }
