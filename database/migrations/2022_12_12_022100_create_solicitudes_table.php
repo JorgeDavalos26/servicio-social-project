@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
             $table->foreignId("form_id")->references("id")->on("forms")->onDelete("cascade");
-            $table->enum('status', ['NUEVO', 'SOLICITADO', 'ACEPTADO', 'RECHAZADO'])->default('NUEVO');
+            $table->foreignId("period_id")->references("id")->on("periods")->onDelete("cascade");
+            $table->string('status')->default('Nuevo');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SolicitudeStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +13,12 @@ class Solicitude extends Model
     protected $fillable = [
         'form_id',
         'user_id',
+        'period_id',
         'status'
+    ];
+
+    protected $casts = [
+        'status' => SolicitudeStatus::class
     ];
 
     public function form()
@@ -28,6 +34,11 @@ class Solicitude extends Model
     public function user()
     {
         return $this->belongsTo(User::class, "user_id", "id");
+    }
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class, "period_id", "id");
     }
 
 }

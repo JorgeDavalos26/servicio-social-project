@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->string("description");
-            $table->enum('type', ['PROPEDEUTICO', 'NIVELACION'])->default("PROPEDEUTICO");
-            $table->enum("level", ['TECNOLOGO', 'INGENIERIA'])->default("TECNOLOGO");
-            $table->string("version", 20);
+            $table->string('scholar_course')->default("Propedéutico");
+            $table->string("scholar_level")->default("Tecnólogo");
+            $table->string("label", 50);
             $table->timestamps();
         });
     }
