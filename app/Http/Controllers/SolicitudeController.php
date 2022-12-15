@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\SolicitudeStatus;
+use App\Helpers\SolicitudeHelper;
 use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
@@ -13,31 +14,7 @@ class SolicitudeController extends Controller
 {
     public function index(Request $request)
     {
-        $solicitudes = Solicitude::with(["form"]);
-
-        if ($request->has('period_id')) {
-            $solicitudes = $solicitudes->where("period_id", $request->period_id);
-        }
-        
-        if ($request->has('user_id')) {
-            $solicitudes = $solicitudes->where("user_id", $request->user_id);
-        }
-
-        $solicitudes = $solicitudes->orderBy('id', 'desc');
-
-        if ($request->has('paginated') && filter_var($request->paginated, FILTER_VALIDATE_BOOLEAN)) {
-            if($request->has('perPage')) {
-                $solicitudes = $solicitudes->paginate($request->perPage);
-            }
-            else {
-                $solicitudes = $solicitudes->paginate(10);
-            }
-        }
-        else {
-            $request->merge(['page' => 1]);
-            $solicitudes = $solicitudes->paginate(10000);
-        }
-
+        $solicitudes = SolicitudeHelper::getSolicitudes($request);
         return response()->success(new SolicitudeCollection($solicitudes), ["total" => $solicitudes->total()]);
     }
 
@@ -59,13 +36,7 @@ class SolicitudeController extends Controller
             return response()->error('Datos Inválidos');
         }
 
-        $newSolicitude = Solicitude::create([
-            'user_id' => $request->userId,
-            'form_id' => $request->formId,
-            'period_id' => $request->periodId,
-            'status' => $request->status
-        ]);
-
+        $newSolicitude = SolicitudeHelper::createSolicitude($request);
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
@@ -82,12 +53,7 @@ class SolicitudeController extends Controller
             return response()->error('Datos Inválidos');
         }
 
-        $solicitude->user_id = $request->userId;
-        $solicitude->form_id = $request->formId;
-        $solicitude->period_id = $request->periodId;
-        $solicitude->status = $request->status;
-        $solicitude->save();
-
+        $solicitude = SolicitudeHelper::updateSolicitude($solicitude, $request);
         return response()->success(new SolicitudeResource($solicitude));
     }
 
