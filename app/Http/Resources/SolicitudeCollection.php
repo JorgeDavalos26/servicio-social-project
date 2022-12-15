@@ -14,9 +14,6 @@ class SolicitudeCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            'data' => $this->collection,
-            'total' => $this->total(),
-        ];
+        return $this->collection;
     }
 }

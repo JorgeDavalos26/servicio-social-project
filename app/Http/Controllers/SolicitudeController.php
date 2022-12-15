@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SolicitudeStatus;
 use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
@@ -26,15 +27,17 @@ class SolicitudeController extends Controller
             request()->merge(['page' => 1]);
             $solicitudes = $solicitudes->paginate(10000);
         }
-        
-        return response()->success(new SolicitudeCollection($solicitudes));
+
+        return response()->success(new SolicitudeCollection($solicitudes), ["total" => $solicitudes->total()]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'userId' => ['required'],
-            'formId' => ['required']
+            'formId' => ['required'],
+            'periodId' => ['required'],
+            'status' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +47,8 @@ class SolicitudeController extends Controller
         $newSolicitude = Solicitude::create([
             'user_id' => $request->userId,
             'form_id' => $request->formId,
+            'period_id' => $request->periodId,
+            'status' => $request->status
         ]);
 
         return response()->success(new SolicitudeResource($newSolicitude));
@@ -54,6 +59,7 @@ class SolicitudeController extends Controller
         $validator = Validator::make($request->all(), [
             'userId' => ['required'],
             'formId' => ['required'],
+            'periodId' => ['required'],
             'status' => ['required']
         ]);
 
@@ -63,6 +69,7 @@ class SolicitudeController extends Controller
 
         $solicitude->user_id = $request->userId;
         $solicitude->form_id = $request->formId;
+        $solicitude->period_id = $request->periodId;
         $solicitude->status = $request->status;
         $solicitude->save();
 
