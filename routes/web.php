@@ -51,6 +51,12 @@ Route::get('/', function () {
 
 });
 
+Route::get('/admin', function () {
+    //TODO: authorization validation
+    if(Auth::check())  return view('admin_view');
+    else return redirect()->route('login_view');
+});
+
 Route::get('/gobmx', function () {
 
     return view('examples-gobmx.gobmx_view');
