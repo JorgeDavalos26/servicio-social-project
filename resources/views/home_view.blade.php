@@ -5,22 +5,27 @@
 @endsection
 
 @section("template")
+    @php 
+        use \App\Enums\ScholarLevel; 
+        use \App\Enums\ScholarCourse; 
+        use \App\Enums\SolicitudeStatus; 
+    @endphp
 
     @php
         $applications = [
             [
                 "id" => 1,
-                "level" => \App\Helpers\Base_Enums\ScholarLevel::ENGINEERING,
-                "course" => \App\Helpers\Base_Enums\ScholarCourse::PROPEDEUTICO,
+                "level" => ScholarLevel::INGENIERIA->value,
+                "course" => ScholarCourse::PROPEDEUTICO->value,
                 "createdAt" => \Carbon\Carbon::now(),
-                "state" => \App\Helpers\Base_Enums\ApplicationState::COMPLETED
+                "state" => SolicitudeStatus::COMPLETED->value
             ],
             [
                 "id" => 2,
-                "level" => \App\Helpers\Base_Enums\ScholarLevel::ENGINEERING,
-                "course" => \App\Helpers\Base_Enums\ScholarCourse::NIVELATION,
+                "level" => ScholarLevel::INGENIERIA->value,
+                "course" => ScholarCourse::NIVELACION->value,
                 "createdAt" => \Carbon\Carbon::now(),
-                "state" => \App\Helpers\Base_Enums\ApplicationState::COMPLETED
+                "state" => SolicitudeStatus::REJECTED->value
             ],
         ];
     @endphp

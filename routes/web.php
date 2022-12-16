@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SolicitudeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,12 @@ Route::prefix('api')->group(function ()
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('register', [AuthController::class, 'register']);
     });
+
+    Route::get('solicitudes', [SolicitudeController::class, 'index']);
+    Route::post('solicitudes', [SolicitudeController::class, 'store']);
+    Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
+    Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
+    Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
 
 });
 
