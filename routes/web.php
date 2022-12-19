@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\SolicitudeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +43,12 @@ Route::prefix('api')->group(function ()
     Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
     Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
     Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
+
+    Route::get('periods', [PeriodController::class, 'index']);
+    Route::post('periods', [PeriodController::class, 'store']);
+    Route::get('periods/{period}', [PeriodController::class, 'show']);
+    Route::put('periods/{period}', [PeriodController::class, 'update']);
+    Route::delete('periods/{period}', [PeriodController::class, 'destroy']);
 
 });
 
