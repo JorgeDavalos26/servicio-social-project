@@ -14,6 +14,7 @@ window.signup = () => {
             username,
             email,
             password,
+            password_confirmation
         }
 
         postData(`${env.APP_URL}/api/auth/register`, data)
