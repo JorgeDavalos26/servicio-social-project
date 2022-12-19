@@ -160,15 +160,28 @@ class DatabaseSeeder extends Seeder
         //------------------------------------ periods
 
         $period1 = Period::create([
-            "start_date" => date_format(date_create('2023-01-02'), 'Y-m-d'),
-            "end_date" => date_format(date_create('2023-02-04'), 'Y-m-d'),
-            "label" => "2023A"
+            "start_date" => date_format(date_create('2023-09-01'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-12-9'), 'Y-m-d'),
+            "label" => "NIVELACION_2023"
+        ]);
+
+        $period2 = Period::create([
+            "start_date" => date_format(date_create('2023-02-15'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-06-10'), 'Y-m-d'),
+            "label" => "PROPEDEUTICO_2023A"
         ]);
 
         //------------------------------------ settings
 
-        Setting::create(["key" => "PERIODS.ACTIVE_PERIOD", "value" => $period1->id]);
-        Setting::create(["key" => "PERIODS.DEFAULT_PERIOD", "value" => $period1->id]);
+        Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period1->id, 
+            "description" => "El periodo actual del curso Tecnólogo-Nivelación"]);
+        Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period1->id,
+            "description" => "El periodo actual del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
+            "description" => "El periodo actual del curso Tecnólogo-Propedéutico"]);
+        Setting::create(["key" => "PERIODS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
+            "description" => "El periodo actual del curso Ingeniería-Propedéutico"]);
 
     }
 }

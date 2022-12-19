@@ -41,7 +41,7 @@
                     <span><strong>Confirmar contraseña *:</strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="password2" placeholder="Confirmar contraseña" class="w-100">
+                    <input type="text" name="password_confirmation" placeholder="Confirmar contraseña" class="w-100">
                 </div>
             </div>
             <br>

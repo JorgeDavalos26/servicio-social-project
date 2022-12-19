@@ -196,6 +196,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\ResponseMacroServiceProvider::class,
+        App\Providers\PasswordValidationServiceProvider::class,
+
+        ConsoleTVs\Profanity\ProfanityServiceProvider::class,
     ],
 
     /*
@@ -212,6 +215,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
+
+        'Profanity' => \ConsoleTVs\Profanity\Facades\Profanity::class,
 
     ])->toArray(),
 

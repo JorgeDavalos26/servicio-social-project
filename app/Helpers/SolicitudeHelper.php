@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
+use App\Models\Setting;
 use App\Models\Solicitude;
 
 class SolicitudeHelper {
@@ -11,6 +14,30 @@ class SolicitudeHelper {
 
         if ($request->has('period_id')) {
             $solicitudes = $solicitudes->where("period_id", $request->period_id);
+        }
+
+        if ($request->has('scholar_level') && $request->has('scholar_course')) {
+            
+            $key = "";
+
+            foreach(ScholarLevel::cases() as $case) {
+                if($case->value == $request->scholar_level) {
+                    $key .= $case->name;
+                    break;
+                }
+            }
+
+            $key .= "_";
+            
+            foreach(ScholarCourse::cases() as $case) {
+                if($case->value == $request->scholar_course) {
+                    $key .= $case->name;
+                    break;
+                }
+            }
+           
+            $periodId = Setting::where("key", "PERIODS." . $key . ".ACTIVE_ID_PERIOD")->first()->value;
+            $solicitudes = $solicitudes->where("period_id", $periodId);
         }
         
         if ($request->has('user_id')) {

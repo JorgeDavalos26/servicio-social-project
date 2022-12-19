@@ -12,6 +12,12 @@ class Setting extends Model
     protected $fillable = [
         'key',
         'value',
+        'description',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
 }
