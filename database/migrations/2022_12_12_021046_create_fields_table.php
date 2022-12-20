@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-            $table->string("description", 50);
+            $table->string("backend_name", 50);
+            $table->string("frontend_name", 50);
             $table->timestamps();
         });
     }

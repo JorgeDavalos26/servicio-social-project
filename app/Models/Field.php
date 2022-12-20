@@ -10,7 +10,8 @@ class Field extends Model
     use HasFactory;
 
     protected $fillable = [
-        'description',
+        'backend_name',
+        'frontend_name',
     ];
 
 }
