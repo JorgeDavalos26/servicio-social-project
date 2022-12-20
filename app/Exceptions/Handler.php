@@ -56,8 +56,8 @@ class Handler extends ExceptionHandler
             return response()->error("No available resource", 418);
         }
         else if ($exception instanceof ValidationException) {
-            return response()->error("Invalid parameters", 400);
-        }
+            return response()->error($exception->errors(), null, 422);
+        } 
 
         return parent::render($request, $exception);
     }

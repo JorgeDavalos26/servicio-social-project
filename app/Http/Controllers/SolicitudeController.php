@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\SolicitudeStatus;
 use App\Helpers\SolicitudeHelper;
+use App\Http\Requests\SolicitudesGetRequest;
+use App\Http\Requests\SolicitudesPostRequest;
+use App\Http\Requests\SolicitudesUpdateRequest;
 use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class SolicitudeController extends Controller
 {
-    public function index(Request $request)
+    public function index(SolicitudesGetRequest $request)
     {
         $solicitudes = SolicitudeHelper::getSolicitudes($request);
-        return response()->success(new SolicitudeCollection($solicitudes), ["total" => $solicitudes->total()]);
+
+        $additionalData = [
+            "pagination:total_items" => $solicitudes->total(),
+            "pagination:per_page" => (int)$request->perPage,
+            "pagination:page" => (int)$request->page
+        ];
+
+        return response()->success(new SolicitudeCollection($solicitudes), $additionalData);
     }
 
     public function show(Solicitude $solicitude)
@@ -23,36 +30,14 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
-    public function store(Request $request)
+    public function store(SolicitudesPostRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'userId' => ['required'],
-            'formId' => ['required'],
-            'periodId' => ['required'],
-            'status' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error('Datos Inválidos');
-        }
-
         $newSolicitude = SolicitudeHelper::createSolicitude($request);
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
-    public function update(Solicitude $solicitude, Request $request)
+    public function update(Solicitude $solicitude, SolicitudesUpdateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'userId' => ['required'],
-            'formId' => ['required'],
-            'periodId' => ['required'],
-            'status' => ['required']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error('Datos Inválidos');
-        }
-
         $solicitude = SolicitudeHelper::updateSolicitude($solicitude, $request);
         return response()->success(new SolicitudeResource($solicitude));
     }

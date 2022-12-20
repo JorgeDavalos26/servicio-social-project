@@ -2,49 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthLoginRequest;
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(AuthLoginRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error('Credenciales Inválidas');
-        }
-
         $credentials = $request->only('email', 'password');
  
-        if (Auth::attempt($credentials)) {
-            return response()->success(Auth::user());
-        }
-        
-        return response()->error('Credenciales Inválidas');
+        if (Auth::attempt($credentials)) return response()->success(Auth::user());
+        else return response()->error('Credenciales inválidas');
     }
 
-    public function register(Request $request)
+    public function register(AuthRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'email' => ['required', 'email'],
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error('Campos inválidos, llenar correctamente');
-        }
-
-        if(User::where('email', $request->email)->exists()) {
-            return response()->error('Email repetido');
-        }
-
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -52,14 +26,13 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-
         return response()->success(Auth::user());
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        return response()->success(null);
+        return response()->success("Logout exitoso");
     }
 
 }

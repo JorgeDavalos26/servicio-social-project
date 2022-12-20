@@ -5,15 +5,16 @@ window.signup = () => {
     let username = $("#form_signup input[name='username']").val();
     let email = $("#form_signup input[name='email']").val();
     let password = $("#form_signup input[name='password']").val();
-    let password2 = $("#form_signup input[name='password2']").val();
+    let password_confirmation = $("#form_signup input[name='password_confirmation']").val();
 
-    if(password2 === "") addToast('warning', 'Favor de confirmar contraseña'); 
-    else if(password !== password2) addToast('warning', 'Contraseñas no coinciden'); 
+    if(password_confirmation === "") addToast('warning', 'Favor de confirmar contraseña'); 
+    else if(password !== password_confirmation) addToast('warning', 'Contraseñas no coinciden'); 
     else {
         let data = {
             username,
             email,
             password,
+            password_confirmation
         }
 
         postData(`${env.APP_URL}/api/auth/register`, data)
