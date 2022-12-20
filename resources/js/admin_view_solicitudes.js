@@ -1,4 +1,5 @@
 import { env } from "./environment";
+
 let page = 1;
 const perPage = 10;
 let scholarLevel;
