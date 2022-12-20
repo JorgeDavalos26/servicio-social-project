@@ -4,11 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\SolicitudeStatus;
 use App\Models\Field;
 use App\Models\Form;
 use App\Models\Period;
 use App\Models\Question;
 use App\Models\Setting;
+use App\Models\Solicitude;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -60,10 +62,88 @@ class DatabaseSeeder extends Seeder
 
         $user5 = User::factory()->create([
             "email" => "user@gmail.com",
-            "email" => "Bonifacio Mesa",
+            "username" => "Bonifacio Mesa",
             "is_admin" => false,
             "is_support" => false
         ]);
+
+        //------------------------------------ fields
+
+        Field::factory()->create(["backend_name" => "curp", "frontend_name" => "CURP"]);
+        Field::factory()->create(["backend_name" => "nombre", "frontend_name" => "Nombre"]);
+        Field::factory()->create(["backend_name" => "paterno", "frontend_name" => "Paterno"]);
+        Field::factory()->create(["backend_name" => "materno", "frontend_name" => "Materno"]);
+        Field::factory()->create(["backend_name" => "correo", "frontend_name" => "Correo"]);
+        Field::factory()->create(["backend_name" => "celular", "frontend_name" => "Celular"]);
+        Field::factory()->create(["backend_name" => "telefono", "frontend_name" => "Teléfono"]);
+        Field::factory()->create(["backend_name" => "calle", "frontend_name" => "Calle"]);
+        Field::factory()->create(["backend_name" => "exterior", "frontend_name" => "Exterior"]);
+        Field::factory()->create(["backend_name" => "interior", "frontend_name" => "Interior"]);
+        Field::factory()->create(["backend_name" => "colonia", "frontend_name" => "Colonia"]);
+        Field::factory()->create(["backend_name" => "cp", "frontend_name" => "CP"]);
+        Field::factory()->create(["backend_name" => "municipio", "frontend_name" => "Municipio"]);
+        Field::factory()->create(["backend_name" => "estados_id", "frontend_name" => "Estado"]);
+        Field::factory()->create(["backend_name" => "telefono_fam", "frontend_name" => "Teléfono Familiar"]);
+        Field::factory()->create(["backend_name" => "estadocivil", "frontend_name" => "Estado Civil"]);
+        Field::factory()->create(["backend_name" => "sexo", "frontend_name" => "Sexo"]);
+        Field::factory()->create(["backend_name" => "fecha_nacimiento", "frontend_name" => "Fecha Nacimiento"]);
+        Field::factory()->create(["backend_name" => "nacionalidad", "frontend_name" => "Nacionalidad"]);
+        Field::factory()->create(["backend_name" => "pais_nacimiento", "frontend_name" => "País de Nacimiento"]);
+        Field::factory()->create(["backend_name" => "edo_nacimiento", "frontend_name" => "Estado de Nacimiento"]);
+        Field::factory()->create(["backend_name" => "mpio_nacimiento", "frontend_name" => "Municipio de Nacimiento"]);
+        Field::factory()->create(["backend_name" => "num_hermanos", "frontend_name" => "Número de hermanos"]);
+        Field::factory()->create(["backend_name" => "lugar_hermanos", "frontend_name" => "Lugar que ocupa de hermano"]);
+        Field::factory()->create(["backend_name" => "tiene_hermano", "frontend_name" => "Tiene hermanos?"]);
+        Field::factory()->create(["backend_name" => "aspirantes_hermanos_ceti_id", "frontend_name" => "Aspirantes hermanos CETI"]);
+        Field::factory()->create(["backend_name" => "aspirantes_catmedios_id", "frontend_name" => "Aspirantes CATMEDIOS???"]);
+        Field::factory()->create(["backend_name" => "otro_nivel", "frontend_name" => "Otro nivel"]);
+        Field::factory()->create(["backend_name" => "entero_otro", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_puesto", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_empresa", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_tel", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_turno_id", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_antiguedad", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "trabaja_horario", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "nom_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "dom_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "col_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "tel_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "ocup_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "teltrab_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "cel_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "mismo_dom_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "finado_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "horario_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "sueldo_padre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "nom_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "dom_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "col_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "tel_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "ocup_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "teltrab_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "cel_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "mismo_dom_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "finado_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "horario_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "sueldo_madre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "tipo_sangre", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "enf_cronica", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "especifica_cronica", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "enf_alergia", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "especifica_alergia", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "enf_diferente", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "especifica_diferente", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "enf_protesis", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "especifica_protesis", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "nivel", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "escuela", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "mpio", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "estados_id", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "tipo", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "tipo_especificar", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "axo_al", "frontend_name" => ""]);
+        Field::factory()->create(["backend_name" => "axo_del", "frontend_name" => ""]);
 
         //------------------------------------ forms
 
@@ -91,97 +171,126 @@ class DatabaseSeeder extends Seeder
             "label" => "2023A",
         ]);
 
-        //------------------------------------ fields
-
-        Field::factory()->create(["description" => "curp"]);
-        Field::factory()->create(["description" => "nombre"]);
-        Field::factory()->create(["description" => "paterno"]);
-        Field::factory()->create(["description" => "materno"]);
-        Field::factory()->create(["description" => "correo"]);
-        Field::factory()->create(["description" => "celular"]);
-        Field::factory()->create(["description" => "telefono"]);
-        Field::factory()->create(["description" => "calle"]);
-        Field::factory()->create(["description" => "exterior"]);
-        Field::factory()->create(["description" => "interior"]);
-        Field::factory()->create(["description" => "colonia"]);
-        Field::factory()->create(["description" => "cp"]);
-        Field::factory()->create(["description" => "municipio"]);
-        Field::factory()->create(["description" => "estados_id"]);
-        Field::factory()->create(["description" => "telefono_fam"]);
-        Field::factory()->create(["description" => "estadocivil"]);
-        Field::factory()->create(["description" => "sexo"]);
-        Field::factory()->create(["description" => "fecha_nacimiento"]);
-        Field::factory()->create(["description" => "nacionalidad"]);
-        Field::factory()->create(["description" => "pais_nacimiento"]);
-        Field::factory()->create(["description" => "edo_nacimiento"]);
-        Field::factory()->create(["description" => "mpio_nacimiento"]);
-        Field::factory()->create(["description" => "num_hermanos"]);
-        Field::factory()->create(["description" => "lugar_hermanos"]);
-        Field::factory()->create(["description" => "tiene_hermano"]);
-        Field::factory()->create(["description" => "aspirantes_hermanos_ceti_id"]);
-        Field::factory()->create(["description" => "aspirantes_catmedios_id"]);
-        Field::factory()->create(["description" => "otro_nivel"]);
-
-        // there are more...WIP
-
         //------------------------------------ questions
 
-        Question::factory()->create(["form_id" => 1, "field_id" => 1]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 2]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 3]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 4]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 5]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 6]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 7]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 8]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 9]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 10]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 11]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 12]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 13]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 14]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 15]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 16]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 17]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 18]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 19]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 20]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 21]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 22]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 23]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 24]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 25]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 26]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 27]);
-        Question::factory()->create(["form_id" => 1, "field_id" => 28]);
-        
-        // WIP too...
+        for($i = 1; $i < 74; $i++) {
+            Question::factory()->create(["form_id" => 1, "field_id" => 1]);
+        }
 
         //------------------------------------ periods
 
         $period1 = Period::create([
-            "start_date" => date_format(date_create('2023-09-01'), 'Y-m-d'),
-            "end_date" => date_format(date_create('2023-12-9'), 'Y-m-d'),
-            "label" => "NIVELACION_2023"
+            "start_date" => date_format(date_create('2023-02-15'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-07-15'), 'Y-m-d'),
+            "label" => "TECNOLOGO_PROPEDEUTICO_2023A"
         ]);
 
         $period2 = Period::create([
-            "start_date" => date_format(date_create('2023-02-15'), 'Y-m-d'),
-            "end_date" => date_format(date_create('2023-06-10'), 'Y-m-d'),
-            "label" => "PROPEDEUTICO_2023A"
+            "start_date" => date_format(date_create('2023-02-9'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-07-9'), 'Y-m-d'),
+            "label" => "INGENIERIA_PROPEDEUTICO_2023A"
+        ]);
+
+        $period3 = Period::create([
+            "start_date" => date_format(date_create('2023-08-10'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-12-10'), 'Y-m-d'),
+            "label" => "TECNOLOGO_NIVELACION_2023"
+        ]);
+
+        $period4 = Period::create([
+            "start_date" => date_format(date_create('2023-08-7'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-12-7'), 'Y-m-d'),
+            "label" => "INGENIERIA_NIVELACION_2023"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2023-08-12'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-12-12'), 'Y-m-d'),
+            "label" => "TECNOLOGO_PROPEDEUTICO_2023B"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2023-08-2'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2023-12-2'), 'Y-m-d'),
+            "label" => "INGENIERIA_PROPEDEUTICO_2023B"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-02-8'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-07-8'), 'Y-m-d'),
+            "label" => "TECNOLOGO_PROPEDEUTICO_2024A"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-02-11'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-07-11'), 'Y-m-d'),
+            "label" => "INGENIERIA_PROPEDEUTICO_2024A"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-08-22'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-12-22'), 'Y-m-d'),
+            "label" => "TECNOLOGO_NIVELACION_2024"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-08-17'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-12-17'), 'Y-m-d'),
+            "label" => "INGENIERIA_NIVELACION_2024"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-08-3'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-12-3'), 'Y-m-d'),
+            "label" => "TECNOLOGO_PROPEDEUTICO_2024B"
+        ]);
+
+        Period::create([
+            "start_date" => date_format(date_create('2024-08-5'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2024-12-5'), 'Y-m-d'),
+            "label" => "INGENIERIA_PROPEDEUTICO_2024B"
         ]);
 
         //------------------------------------ settings
 
-        Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period1->id, 
-            "description" => "El periodo actual del curso Tecnólogo-Nivelación"]);
-        Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period1->id,
-            "description" => "El periodo actual del curso Ingeniería-Nivelación"]);
-
-        Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
+        Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period1->id,
             "description" => "El periodo actual del curso Tecnólogo-Propedéutico"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
             "description" => "El periodo actual del curso Ingeniería-Propedéutico"]);
+
+        Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period3->id, 
+            "description" => "El periodo actual del curso Tecnólogo-Nivelación"]);
+        Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period4->id,
+            "description" => "El periodo actual del curso Ingeniería-Nivelación"]);
+
+        //------------------------------------ form
+
+        Solicitude::create(["user_id" => $user1->id, "form_id" => $form1->id, "period_id" => $period1->id, 
+            "status" => SolicitudeStatus::NEW]);
+
+        Solicitude::create(["user_id" => $user1->id, "form_id" => $form2->id, "period_id" => $period2->id, 
+            "status" => SolicitudeStatus::REJECTED]);
+
+        Solicitude::create(["user_id" => $user2->id, "form_id" => $form2->id, "period_id" => $period2->id, 
+            "status" => SolicitudeStatus::NEW]);
+        
+        Solicitude::create(["user_id" => $user2->id, "form_id" => $form3->id, "period_id" => $period3->id, 
+            "status" => SolicitudeStatus::COMPLETED]);
+
+        Solicitude::create(["user_id" => $user3->id, "form_id" => $form3->id, "period_id" => $period3->id, 
+            "status" => SolicitudeStatus::NEW]);
+
+        Solicitude::create(["user_id" => $user5->id, "form_id" => $form1->id, "period_id" => $period1->id, 
+            "status" => SolicitudeStatus::NEW]);
+
+        Solicitude::create(["user_id" => $user5->id, "form_id" => $form2->id, "period_id" => $period2->id, 
+            "status" => SolicitudeStatus::ACCEPTED]);
+
+        Solicitude::create(["user_id" => $user5->id, "form_id" => $form3->id, "period_id" => $period3->id, 
+            "status" => SolicitudeStatus::NEW]);
+        
+        Solicitude::create(["user_id" => $user5->id, "form_id" => $form4->id, "period_id" => $period4->id, 
+            "status" => SolicitudeStatus::COMPLETED]);
 
     }
 }

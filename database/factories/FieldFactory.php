@@ -17,7 +17,8 @@ class FieldFactory extends Factory
     public function definition()
     {
         return [
-            "description" => ""
+            "backend_name" => "",
+            "frontend_name" => ""
         ];
     }
 }
