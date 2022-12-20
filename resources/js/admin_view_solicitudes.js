@@ -85,7 +85,7 @@ async function renderPages(
     pagination.append('<li id="next-page"><a>&raquo;</a></li>');
     $("#before-page").click((e) => {
         e.preventDefault();
-        if (page < 1) return;
+        if (page <= 1) return;
         page--;
         fetchSolicitudes(renderTable);
     });
