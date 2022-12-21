@@ -9,6 +9,7 @@ use App\Http\Requests\SolicitudesUpdateRequest;
 use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudeController extends Controller
 {
@@ -32,7 +33,12 @@ class SolicitudeController extends Controller
 
     public function store(SolicitudesPostRequest $request)
     {
+        if (!Auth::check()) {
+            return response()->error("Must be authenticated", null, 401);
+        }
+
         $newSolicitude = SolicitudeHelper::createSolicitude($request);
+
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
@@ -46,6 +52,17 @@ class SolicitudeController extends Controller
     {
         $solicitude->delete();
         return response()->success(new SolicitudeResource($solicitude));
+    }
+
+    public static function getSolicitudesOfStudent(): SolicitudeCollection
+    {
+        $userId = Auth::user()->id;
+
+        $solicitudes = Solicitude::with(['form'])
+            ->where('user_id', $userId)
+            ->get();
+
+        return new SolicitudeCollection($solicitudes);
     }
 
 }

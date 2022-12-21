@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\SolicitudeController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-/* 
+/*
 Route::get('/', function () {
     return view('welcome_view');
 });
@@ -25,11 +26,11 @@ Route::get('/', function () {
 
 /**
  * Data
- * 
+ *
  * Return JSON
  */
 
-Route::prefix('api')->group(function () 
+Route::prefix('api')->group(function ()
 {
     Route::prefix('auth')->group(function ()
     {
@@ -50,11 +51,17 @@ Route::prefix('api')->group(function ()
     Route::put('periods/{period}', [PeriodController::class, 'update']);
     Route::delete('periods/{period}', [PeriodController::class, 'destroy']);
 
+    Route::get('forms', [FormController::class, 'index']);
+    Route::post('forms', [FormController::class, 'store']);
+    Route::get('forms/{form}', [FormController::class, 'show']);
+    Route::put('forms/{form}', [FormController::class, 'update']);
+    Route::delete('forms/{form}', [FormController::class, 'destroy']);
+
 });
 
-/** 
+/**
  * Views
- * 
+ *
  * Return HTML
  */
 
@@ -72,7 +79,11 @@ Route::get('/gobmx', function () {
 
 Route::get('/inicio', function () {
 
-    return view('home_view');
+    return view('home_view', [
+        'forms' => FormController::getFormsToSelect(),
+        'solicitudes' => SolicitudeController::getSolicitudesOfStudent(),
+        'userId' => Auth::user()->id
+    ]);
 
 })->middleware('auth')->name('home_view');
 
@@ -84,21 +95,21 @@ Route::get('/ingreso', function () {
 })->name('login_view');
 
 Route::get('/registro', function () {
-    
+
     if(Auth::check()) return redirect()->route('home_view');
     else return view('signup_view');
 
 })->name('signup_view');
 
 Route::get('/perfil', function () {
-    
+
     if(Auth::check()) return view('profile_view');
     else return redirect()->route('login_view');
 
 })->name('profile_view');
 
 Route::get('/formulario', function () {
-    
+
     if(Auth::check()) return view('form_view');
     else return redirect()->route('login_view');
 

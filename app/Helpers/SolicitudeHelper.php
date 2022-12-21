@@ -6,6 +6,7 @@ use App\Enums\ScholarCourse;
 use App\Enums\ScholarLevel;
 use App\Models\Setting;
 use App\Models\Solicitude;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudeHelper {
 
@@ -24,15 +25,15 @@ class SolicitudeHelper {
                     $key .= $case->name;
 
             $key .= "_";
-            
+
             foreach(ScholarCourse::cases() as $case)
                 if($case->value == $request->scholar_course)
                     $key .= $case->name;
-           
+
             $periodId = Setting::where("key", "PERIODS." . $key . ".ACTIVE_ID_PERIOD")->first()->value;
             $solicitudes = $solicitudes->where("period_id", $periodId);
         }
-        
+
         // Specific from a User
         if ($request->has('user_id')) {
             $solicitudes = $solicitudes->where("user_id", $request->user_id);
@@ -54,8 +55,10 @@ class SolicitudeHelper {
     }
 
     public static function createSolicitude($request) {
+        $userId = Auth::user()->id;
+
         return Solicitude::create([
-            'user_id' => $request->userId,
+            'user_id' => $userId,
             'form_id' => $request->formId,
             'period_id' => $request->periodId,
             'status' => $request->status

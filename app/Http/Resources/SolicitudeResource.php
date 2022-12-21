@@ -27,6 +27,7 @@ class SolicitudeResource extends JsonResource
             "scholar_course" => $this->form->scholar_course,
             "scholar_level" => $this->form->scholar_level,
             "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
         ];
     }
 }

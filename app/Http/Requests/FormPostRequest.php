@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\SolicitudeStatus;
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class SolicitudesPostRequest extends FormRequest
+class FormPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +16,7 @@ class SolicitudesPostRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,12 +26,11 @@ class SolicitudesPostRequest extends FormRequest
      */
     public function rules()
     {
-        $rules1 = ['required', 'integer', 'numeric', 'min:1'];
-
         return [
-            'formId' => $rules1,
-            'periodId' => $rules1,
-            'status' => ['required', new Enum(SolicitudeStatus::class)]
+            'description' => 'nullable|string',
+            'scholarCourse' => ['required', new Enum(ScholarCourse::class)],
+            'scholarLevel' => ['required', new Enum(ScholarLevel::class)],
+            'label' => 'required|string'
         ];
     }
 }
