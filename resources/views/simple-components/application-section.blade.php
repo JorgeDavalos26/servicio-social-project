@@ -9,26 +9,29 @@
 <div class="application-section row">
     <div class="col d-flex justify-content-start">
         <span class="forms-badge scholar-level-badge-color">
-            {{ $application['scholar_level'] }}
+            {{ $application['form']['scholar_level'] }}
         </span>
     </div>
 
     <div class="col d-flex justify-content-center">
         <span class="forms-badge course-badge-color">
-            {{ $application['scholar_course'] }}
+            {{ $application['form']['scholar_course'] }}
         </span>
     </div>
 
     @php
         $color = '';
         switch ($application['status']) {
-            case SolicitudeStatus::COMPLETED->value:
+            case SolicitudeStatus::NEW:
+                $color = 'application-state-new-color';
+                break;
+            case SolicitudeStatus::COMPLETED:
                 $color = 'application-state-completed-color';
                 break;
-            case SolicitudeStatus::IN_REVIEW->value:
+            case SolicitudeStatus::IN_REVIEW:
                 $color = 'application-state-in-revision-color';
                 break;
-            case SolicitudeStatus::REJECTED->value:
+            case SolicitudeStatus::REJECTED:
                 $color = 'application-state-canceled-color';
                 break;
         }
@@ -45,7 +48,6 @@
             {{ $application['updated_at']->isoFormat('MMMM D, Y') }}
         </span>
     </div>
-
 
     <div class="col d-flex justify-content-end align-items-center">
         <a class="edit-form-icon" href="/edit/form/{{$application['id']}}">

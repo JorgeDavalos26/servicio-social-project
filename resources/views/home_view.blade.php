@@ -20,7 +20,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-4">
-                        <label class="control-label d-flex align-items-center" for="form_select">
+                        <label class="control-label d-flex align-items-center" for="solicitude_type_select">
                             Tipo de formulario
                             <span class="help-icon ml-3" data-toggle="tooltip" data-placement="top"
                                   data-original-title="Ayuda">
@@ -32,11 +32,11 @@
                                 </svg>
                             </span>
                         </label>
-                        <select id="form_select" name="scholar-course" class="form-control">
+                        <select id="solicitude_type_select" name="scholar-course" class="form-control">
                             <option></option>
                             @foreach($forms as $form)
-                                <option value="{{$form->id}}">
-                                    {{$form->text}}
+                                <option value="{{$form['id']}}">
+                                    {{$form['text']}}
                                 </option>
                             @endforeach
                         </select>

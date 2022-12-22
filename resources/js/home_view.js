@@ -1,7 +1,7 @@
 import { env } from "./environment";
 
 window.saveSolicitude = () => {
-    const formId = document.getElementById("form_select").value;
+    const formId = document.getElementById("solicitude_type_select").value;
 
     postData(`${env.APP_URL}/api/auth/login`, data)
         .then(res =>
