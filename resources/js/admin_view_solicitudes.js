@@ -17,14 +17,15 @@ const selectCourseLevel = $("#select-course-level");
 const renderTable = (data = [], tbody = "#table_admin_body") => {
     const tableBody = $(tbody);
     tableBody.empty();
+
     for (const row of data) {
         tableBody.append(`
         <tr>
             <th scope="row">${row.id}</th>
-            <td>${row.period_label}</td>
-            <td>${row.scholar_course}</td>
-            <td>${row.scholar_level}</td>
-            <td>${row.username}</td>
+            <td>${row.formLabel}</td>
+            <td>${row.formScholarCourse}</td>
+            <td>${row.formScholarLevel}</td>
+            <td>${row.userUsername}</td>
         </tr>
     `);
     }
@@ -45,11 +46,12 @@ const filterData = () => {
 const fetchSolicitudes = async (processData = (data) => {}) => {
     const url = `${
         env.APP_URL
-    }/api/solicitudes?paginated=${1}&perPage=${perPage}&page=${page}&scholar_level=${scholarLevel}&scholar_course=${scholarCourse}`;
+    }/api/solicitudes?paginated=${true}&perPage=${perPage}&page=${page}&scholarLevel=${scholarLevel}&scholarCourse=${scholarCourse}`;
     const res = await getData(url);
+    console.log(res);
     if (res.status == 200) {
         const pages = calculatePages(
-            res.additional_data["pagination:total_items"],
+            res.additional_data["paginationTotalItems"],
             page,
             perPage,
             3

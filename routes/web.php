@@ -78,12 +78,6 @@ Route::get('/', function () {
 
 });
 
-Route::get('/admin', function () {
-    //TODO: authorization validation
-    if(Auth::check())  return view('admin_view');
-    else return redirect()->route('login_view');
-});
-
 Route::get('/gobmx', function () {
 
     return view('examples-gobmx.gobmx_view');
@@ -91,7 +85,8 @@ Route::get('/gobmx', function () {
 })->name('gobmx');
 
 Route::get('/inicio', function () {
-
+    if(!Auth::check()) return view('login_view');
+    if(Auth::user()->is_admin) return view('admin_view');
     return view('home_view');
 
 })->middleware('auth')->name('home_view');
