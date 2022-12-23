@@ -86,7 +86,7 @@ Route::get('/gobmx', function () {
 
 Route::get('/inicio', function () {
     if(!Auth::check()) return view('login_view');
-    if(Auth::user()->is_admin) return view('admin_view');
+    //if(Auth::user()->is_admin) return view('admin_view');
     return view('home_view');
 
 })->middleware('auth')->name('home_view');
