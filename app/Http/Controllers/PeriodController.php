@@ -15,11 +15,15 @@ class PeriodController extends Controller
 {
     public function index(PeriodGetRequest $request)
     {
+        $input = $request->validated();
+        $periods = PeriodHelper::getPeriods($input);
         $settings = Setting::where('key', 'like', '%PERIODS.%')->get();
         $additionalData = [
-            "active_periods" => $settings
+            "activePeriods" => $settings,
+            "paginationTotalItems" => $periods->total(),
+            "paginationPerPage" => (int)$input['perPage'],
+            "paginationPage" => (int)$input['page']
         ];
-        $periods = PeriodHelper::getPeriods($request);
         return response()->success(new PeriodCollection($periods), $additionalData);
     }
     
@@ -27,20 +31,22 @@ class PeriodController extends Controller
     {
         $settings = Setting::where('key', 'like', '%PERIODS.%')->get();
         $additionalData = [
-            $settings
+            "activePeriods" => $settings,
         ];
         return response()->success(new PeriodResource($period), $additionalData);
     }
 
     public function store(PeriodPostRequest $request)
     {
-        $newPeriod = PeriodHelper::createPeriod($request);
+        $input = $request->validated();
+        $newPeriod = PeriodHelper::createPeriod($input);
         return response()->success(new PeriodResource($newPeriod));
     }
 
     public function update(PeriodUpdateRequest $request, Period $period)
     {
-        $period = PeriodHelper::updatePeriod($period, $request);
+        $input = $request->validated();
+        $period = PeriodHelper::updatePeriod($period, $input);
         return response()->success(new PeriodResource($period));
     }
 

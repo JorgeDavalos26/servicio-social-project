@@ -6,47 +6,59 @@ use App\Models\Period;
 
 class PeriodHelper {
 
-    public static function getPeriods($request) {
-        $periods = Period::get();
+    public static function getPeriods(&$input) {
+        $periods = Period::query();
 
-        /* if ($request->has('period_id')) {
-            $periods = $periods->where("period_id", $request->period_id);
+        // Specific from greater or less than a date
+        if (isset($input['startDate'])) {
+            $periods = $periods->where('start_date', '>=', $input['startDate']);
         }
-        
-        if ($request->has('user_id')) {
-            $periods = $periods->where("user_id", $request->user_id);
+        if (isset($input['endDate'])) {
+            $periods = $periods->where('end_date', '<=', $input['endDate']);
         }
 
-        $periods = $periods->orderBy('id', 'desc');
-
-        if ($request->has('paginated') && filter_var($request->paginated, FILTER_VALIDATE_BOOLEAN)) {
-            if($request->has('perPage')) {
-                $periods = $periods->paginate($request->perPage);
-            }
-            else {
-                $periods = $periods->paginate(10);
-            }
+        // Pagination
+        if (isset($input['paginated']) && to_boolean($input['paginated'])) {
+            if(!isset($input['perPage'])) $input['perPage'] = 10;
+            if(!isset($input['page'])) $input['page'] = 1;
         }
         else {
-            $request->merge(['page' => 1]);
-            $periods = $periods->paginate(10000);
-        } */
+            $input['page'] = 1;
+            $input['perPage'] = 100000;
+        }
+
+        // OrderBy
+        if (isset($input['orderBy'])) {
+            $periods = $periods->orderBy('id', to_boolean($input['orderBy'])?'asc':'desc');
+        }
+        else {
+            $periods = $periods->orderBy('id', 'desc');
+        }
+
+        // Obtain result
+        $periods = $periods->paginate($input['perPage']);
 
         return $periods;
     }
 
-    public static function createPeriod($request) {
+    public static function createPeriod($input) {
         return Period::create([
-            'start_date' => $request->startDate,
-            'end_date' => $request->endDate,
-            'label' => $request->label,
+            'start_date' => $input['startDate'],
+            'end_date' => $input['endDate'],
+            'label' => $input['label'],
         ]);
     }
 
-    public static function updatePeriod($period, $request) {
-        $period->start_date = $request->startDate;
-        $period->end_date = $request->endDate;
-        $period->label = $request->label;
+    public static function updatePeriod($period, $input) {
+        if (isset($input['startDate'])) {
+            $period->start_date = $input['startDate'];
+        }
+        if (isset($input['endDate'])) {
+            $period->end_date = $input['endDate'];
+        }
+        if (isset($input['label'])) {
+            $period->label = $input['label'];
+        }
         $period->save();
         return $period;
     }

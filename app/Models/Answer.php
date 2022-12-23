@@ -15,4 +15,12 @@ class Answer extends Model
         'value',
     ];
 
+    public function question() {
+        return $this->belongsTo(Question::class, "question_id", "id");
+    }
+
+    public function solicitude() {
+        return $this->belongsTo(Solicitude::class, "solicitude_id", "id");
+    }
+
 }

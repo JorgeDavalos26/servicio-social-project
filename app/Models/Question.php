@@ -16,4 +16,17 @@ class Question extends Model
         'blocked',
     ];
 
+    protected $casts = [
+        'hidden' => 'boolean',
+        'blocked' => 'boolean'
+    ];
+
+    public function field() {
+        return $this->belongsTo(Field::class, "field_id", "id");
+    }
+
+    public function form() {
+        return $this->belongsTo(Form::class, "form_id", "id");
+    }
+
 }

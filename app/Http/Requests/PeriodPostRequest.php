@@ -24,9 +24,9 @@ class PeriodPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'startDate' => ['required', 'date'],
-            'endDate' => ['required', 'date'],
-            'label' => ['required', 'string'],
+            'startDate' => ['required', 'date', 'date_format:Y-m-d'],
+            'endDate' => ['required', 'date', 'date_format:Y-m-d', 'after:startDate'],
+            'label' => ['required', 'string', 'unique:periods,label'],
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use App\Enums\SolicitudeStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -25,13 +27,13 @@ class SolicitudesPostRequest extends FormRequest
      */
     public function rules()
     {
-        $rules1 = ['required', 'integer', 'numeric', 'min:1'];
-
         return [
-            'userId' => $rules1,
-            'formId' => $rules1,
-            'periodId' => $rules1,
-            'status' => ['required', new Enum(SolicitudeStatus::class)]
+            'userId' => ['required', 'integer', 'numeric', 'min:1'],
+            'formId' => ['required', 'integer', 'numeric', 'min:1'],
+            'status' => ['sometimes', 'required', new Enum(SolicitudeStatus::class)],
+            'scholarLevel' => ['required_with:scholarCourse', new Enum(ScholarLevel::class)],
+            'scholarCourse' => ['required_with:scholarLevel', new Enum(ScholarCourse::class)],
+            'periodId' => ['required_without_all:scholarLevel,scholarCourse', 'integer', 'numeric', 'min:1'],
         ];
     }
 }

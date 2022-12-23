@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Field>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Answer>
  */
-class FieldFactory extends Factory
+class AnswerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,7 @@ class FieldFactory extends Factory
     public function definition()
     {
         return [
-            "backend_name" => "",
-            "frontend_name" => "",
-            "type" => "string",
+            "value" => ""
         ];
     }
 }
