@@ -4,74 +4,88 @@ namespace App\Helpers;
 
 use App\Enums\ScholarCourse;
 use App\Enums\ScholarLevel;
+use App\Enums\SolicitudeStatus;
 use App\Models\Setting;
 use App\Models\Solicitude;
-use Illuminate\Support\Facades\Auth;
 
 class SolicitudeHelper {
 
-    public static function getSolicitudes($request) {
+    public static function getSolicitudes(&$input) {
         $solicitudes = Solicitude::with(["form"]);
 
         // Specific from a Period
-        if ($request->has('period_id')) {
-            $solicitudes = $solicitudes->where("period_id", $request->period_id);
+        if (isset($input['periodId'])) {
+            $solicitudes = $solicitudes->where("period_id", $input['periodId']);
         }
-        else if ($request->has('scholar_level') && $request->has('scholar_course')) {
-            $key = "";
-
-            foreach(ScholarLevel::cases() as $case)
-                if($case->value == $request->scholar_level)
-                    $key .= $case->name;
-
-            $key .= "_";
-
-            foreach(ScholarCourse::cases() as $case)
-                if($case->value == $request->scholar_course)
-                    $key .= $case->name;
-
-            $periodId = Setting::where("key", "PERIODS." . $key . ".ACTIVE_ID_PERIOD")->first()->value;
+        else if (isset($input['scholarLevel']) && isset($input['scholarCourse'])) {
+            $periodId = SolicitudeHelper::getPeriodIdGivenScholarTerms($input['scholarLevel'], $input['scholarCourse']);
             $solicitudes = $solicitudes->where("period_id", $periodId);
         }
 
         // Specific from a User
-        if ($request->has('user_id')) {
-            $solicitudes = $solicitudes->where("user_id", $request->user_id);
+        if (isset($input['userId'])) {
+            $solicitudes = $solicitudes->where("user_id", $input['userId']);
         }
 
         // Pagination
-        if ($request->has('paginated') && filter_var($request->paginated, FILTER_VALIDATE_BOOLEAN)) {
-            if(!$request->has('perPage')) $request->merge(['perPage' => 10]);
+        if (isset($input['paginated']) && to_boolean($input['paginated'])) {
+            if(!isset($input['perPage'])) $input['perPage'] = 10;
+            if(!isset($input['page'])) $input['page'] = 1;
         }
         else {
-            $request->merge(['page' => 1]);
-            $request->merge(['perPage' => 100000]);
+            $input['page'] = 1;
+            $input['perPage'] = 100000;
+        }
+
+        // OrderBy
+        if (isset($input['orderBy'])) {
+            $solicitudes = $solicitudes->orderBy('id', to_boolean($input['orderBy'])?'asc':'desc');
+        }
+        else {
+            $solicitudes = $solicitudes->orderBy('id', 'desc');
         }
 
         // Obtain result
-        $solicitudes = $solicitudes->orderBy('id', 'desc')->paginate($request->perPage);
+        $solicitudes = $solicitudes->paginate($input['perPage']);
 
         return $solicitudes;
     }
 
-    public static function createSolicitude($request) {
-        $userId = Auth::user()->id;
-
+    public static function createSolicitude($input) {
+        if (isset($input['scholarLevel']) && isset($input['scholarCourse'])) {
+            $periodId = SolicitudeHelper::getPeriodIdGivenScholarTerms($input['scholarLevel'], $input['scholarCourse']);
+            $input['periodId'] = $periodId;
+        }
         return Solicitude::create([
-            'user_id' => $userId,
-            'form_id' => $request->formId,
-            'period_id' => $request->periodId,
-            'status' => $request->status
+            'user_id' => $input['userId'],
+            'form_id' => $input['formId'],
+            'period_id' => $input['periodId'],
+            'status' => isset($input['status'])?$input['status']:SolicitudeStatus::NEW,
         ]);
     }
 
-    public static function updateSolicitude($solicitude, $request) {
-        $solicitude->user_id = $request->userId;
-        $solicitude->form_id = $request->formId;
-        $solicitude->period_id = $request->periodId;
-        $solicitude->status = $request->status;
+    public static function updateSolicitude($solicitude, $input) {
+        $solicitude->status = $input['status'];
         $solicitude->save();
         return $solicitude;
+    }
+
+    private static function getPeriodIdGivenScholarTerms($scholarLevel, $scholarCourse) {
+        $key = "";
+
+        foreach(ScholarLevel::cases() as $case)
+            if($case->value == $scholarLevel)
+                $key .= $case->name;
+
+        $key .= "_";
+
+        foreach(ScholarCourse::cases() as $case)
+            if($case->value == $scholarCourse)
+                $key .= $case->name;
+
+        $periodId = Setting::where("key", "PERIODS." . $key . ".ACTIVE_ID_PERIOD")->first()->value;
+
+        return $periodId;
     }
 
 }

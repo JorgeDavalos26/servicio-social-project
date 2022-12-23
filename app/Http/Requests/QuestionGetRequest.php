@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\Boolean;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PeriodGetRequest extends FormRequest
+class QuestionGetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,10 @@ class PeriodGetRequest extends FormRequest
     public function rules()
     {
         return [
-            'paginated' => ['required_with:perPage,page', new Boolean],
+            'paginated' => ['required_with:perPage,page', 'boolean'],
             'perPage' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
             'page' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
-            'startDate' => ['sometimes', 'required', 'date', 'date_format:Y-m-d'],
-            'endDate' => ['sometimes', 'required', 'date', 'date_format:Y-m-d', 'after_or_equal:startDate'],
+            'formId' => ['required', 'min:1', 'integer', 'numeric'],
             'orderBy' => ['sometimes', 'required', new Boolean]
         ];
     }

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SolicitudeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +59,18 @@ Route::prefix('api')->group(function ()
     Route::put('forms/{form}', [FormController::class, 'update']);
     Route::delete('forms/{form}', [FormController::class, 'destroy']);
 
+    Route::get('questions', [QuestionController::class, 'index']);
+    Route::post('questions', [QuestionController::class, 'store']);
+    Route::get('questions/{question}', [QuestionController::class, 'show']);
+    Route::put('questions/{question}', [QuestionController::class, 'update']);
+    Route::delete('questions/{question}', [QuestionController::class, 'destroy']);
+
+    Route::get('answers', [AnswerController::class, 'index']);
+    Route::post('answers', [AnswerController::class, 'store']);
+    Route::get('answers/{answer}', [AnswerController::class, 'show']);
+    Route::put('answers/{answer}', [AnswerController::class, 'update']);
+    Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
+
 });
 
 /**
@@ -78,6 +92,10 @@ Route::get('/gobmx', function () {
 })->name('gobmx');
 
 Route::get('/inicio', function () {
+
+    if(!Auth::check()) return view('login_view');
+
+    //if(Auth::user()->is_admin) return view('admin_view');
 
     return view('home_view', [
         'forms' => FormController::getFormsToSelect(),

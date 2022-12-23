@@ -15,14 +15,13 @@ class SolicitudeController extends Controller
 {
     public function index(SolicitudesGetRequest $request)
     {
-        $solicitudes = SolicitudeHelper::getSolicitudes($request);
-
+        $input = $request->validated(); // returns JUST the data already validated
+        $solicitudes = SolicitudeHelper::getSolicitudes($input);
         $additionalData = [
-            "pagination:total_items" => $solicitudes->total(),
-            "pagination:per_page" => (int)$request->perPage,
-            "pagination:page" => (int)$request->page
+            "paginationTotalItems" => $solicitudes->total(),
+            "paginationPerPage" => (int)$input['perPage'],
+            "paginationPage" => (int)$input['page']
         ];
-
         return response()->success(new SolicitudeCollection($solicitudes), $additionalData);
     }
 
@@ -37,14 +36,16 @@ class SolicitudeController extends Controller
             return response()->error("Must be authenticated", null, 401);
         }
 
-        $newSolicitude = SolicitudeHelper::createSolicitude($request);
+        $input = $request->validated();
+        $newSolicitude = SolicitudeHelper::createSolicitude($input);
 
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
     public function update(Solicitude $solicitude, SolicitudesUpdateRequest $request)
     {
-        $solicitude = SolicitudeHelper::updateSolicitude($solicitude, $request);
+        $input = $request->validated();
+        $solicitude = SolicitudeHelper::updateSolicitude($solicitude, $input);
         return response()->success(new SolicitudeResource($solicitude));
     }
 

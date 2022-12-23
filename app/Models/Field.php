@@ -12,6 +12,7 @@ class Field extends Model
     protected $fillable = [
         'backend_name',
         'frontend_name',
+        'type',
     ];
 
 }

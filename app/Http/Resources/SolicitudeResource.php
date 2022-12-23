@@ -16,13 +16,13 @@ class SolicitudeResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user_id" => $this->user_id,
+            "userId" => $this->user_id,
             "form" => new FormResource($this->whenLoaded('form')),
             "period" => new PeriodResource($this->whenLoaded('period')),
             "username" => $this->user->username,
             "status" => $this->status,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at
+            "createdAt" => $this->created_at,
+            "updatedAt" => $this->updated_at
         ];
     }
 }
