@@ -55,12 +55,10 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
-    public static function getSolicitudesOfStudent(): SolicitudeCollection
+    public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
     {
-        $userId = Auth::user()->id;
-
         $solicitudes = Solicitude::with(['form'])
-            ->where('user_id', $userId)
+            ->where('user_id', $studentId)
             ->get();
 
         return new SolicitudeCollection($solicitudes);

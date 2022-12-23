@@ -99,7 +99,7 @@ Route::get('/inicio', function () {
 
     return view('home_view', [
         'forms' => FormController::getFormsToSelect(),
-        'solicitudes' => SolicitudeController::getSolicitudesOfStudent(),
+        'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
         'userId' => Auth::user()->id
     ]);
 

@@ -22,7 +22,8 @@ class FormController extends Controller
      */
     public function index(FormGetRequest $request)
     {
-        $forms = FormHelper::getForms($request);
+        $input = $request->validated();
+        $forms = FormHelper::getForms($input);
 
         $additionalData = [
             "pagination:total_items" => $forms->total(),
@@ -45,7 +46,9 @@ class FormController extends Controller
             return response()->error("Must be authenticated", null, 401);
         }
 
-        $newForm = FormHelper::createForm($request);
+        $input = $request->validated();
+
+        $newForm = FormHelper::createForm($input);
 
         return response()->success(new SolicitudeResource($newForm));
     }
@@ -70,7 +73,8 @@ class FormController extends Controller
      */
     public function update(Form $form, FormPutRequest $request)
     {
-        $form = FormHelper::updateForm($form, $request);
+        $input = $request->validated();
+        $form = FormHelper::updateForm($form, $input);
 
         return response()->success(new FormResource($form));
     }

@@ -9,44 +9,47 @@ use App\Models\Form;
 
 class FormHelper
 {
-    public static function getForms(FormGetRequest $request) {
+    public static function getForms($getRequest)
+    {
         $forms = Form::query();
 
-        if ($request->has('scholar_level')) {
-            $forms = $forms->where('scholar_level', $request->scholar_level);
+        if (isset($getRequest['scholar_level'])) {
+            $forms = $forms->where('scholar_level', $getRequest['scholar_level']);
         }
 
-        if ($request->has('scholar_course')) {
-            $forms = $forms->where('scholar_course', $request->scholar_course);
+        if (isset($getRequest['scholar_course'])) {
+            $forms = $forms->where('scholar_course', $getRequest['scholar_course']);
         }
 
-        if ($request->has('paginated') && filter_var($request->paginated, FILTER_VALIDATE_BOOLEAN)) {
-            if(!$request->has('perPage')) $request->merge(['perPage' => 10]);
+        if (isset($getRequest['paginated']) && to_boolean($getRequest['paginated'])) {
+            if(!isset($getRequest['perPage'])) $getRequest['perPage'] = 10;
+            if(!isset($getRequest['page'])) $getRequest['page'] = 1;
         } else {
-            $request->merge(['page' => 1]);
-            $request->merge(['perPage' => 100000]);
+            $getRequest['perPage'] = 10;
+            $getRequest['page'] = 1;
         }
 
-        $forms = $forms->orderBy('id', 'desc')->paginate($request->perPage);
+        $forms = $forms->orderBy('id', 'desc')
+            ->paginate(perPage: $getRequest['perPage'], page: $getRequest['page']);
 
         return $forms;
     }
 
-    public static function createForm(FormPostRequest $request) {
+    public static function createForm($input) {
         return Form::create([
-            'description' => $request->description,
-            'scholar_course' => $request->scholarCourse,
-            'scholar_level' => $request->scholarLevel,
-            'label' => $request->label
+            'description' => $input['description'],
+            'scholar_course' => $input['scholarCourse'],
+            'scholar_level' => $input['scholarLevel'],
+            'label' => $input['label']
         ]);
     }
 
-    public static function updateForm(Form $form, FormPutRequest $request): Form
+    public static function updateForm(Form $form, $input): Form
     {
-        if ($request->has('description')) $form->description = $request->description;
-        if ($request->has('scholarCourse')) $form->scholar_course = $request->scholarCourse;
-        if ($request->has('scholarLevel')) $form->scholar_level = $request->scholarLevel;
-        if ($request->has('label')) $form->label = $request->label;
+        if (isset($input['description'])) $form->description = $input['description'];
+        if (isset($input['scholarCourse'])) $form->scholar_course = $input['scholarCourse'];
+        if (isset($input['scholarLevel'])) $form->scholar_level = $input['scholarLevel'];
+        if (isset($input['label'])) $form->label = $input->label;
 
         $form->save();
 
