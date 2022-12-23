@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\ScholarCourse;
 use App\Enums\ScholarLevel;
+use App\Rules\Boolean;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -26,17 +27,15 @@ class SolicitudesGetRequest extends FormRequest
      */
     public function rules()
     {   
-        $rules1 = ['sometimes', 'required', 'min:1', 'integer', 'numeric'];
-
         return [
-            'paginated' => ['required_with:perPage,page', 'boolean'],
-            'perPage' => $rules1,
-            'page' => $rules1,
-            'user_id' => $rules1,
-            'period_id' => $rules1,
-
-            'scholar_level' => ['sometimes', 'required', new Enum(ScholarLevel::class)],
-            'scholar_course' => ['sometimes', 'required', new Enum(ScholarCourse::class)],
+            'paginated' => ['required_with:perPage,page', new Boolean],
+            'perPage' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
+            'page' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
+            'scholarLevel' => ['required_with:scholarCourse', new Enum(ScholarLevel::class)],
+            'scholarCourse' => ['required_with:scholarLevel', new Enum(ScholarCourse::class)],
+            'userId' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
+            'periodId' => ['sometimes', 'required', 'min:1', 'integer', 'numeric'],
+            'orderBy' => ['sometimes', 'required', new Boolean]
         ];
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("backend_name", 50);
             $table->string("frontend_name", 50);
+            $table->string("type", 30);
             $table->timestamps();
         });
     }

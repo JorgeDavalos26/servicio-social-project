@@ -25,12 +25,7 @@ class SolicitudesUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules1 = ['required', 'integer', 'numeric', 'min:1'];
-
         return [
-            'userId' => $rules1,
-            'formId' => $rules1,
-            'periodId' => $rules1,
             'status' => ['required', new Enum(SolicitudeStatus::class)]
         ];
     }

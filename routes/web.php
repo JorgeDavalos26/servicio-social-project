@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SolicitudeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +51,18 @@ Route::prefix('api')->group(function ()
     Route::get('periods/{period}', [PeriodController::class, 'show']);
     Route::put('periods/{period}', [PeriodController::class, 'update']);
     Route::delete('periods/{period}', [PeriodController::class, 'destroy']);
+
+    Route::get('questions', [QuestionController::class, 'index']);
+    Route::post('questions', [QuestionController::class, 'store']);
+    Route::get('questions/{question}', [QuestionController::class, 'show']);
+    Route::put('questions/{question}', [QuestionController::class, 'update']);
+    Route::delete('questions/{question}', [QuestionController::class, 'destroy']);
+
+    Route::get('answers', [AnswerController::class, 'index']);
+    Route::post('answers', [AnswerController::class, 'store']);
+    Route::get('answers/{answer}', [AnswerController::class, 'show']);
+    Route::put('answers/{answer}', [AnswerController::class, 'update']);
+    Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
 
 });
 

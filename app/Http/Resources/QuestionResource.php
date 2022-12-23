@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PeriodResource extends JsonResource
+class QuestionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class PeriodResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "startDate" => $this->start_date,
-            "endDate" => $this->end_date,
-            "label" => $this->label,
+            "frontendName" => $this->field->frontend_name,
+            "hidden" => $this->hidden,
+            "blocked" => $this->blocked,
             "updatedAt" => $this->updated_at,
         ];
     }

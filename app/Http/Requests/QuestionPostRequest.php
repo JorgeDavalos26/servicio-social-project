@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Boolean;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PeriodUpdateRequest extends FormRequest
+class QuestionPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,10 @@ class PeriodUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'startDate' => ['sometimes', 'required', 'date', 'date_format:Y-m-d'],
-            'endDate' => ['sometimes', 'required', 'date', 'date_format:Y-m-d'],
-            'label' => ['required_without_all:startDate,endDate', 'string', 'unique:periods,label'],
+            'fieldId' => ['required', 'integer', 'numeric', 'min:1'],
+            'formId' => ['required', 'integer', 'numeric', 'min:1'],
+            'hidden' => ['required', new Boolean],
+            'blocked' => ['required', new Boolean]
         ];
     }
 }
