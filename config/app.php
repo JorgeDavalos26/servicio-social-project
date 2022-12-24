@@ -195,10 +195,17 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+       /**
+        * Third party dependencies
+        */
+        ConsoleTVs\Profanity\ProfanityServiceProvider::class,
+
+        /**
+         * Own custom Service Providers
+         */
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\PasswordValidationServiceProvider::class,
-
-        ConsoleTVs\Profanity\ProfanityServiceProvider::class,
+        App\Providers\GlobalSettingsProvider::class,
     ],
 
     /*
@@ -215,8 +222,9 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
-
         'Profanity' => \ConsoleTVs\Profanity\Facades\Profanity::class,
+
+        'Yeah' => App\Services\GlobalSettingsService::class,
 
     ])->toArray(),
 

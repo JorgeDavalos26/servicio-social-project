@@ -46,6 +46,21 @@
         </div>
     </div>
 
+   {{--  @php echo "bool: " . var_dump(to_boolean("onsadf")) @endphp --}}
+
+
+    @php  
+        //use \App\Services\GlobalSettingsService;
+        
+        // App()->make(GlobalSettingsService::class); please let this code just for knowledge
+        //$myApp = app(GlobalSettingsService::class);
+        // dd($myApp->getActivePeriods()); let this one as well
+
+        echo settings()->getActivePeriods();
+        
+
+    @endphp
+
     <div class="container">
         <div class="mb-5">
             @foreach($applications as $application)

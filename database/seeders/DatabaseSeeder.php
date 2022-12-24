@@ -268,14 +268,31 @@ class DatabaseSeeder extends Seeder
         //------------------------------------ settings
 
         Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period1->id,
-            "description" => "El periodo actual del curso Tecnólogo-Propedéutico"]);
+            "description" => "El periodo en vigor del curso Tecnólogo-Propedéutico"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
-            "description" => "El periodo actual del curso Ingeniería-Propedéutico"]);
-
+            "description" => "El periodo en vigor del curso Ingeniería-Propedéutico"]);
         Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period3->id, 
-            "description" => "El periodo actual del curso Tecnólogo-Nivelación"]);
+            "description" => "El periodo en vigor del curso Tecnólogo-Nivelación"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period4->id,
-            "description" => "El periodo actual del curso Ingeniería-Nivelación"]);
+            "description" => "El periodo en vigor del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "FORMS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_FORM", "value" => $form1->id,
+            "description" => "El formulario en vigor del curso Tecnólogo-Propedéutico"]);
+        Setting::create(["key" => "FORMS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_FORM", "value" => $form2->id,
+            "description" => "El formulario en vigor del curso Ingeniería-Propedéutico"]);
+        Setting::create(["key" => "FORMS.TECNOLOGO_NIVELACION.ACTIVE_ID_FORM", "value" => $form3->id, 
+            "description" => "El formulario en vigor del curso Tecnólogo-Nivelación"]);
+        Setting::create(["key" => "FORMS.INGENIERIA_NIVELACION.ACTIVE_ID_FORM", "value" => $form4->id,
+            "description" => "El formulario en vigor del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "SOLICITUDES.TECNOLOGO_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Tecnólogo-Propedéutico?"]);
+        Setting::create(["key" => "SOLICITUDES.INGENIERIA_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Ingeniería-Propedéutico?"]);
+        Setting::create(["key" => "SOLICITUDES.TECNOLOGO_NIVELACION.RECEIVE_UPCOMING", "value" => true, 
+            "description" => "Se reciben solicitudes para el curso Tecnólogo-Nivelación?"]);
+        Setting::create(["key" => "SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Ingeniería-Nivelación?"]);
 
         //------------------------------------ form
 

@@ -1,21 +1,19 @@
 <?php
 
 use App\Enums\TypesQuestion;
+use \App\Services\GlobalSettingsService;
 
 if (!function_exists('to_boolean')) {
-    /**
-     * Convert to boolean
-     *
-     * @param $booleable
-     * @return boolean
-     */
+
     function to_boolean($booleable)
     {
         return filter_var($booleable, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
+
 }
 
 if (!function_exists('get_data_regarding_type')) {
+
     function get_data_regarding_type($type) {
         $value = null;
         switch($type) {
@@ -32,4 +30,18 @@ if (!function_exists('get_data_regarding_type')) {
         }
         return $value;
     }
+
 }
+
+if (!function_exists('settings')) {
+
+    function settings() {
+        // App()->make(GlobalSettingsService::class); please let this code just for knowledge
+        $settings = app(GlobalSettingsService::class);
+        // dd($settings->getActivePeriods()); let this one as well
+        return  $settings;
+    }
+
+}
+        
+        

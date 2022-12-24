@@ -9,7 +9,6 @@ use App\Http\Requests\QuestionUpdateRequest;
 use App\Http\Resources\QuestionCollection;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
-use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
