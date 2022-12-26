@@ -50,7 +50,7 @@
     </div>
 
     <div class="col d-flex justify-content-end align-items-center">
-        <a class="edit-form-icon" href="/edit/form/{{$application['id']}}">
+        <a class="edit-form-icon" href="/solicitud/{{$application['id']}}">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil"
                  viewBox="0 0 16 16">
                 <path
