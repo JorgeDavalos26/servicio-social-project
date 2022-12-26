@@ -55,6 +55,16 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
+    public function getComplete(int $solicitudeId) {
+        if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
+
+        $solicitude = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers($solicitudeId);
+
+        if ($solicitude == null) return response()->error("Only solicitude owner can access it", null, 401);
+
+        return response()->success($solicitude);
+    }
+
     public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
     {
         $solicitudes = Solicitude::with(['form'])

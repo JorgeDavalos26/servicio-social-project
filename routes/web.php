@@ -42,6 +42,7 @@ Route::prefix('api')->group(function ()
         Route::post('register', [AuthController::class, 'register']);
     });
 
+    Route::get('solicitudes/complete/{id}', [SolicitudeController::class, 'getComplete']);
     Route::get('solicitudes', [SolicitudeController::class, 'index']);
     Route::post('solicitudes', [SolicitudeController::class, 'store']);
     Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);

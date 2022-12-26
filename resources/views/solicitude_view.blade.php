@@ -2,6 +2,8 @@
 
 @section("script")
 
+    @vite(['resources/js/solicitude_view.js'])
+
 @endsection
 
 @section("template")
@@ -15,7 +17,7 @@
             <span>
                 {{$solicitude['periodLabel']}}
             </span>
-            <form>
+            <form id="solicitude_form">
                 @foreach($solicitude['questions'] as $question)
                     <div class="mt-5">
                         <label for="{{$question['id']}}"
@@ -33,9 +35,7 @@
                     <button class="mr-4 btn btn-secondary">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary">
-                        Guardar
-                    </button>
+                    <input type="submit" class="btn btn-primary" value="Guardar"/>
                 </div>
             </form>
         </div>
