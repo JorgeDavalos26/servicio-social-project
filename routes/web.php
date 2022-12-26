@@ -138,10 +138,15 @@ Route::get('/solicitud/{id}', function () {
 
     if (!Auth::check()) return redirect()->route('login_view');
 
-    $solicitudes = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers(request()->id);
+    $solicitudeId = request()->id;
 
-    return view('form_view', [
-        'solicitudes' => $solicitudes
+    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
+        return redirect()->route('home_view');
+
+    $solicitude = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers($solicitudeId);
+
+    return view('solicitude_view', [
+        'solicitude' => $solicitude
     ]);
 
 })->name('solicitude_view');

@@ -11,6 +11,7 @@ use App\Models\Form;
 use App\Models\Question;
 use App\Models\Setting;
 use App\Models\Solicitude;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudeHelper
 {
@@ -73,6 +74,12 @@ class SolicitudeHelper
         $solicitude->status = $input['status'];
         $solicitude->save();
         return $solicitude;
+    }
+
+    public static function isAuthenticatedUserSolicitudesOwner(int $solicitudeId): bool {
+        $solicitude = Solicitude::where('id', $solicitudeId)->first();
+
+        return $solicitude['user_id'] == Auth::user()->id;
     }
 
     public static function getSolicitudeWithQuestionsAndAnswers(int $solicitudeId): ?array

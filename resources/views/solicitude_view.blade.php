@@ -8,6 +8,8 @@
 
     <div>
         <h2>Solicitud</h2>
+        <div>
+        </div>
     </div>
 
 @endsection
