@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\SolicitudeHelper;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
@@ -132,3 +133,15 @@ Route::get('/formulario', function () {
     else return redirect()->route('login_view');
 
 })->name('form_view');
+
+Route::get('/solicitud/{id}', function () {
+
+    if (!Auth::check()) return redirect()->route('login_view');
+
+    $solicitudes = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers(request()->id);
+
+    return view('form_view', [
+        'solicitudes' => $solicitudes
+    ]);
+
+})->name('solicitude_view');
