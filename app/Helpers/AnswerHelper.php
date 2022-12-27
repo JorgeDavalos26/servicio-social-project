@@ -2,7 +2,11 @@
 
 namespace App\Helpers;
 
+use App\Enums\TypesQuestion;
 use App\Models\answer;
+use App\Models\Question;
+use App\Models\Solicitude;
+use Illuminate\Support\Arr;
 
 class AnswerHelper {
 
@@ -40,6 +44,62 @@ class AnswerHelper {
             'solicitude_id' => $input['solicitudeId'],
             'value' => $input['value'],
         ]);
+    }
+
+    public static function createBulkAnswers($input) {
+        $solicitude = Solicitude::find($input['solicitudeId']);
+        $period = $solicitude->period;
+        $answers = [];
+        
+        foreach($input['answers'] as $questionAnswer) {
+            $question = Question::find($questionAnswer['questionId']);
+            $field = $question->field;
+            $answerValue = $questionAnswer['answer'];
+            $value = "";
+
+            if ($field->type == TypesQuestion::FILE->value) {
+                $file = base64ToUploadedFile($answerValue);
+                $value = storage()->storeMedia($file, 'local_custom', $period->label);
+            }
+            else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
+                foreach ($answerValue as $v) {
+                    $file = base64ToUploadedFile($v);
+                    $value .= storage()->storeMedia($file, 'local_custom', $period->label) . "|";
+                }
+            }
+            else {
+                $value = $answerValue;
+            }
+
+            $answers[] = Answer::create([
+                'question_id' => $question->id,
+                'solicitude_id' => $solicitude->id,
+                'value' => $value,
+            ]);
+        }
+        return $answers;
+    }
+
+    public static function updateMediaAnswer($answer, Array $files) {
+        $period = $answer->solicitude->period;
+        $field = $answer->question->field;
+        $answerValue = "";
+
+        if ($field->type == TypesQuestion::FILE) {
+            $file = Arr::first($files);
+            $path = storage()->storeMedia($file, 'local_custom', $period->label);
+            $answerValue = $path;
+        } 
+        else if ($field->type == TypesQuestion::MULTIPLE_FILE) {
+            foreach ($files as $file) {
+                $path = storage()->storeMedia($file, 'local_custom', $period->label);
+                $answerValue .= $path . "|";
+            }
+        }
+
+        $answer->value = $answerValue;
+        $answer->save();
+        return $answer;
     }
 
     public static function updateAnswer($answer, $input) {

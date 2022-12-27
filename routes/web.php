@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SolicitudeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,8 @@ Route::prefix('api')->group(function ()
 
     Route::get('answers', [AnswerController::class, 'index']);
     Route::post('answers', [AnswerController::class, 'store']);
+    Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk']);
+    Route::post('answers/{answer}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
     Route::get('answers/{answer}', [AnswerController::class, 'show']);
     Route::put('answers/{answer}', [AnswerController::class, 'update']);
     Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);

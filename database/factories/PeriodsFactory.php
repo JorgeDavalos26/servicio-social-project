@@ -17,7 +17,9 @@ class PeriodsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "label" => "2023A",
+            "start_date" => $this->faker->date('Y-m-d'),
+            "end_date" => $this->faker->date('Y-m-d')
         ];
     }
 }

@@ -19,6 +19,7 @@ class QuestionFactory extends Factory
         return [
             "hidden" => false,
             "blocked" => false,
+            "required" => false,
         ];
     }
 }
