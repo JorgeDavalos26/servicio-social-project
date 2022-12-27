@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("backend_name", 50);
             $table->string("frontend_name", 50);
             $table->string("type", 30);
+            $table->string("regex_validation", 255);
             $table->timestamps();
         });
     }

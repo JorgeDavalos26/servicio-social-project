@@ -61,11 +61,14 @@ class SolicitudeHelper
             $periodId = PeriodHelper::getPeriodIdGivenScholarTerms($input['scholarLevel'], $input['scholarCourse']);
             $input['periodId'] = $periodId;
         }
+        if (!isset($input['status'])) {
+            $input['status'] = SolicitudeStatus::NEW;
+        }
         return Solicitude::create([
             'user_id' => $input['userId'],
             'form_id' => $input['formId'],
             'period_id' => $input['periodId'],
-            'status' => isset($input['status']) ? $input['status'] : SolicitudeStatus::NEW,
+            'status' => $input['status'],
         ]);
     }
 

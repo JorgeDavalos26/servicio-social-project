@@ -20,7 +20,7 @@ class FormFactory extends Factory
             "description" => "",
             'scholar_course' => $this->faker->randomElement(['Propedéutico', 'Nivelación']),
             "scholar_level" => $this->faker->randomElement(['Tecnólogo', 'Ingeniería']),
-            "label" => "2023",
+            "label" => "FORM_2023",
         ];
     }
 }

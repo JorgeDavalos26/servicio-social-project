@@ -69,6 +69,14 @@ class DatabaseSeeder extends Seeder
             "is_support" => false
         ]);
 
+        // Test user
+        $testUser = User::factory()->create([
+            "email" => "test@gmail.com",
+            "username" => "Test Test",
+            "is_admin" => true,
+            "is_support" => true
+        ]);
+
         //------------------------------------ fields
 
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nombre", "frontend_name" => "Nombre"]);
@@ -147,6 +155,14 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "axo_al", "frontend_name" => ""]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "axo_del", "frontend_name" => ""]);
 
+
+        // Test fields
+        foreach (TypesQuestion::cases() as $i => $case) {
+            Field::create(["id" => 1000000 + $i, "type" => $case->value, 
+                "backend_name" => "field_type_" . $case->value, "frontend_name" => "field_type_" . $case->value]);
+        }
+
+
         //------------------------------------ forms
 
         $form1 = Form::factory()->create([
@@ -173,6 +189,17 @@ class DatabaseSeeder extends Seeder
             "label" => "2023A",
         ]);
 
+
+        // Test form
+        $testForm = Form::factory()->create([
+            "id" => 1000000,
+            "scholar_course" => "Nivelación",
+            "scholar_level" => "Ingeniería",
+            "label" => "2000A",
+        ]);
+
+
+
         //------------------------------------ questions
 
         for($i = 1; $i < 74; $i++) {
@@ -190,6 +217,13 @@ class DatabaseSeeder extends Seeder
         for($i = 1; $i < 74; $i++) {
             Question::factory()->create(["form_id" => $form4->id, "field_id" => $i]);
         }
+
+
+        // Test questions
+        for($i = 0; $i < count(TypesQuestion::cases()); $i++) {
+            Question::create(["id" => 1000000 + $i, "form_id" => $testForm->id, "field_id" => 1000000 + $i]);
+        }
+
 
         //------------------------------------ periods
 
@@ -265,17 +299,47 @@ class DatabaseSeeder extends Seeder
             "label" => "INGENIERIA_PROPEDEUTICO_2024B"
         ]);
 
+
+
+        // Test period
+        $testPeriod = Period::create([
+            "id" => 1000000,
+            "start_date" => date_format(date_create('2000-01-5'), 'Y-m-d'),
+            "end_date" => date_format(date_create('2000-02-2'), 'Y-m-d'),
+            "label" => "INGENIERIA_NIVELACION_2000A"
+        ]);
+
+
+
+
         //------------------------------------ settings
 
         Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period1->id,
-            "description" => "El periodo actual del curso Tecnólogo-Propedéutico"]);
+            "description" => "El periodo en vigor del curso Tecnólogo-Propedéutico"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_PERIOD", "value" => $period2->id,
-            "description" => "El periodo actual del curso Ingeniería-Propedéutico"]);
-
+            "description" => "El periodo en vigor del curso Ingeniería-Propedéutico"]);
         Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period3->id, 
-            "description" => "El periodo actual del curso Tecnólogo-Nivelación"]);
+            "description" => "El periodo en vigor del curso Tecnólogo-Nivelación"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period4->id,
-            "description" => "El periodo actual del curso Ingeniería-Nivelación"]);
+            "description" => "El periodo en vigor del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "FORMS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_FORM", "value" => $form1->id,
+            "description" => "El formulario en vigor del curso Tecnólogo-Propedéutico"]);
+        Setting::create(["key" => "FORMS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_FORM", "value" => $form2->id,
+            "description" => "El formulario en vigor del curso Ingeniería-Propedéutico"]);
+        Setting::create(["key" => "FORMS.TECNOLOGO_NIVELACION.ACTIVE_ID_FORM", "value" => $form3->id, 
+            "description" => "El formulario en vigor del curso Tecnólogo-Nivelación"]);
+        Setting::create(["key" => "FORMS.INGENIERIA_NIVELACION.ACTIVE_ID_FORM", "value" => $form4->id,
+            "description" => "El formulario en vigor del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "SOLICITUDES.TECNOLOGO_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Tecnólogo-Propedéutico?"]);
+        Setting::create(["key" => "SOLICITUDES.INGENIERIA_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Ingeniería-Propedéutico?"]);
+        Setting::create(["key" => "SOLICITUDES.TECNOLOGO_NIVELACION.RECEIVE_UPCOMING", "value" => true, 
+            "description" => "Se reciben solicitudes para el curso Tecnólogo-Nivelación?"]);
+        Setting::create(["key" => "SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING", "value" => true,
+            "description" => "Se reciben solicitudes para el curso Ingeniería-Nivelación?"]);
 
         //------------------------------------ form
 
@@ -305,6 +369,14 @@ class DatabaseSeeder extends Seeder
         
         Solicitude::create(["user_id" => $user5->id, "form_id" => $form4->id, "period_id" => $period4->id, 
             "status" => SolicitudeStatus::COMPLETED]);
+
+
+
+        // Test solicitude
+        $testSolicitude = Solicitude::create(["id" => 1000000, "user_id" => $testUser->id, "form_id" => $testForm->id, 
+            "period_id" => $testPeriod->id, "status" => SolicitudeStatus::NEW]);
+        
+
 
         //------------------------------------ answers
 

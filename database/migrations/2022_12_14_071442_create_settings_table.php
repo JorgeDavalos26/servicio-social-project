@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string("key", 100);
+            $table->string("key", 80);
             $table->string("value", 255);
             $table->string("description", 80)->nullable();
             $table->timestamps();

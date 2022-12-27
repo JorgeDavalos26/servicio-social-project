@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->string("description");
-            $table->string('scholar_course')->default("Propedéutico");
-            $table->string("scholar_level")->default("Tecnólogo");
+            $table->string("description", 100)->nullable();
+            $table->string('scholar_course', 30);
+            $table->string("scholar_level", 30);
             $table->string("label", 50);
             $table->timestamps();
         });

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date("start_date");
             $table->date("end_date");
-            $table->string("label", 100);
+            $table->string("label", 40);
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId("field_id")->references("id")->on("fields")->onDelete("cascade");
             $table->boolean("hidden")->default(false);
             $table->boolean("blocked")->default(false);
+            $table->boolean("required")->default(false);
             $table->timestamps();
         });
     }

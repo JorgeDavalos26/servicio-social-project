@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SolicitudeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -67,9 +68,24 @@ Route::prefix('api')->group(function () {
 
     Route::get('answers', [AnswerController::class, 'index']);
     Route::post('answers', [AnswerController::class, 'store']);
+    Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk']);
+    Route::post('answers/{answer}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
     Route::get('answers/{answer}', [AnswerController::class, 'show']);
     Route::put('answers/{answer}', [AnswerController::class, 'update']);
     Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
+    
+    Route::get('settings', [SettingController::class, 'index']);
+    Route::post('settings', [SettingController::class, 'store']);
+    Route::get('settings/{setting}', [SettingController::class, 'show']);
+    Route::put('settings/{setting}', [SettingController::class, 'update']);
+    Route::delete('settings/{setting}', [SettingController::class, 'destroy']);
+
+    Route::get('settings/getActivePeriods', [SettingController::class, 'getActivePeriods']);
+    Route::put('settings/updateActivePeriods', [SettingController::class, 'updateActivePeriods']);
+    Route::get('settings/getActiveForms', [SettingController::class, 'getActiveForms']);
+    Route::put('settings/updateActiveForms', [SettingController::class, 'updateActiveForms']);
+    Route::get('settings/getReceiveUpcomingSolicitudes', [SettingController::class, 'getReceiveUpcomingSolicitudes']);
+    Route::put('settings/updateReceiveUpcomingSolicitudes', [SettingController::class, 'updateReceiveUpcomingSolicitudes']);
 
 });
 
