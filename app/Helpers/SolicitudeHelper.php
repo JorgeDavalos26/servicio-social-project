@@ -76,7 +76,8 @@ class SolicitudeHelper
         return $solicitude;
     }
 
-    public static function isAuthenticatedUserSolicitudesOwner(int $solicitudeId): bool {
+    public static function isAuthenticatedUserSolicitudesOwner(int $solicitudeId): bool
+    {
         $solicitude = Solicitude::where('id', $solicitudeId)->first();
 
         if ($solicitude == null) return false;
@@ -109,17 +110,16 @@ class SolicitudeHelper
                 ->first();
 
             $toReturn['questions'][] = [
-                'id' => $question['id'],
-                'hidden' => $question['hidden'],
-                'blocked' => $question['blocked'],
-                'backendName' => $question['field']['backend_name'],
-                'frontendName' => $question['field']['frontend_name'],
-                'type' => $question['field']['type'],
-                ($answer ? ['answer' => [
+                    'id' => $question['id'],
+                    'hidden' => $question['hidden'],
+                    'blocked' => $question['blocked'],
+                    'backendName' => $question['field']['backend_name'],
+                    'frontendName' => $question['field']['frontend_name'],
+                    'type' => $question['field']['type']
+                ] + ($answer ? ['answer' => [
                     'id' => $answer['id'],
                     'value' => $answer['value']
-                ]] : [])
-            ];
+                ]] : []);
         }
 
         return $toReturn;

@@ -9,10 +9,14 @@ solicitudeForm.addEventListener('submit', async (event) => {
 
     try {
         const completeSolicitude = await getData(`${env.APP_URL}/api/solicitudes/complete/${solicitudeId}`);
-        
-        console.log(completeSolicitude);
+
+        const questionsFromApi = completeSolicitude.data.questions;
+        const inputsFromForm = solicitudeForm.elements;
+
+        console.log(questionsFromApi)
+
     } catch (error) {
         console.log(error);
     }
 
-})
+});

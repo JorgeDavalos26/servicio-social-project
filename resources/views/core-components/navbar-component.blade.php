@@ -32,7 +32,7 @@
                 @endguest
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link subnav-link" href="inicio">Inicio</a>
+                        <a class="nav-link subnav-link" href="/inicio">Inicio</a>
                     </li>
                     <li class="nav-item dropdown">
                         <li class="nav-item dropdown">
@@ -41,8 +41,8 @@
                             Cuenta
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="perfil">Ver perfil</a>
-                            <a class="dropdown-item" href="inicio">Trámites</a>
+                            <a class="dropdown-item" href="/perfil">Ver perfil</a>
+                            <a class="dropdown-item" href="/inicio">Trámites</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" onclick="logout()">Cerrar sesión</a>
                         </div>
