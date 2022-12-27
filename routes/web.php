@@ -33,10 +33,8 @@ Route::get('/', function () {
  * Return JSON
  */
 
-Route::prefix('api')->group(function ()
-{
-    Route::prefix('auth')->group(function ()
-    {
+Route::prefix('api')->group(function () {
+    Route::prefix('auth')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('register', [AuthController::class, 'register']);
@@ -95,7 +93,7 @@ Route::get('/gobmx', function () {
 
 Route::get('/inicio', function () {
 
-    if(!Auth::check()) return view('login_view');
+    if (!Auth::check()) return view('login_view');
 
     //if(Auth::user()->is_admin) return view('admin_view');
 
@@ -109,28 +107,28 @@ Route::get('/inicio', function () {
 
 Route::get('/ingreso', function () {
 
-    if(Auth::check()) return redirect()->route('home_view');
+    if (Auth::check()) return redirect()->route('home_view');
     else return view('login_view');
 
 })->name('login_view');
 
 Route::get('/registro', function () {
 
-    if(Auth::check()) return redirect()->route('home_view');
+    if (Auth::check()) return redirect()->route('home_view');
     else return view('signup_view');
 
 })->name('signup_view');
 
 Route::get('/perfil', function () {
 
-    if(Auth::check()) return view('profile_view');
+    if (Auth::check()) return view('profile_view');
     else return redirect()->route('login_view');
 
 })->name('profile_view');
 
 Route::get('/formulario', function () {
 
-    if(Auth::check()) return view('form_view');
+    if (Auth::check()) return view('form_view');
     else return redirect()->route('login_view');
 
 })->name('form_view');
@@ -140,6 +138,9 @@ Route::get('/solicitud/{id}', function () {
     if (!Auth::check()) return redirect()->route('login_view');
 
     $solicitudeId = request()->id;
+
+    if (!is_numeric($solicitudeId))
+        return redirect()->route('home_view');
 
     if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
         return redirect()->route('home_view');

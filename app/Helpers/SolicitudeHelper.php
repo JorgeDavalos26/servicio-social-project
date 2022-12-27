@@ -79,6 +79,8 @@ class SolicitudeHelper
     public static function isAuthenticatedUserSolicitudesOwner(int $solicitudeId): bool {
         $solicitude = Solicitude::where('id', $solicitudeId)->first();
 
+        if ($solicitude == null) return false;
+
         return $solicitude['user_id'] == Auth::user()->id;
     }
 
