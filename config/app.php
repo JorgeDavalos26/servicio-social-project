@@ -205,7 +205,9 @@ return [
          */
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\PasswordValidationServiceProvider::class,
-        App\Providers\GlobalSettingsProvider::class,
+        App\Providers\SettingsServiceProvider::class,
+        App\Providers\StorageServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
     ],
 
     /*
@@ -223,9 +225,6 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
         'Profanity' => \ConsoleTVs\Profanity\Facades\Profanity::class,
-
-        'Yeah' => App\Services\GlobalSettingsService::class,
-
     ])->toArray(),
 
 ];

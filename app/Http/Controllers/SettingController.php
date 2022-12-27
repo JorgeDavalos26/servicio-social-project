@@ -9,8 +9,7 @@ use App\Http\Requests\SettingUpdateRequest;
 use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
 use App\Models\Setting;
-use App\Services\GlobalSettingsService;
-use Illuminate\Http\Request;
+use App\Services\SettingsService;
 
 class SettingController extends Controller
 {
@@ -51,54 +50,42 @@ class SettingController extends Controller
         return response()->success(new SettingResource($setting));
     }
 
-    // -------------------------------------------------------------------------------
+    // BY SETTINGS SERVICE -------------------------------------------------------------------------------
     // Active Periods
 
-    public function getActivePeriods(GlobalSettingsService $globalSetting) {
-        $activePeriods = $globalSetting->getActivePeriods();
+    public function getActivePeriods(SettingsService $setting) {
+        $activePeriods = $setting->getActivePeriods();
         return response()->success($activePeriods);
     }
 
-    public function updateActivePeriods(GlobalSettingsService $globalSetting, Array $input) {
-        $activePeriods = $globalSetting->updateActivePeriods($input);
+    public function updateActivePeriods(SettingsService $setting, Array $input) {
+        $activePeriods = $setting->updateActivePeriods($input);
         return response()->success($activePeriods);
-
-        /* $periods = [];
-        foreach ($input as $period) $periods[] = self::updateActivePeriod($period);
-        return $periods; */
     }
 
     // Active Forms
 
-    public function getActiveForms(GlobalSettingsService $globalSetting) {
-        $activeForms = $globalSetting->getActiveForms();
+    public function getActiveForms(SettingsService $setting) {
+        $activeForms = $setting->getActiveForms();
         return response()->success($activeForms);
     }
 
-    public function updateActiveForms(GlobalSettingsService $globalSetting, Array $input) {
-        $activeForms = $globalSetting->updateActiveForms($input);
+    public function updateActiveForms(SettingsService $setting, Array $input) {
+        $activeForms = $setting->updateActiveForms($input);
         return response()->success($activeForms);
-
-        /* $forms = [];
-        foreach ($input as $form) $forms[] = self::updateActiveForm($form); 
-        return $forms; */
     }
 
     // Receive Upcoming Solicitudes
 
-    public function getReceiveUpcomingSolicitudes(GlobalSettingsService $globalSetting) {
-        $upcomingSolicitudes = $globalSetting->getActivePeriods();
+    public function getReceiveUpcomingSolicitudes(SettingsService $setting) {
+        $upcomingSolicitudes = $setting->getActivePeriods();
         return response()->success($upcomingSolicitudes);
     }
 
-    public function updateReceiveUpcomingSolicitudes(GlobalSettingsService $globalSetting, Array $input) {
+    public function updateReceiveUpcomingSolicitudes(SettingsService $setting, Array $input) {
         
-        $upcomingSolicitudes = $globalSetting->updateReceiveUpcomingSolicitudes($input);
+        $upcomingSolicitudes = $setting->updateReceiveUpcomingSolicitudes($input);
         return response()->success($upcomingSolicitudes);
-        
-        /* $solicitudes = [];
-        foreach ($input as $solicitude) $solicitudes[] = self::updateReceiveUpcomingSolicitude($solicitude);  
-        return $solicitudes; */
     }
 
 

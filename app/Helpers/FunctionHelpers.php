@@ -1,7 +1,12 @@
 <?php
 
 use App\Enums\TypesQuestion;
-use \App\Services\GlobalSettingsService;
+use App\Services\SettingsService;
+use App\Services\StorageService;
+use App\Services\UserService;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 if (!function_exists('to_boolean')) {
 
@@ -33,13 +38,64 @@ if (!function_exists('get_data_regarding_type')) {
 
 }
 
+if (!function_exists('base64ToUploadedFile')) {
+
+    function base64ToUploadedFile(string $base64File): UploadedFile
+    {
+        // Get file data base64 string
+        $fileData = base64_decode(Arr::last(explode(',', $base64File)));
+
+        // Create temp file and get its absolute path
+        $tempFile = tmpfile();
+        $tempFilePath = stream_get_meta_data($tempFile)['uri'];
+
+        // Save file data in file
+        file_put_contents($tempFilePath, $fileData);
+
+        $tempFileObject = new File($tempFilePath);
+        $file = new UploadedFile(
+            $tempFileObject->getPathname(),
+            $tempFileObject->getFilename(),
+            $tempFileObject->getMimeType(),
+            0,
+            true // Mark it as test, since the file isn't from real HTTP POST.
+        );
+
+        // Close this file after response is sent.
+        // Closing the file will cause to remove it from temp director!
+        app()->terminating(function () use ($tempFile) {
+            fclose($tempFile);
+        });
+
+        // return UploadedFile object
+        return $file;
+    }
+}
+
+// Services 
+
 if (!function_exists('settings')) {
 
     function settings() {
-        // App()->make(GlobalSettingsService::class); please let this code just for knowledge
-        $settings = app(GlobalSettingsService::class);
+        // $settings = App()->make(SettingsService::class); please let this code just for knowledge
         // dd($settings->getActivePeriods()); let this one as well
-        return  $settings;
+        return app(SettingsService::class);
+    }
+
+}
+
+if (!function_exists('user')) {
+
+    function user() {
+        return app(UserService::class);
+    }
+
+}
+
+if (!function_exists('storage')) {
+
+    function storage() {
+        return app(StorageService::class);
     }
 
 }

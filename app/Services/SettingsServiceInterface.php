@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-interface GlobalSettingsServiceInterface {
+interface SettingsServiceInterface {
     
     // Active Periods
     public function getActivePeriods();
@@ -16,7 +16,7 @@ interface GlobalSettingsServiceInterface {
 
     // Receive Upcoming Solicitudes
     public function getReceiveUpcomingSolicitudes();
-    public function updateReceiveUpcomingSolicitudes($input);
+    public function updateReceiveUpcomingSolicitudes(Array $input);
     public function updateReceiveUpcomingSolicitude($input);
 
 }

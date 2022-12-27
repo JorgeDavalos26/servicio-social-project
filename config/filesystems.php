@@ -36,6 +36,12 @@ return [
             'throw' => false,
         ],
 
+        'local_custom' => [
+            'driver' => 'local',
+            'root' => 'J:\\datos\\pruebas2-archivos',
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
