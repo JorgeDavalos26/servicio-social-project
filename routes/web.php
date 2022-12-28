@@ -69,11 +69,11 @@ Route::prefix('api')->group(function () {
     Route::get('answers', [AnswerController::class, 'index']);
     Route::post('answers', [AnswerController::class, 'store']);
     Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk']);
-    Route::post('answers/{answer}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
+    Route::post('answers/{solicitude}/{question}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
     Route::get('answers/{answer}', [AnswerController::class, 'show']);
     Route::put('answers/{answer}', [AnswerController::class, 'update']);
     Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
-    
+
     Route::get('settings', [SettingController::class, 'index']);
     Route::post('settings', [SettingController::class, 'store']);
     Route::get('settings/{setting}', [SettingController::class, 'show']);

@@ -12,6 +12,8 @@ use App\Http\Requests\AnswerUpdateRequest;
 use App\Http\Resources\AnswerCollection;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
+use App\Models\Question;
+use App\Models\Solicitude;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -61,10 +63,14 @@ class AnswerController extends Controller
         return response()->success(new AnswerCollection($answers));
     }
 
-    public function updateMediaAnswer(Answer $answer, AnswerMediasPostRequest $request) {
+    public function updateMediaAnswer(Solicitude $solicitude, Question $question, AnswerMediasPostRequest $request)
+    {
         $input = $request->validated();
-        $answer = AnswerHelper::updateMediaAnswer($answer, $input);
+        $answer = AnswerHelper::updateMediaAnswer($solicitude, $question, $input);
+
+        if ($answer == null) return response()->error("Field type not matched", 401);
+
         return response()->success(new AnswerResource($answer));
     }
-    
+
 }
