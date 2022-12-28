@@ -66,12 +66,6 @@
         </div>
     </div>
 
-    @php  
-        echo "example para el yisus";
-        echo "<br><br>";
-        echo settings()->getActivePeriods();
-    @endphp
-
     <div class="container">
         <div class="mb-5">
             @foreach($solicitudes as $application)

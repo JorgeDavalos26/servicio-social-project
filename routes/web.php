@@ -153,15 +153,17 @@ Route::get('/formulario', function () {
 
 Route::get('/solicitud/{id}', function () {
 
-    $solicitude = Solicitude::find(request()->id);
+    $solicitudeId = request()->id;
 
     if (!Auth::check()) return redirect()->route('login_view');
 
-    if (!is_numeric($solicitude->id))
+    if (!is_numeric($solicitudeId))
         return redirect()->route('home_view');
 
-    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitude->id))
+    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
         return redirect()->route('home_view');
+
+    $solicitude = Solicitude::find($solicitudeId);
 
     return view('solicitude_view', [
         'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true)

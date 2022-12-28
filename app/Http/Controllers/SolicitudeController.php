@@ -57,8 +57,7 @@ class SolicitudeController extends Controller
     }
 
     public function getComplete(Solicitude $solicitude) {
-        if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
-        if ($solicitude == null) return response()->error("Only solicitude owner can access it", null, 401);
+        //if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
         return response()->success(new SolicitudeCompleteResource($solicitude));
     }
 

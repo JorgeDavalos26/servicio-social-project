@@ -1,11 +1,5 @@
 @extends("templates.main_gobmx_template")
 
-@section("script")
-
-    @vite(['resources/js/solicitude_view.js'])
-
-@endsection
-
 @section("template")
 
     @vite(['resources/css/solicitude-view.css'])
@@ -29,10 +23,11 @@
                         @if($question["type"] == "datetime")
                             <div class="form-group datepicker-group">
                                 <input
-                                    class="form-control"
+                                    class="form-control datepicker"
                                     id="{{$question['id']}}"
                                     type="text"
                                     name="{{$question['backendName']}}"
+                                    {!!$question['required'] == 'true' ? 'required' : ''!!}
                                     value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"/>
                                 <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
                             </div>
@@ -43,6 +38,7 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
+                                        {!!$question['required'] == 'true' ? 'required' : ''!!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> Sí
                                 </label>
@@ -51,16 +47,27 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
+                                        {!!$question['required'] == 'true' ? 'required' : ''!!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> No
                                 </label>
                             </div>
+                        @elseif($question["type"] == "file")
+                            <input
+                                id="{{$question['id']}}"
+                                class="question-answer-input form-control"
+                                type="file"
+                                name="{{$question['backendName']}}"
+                                {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"
+                            />
                         @else
                             <input id="{{$question['id']}}"
                                    class="question-answer-input form-control"
                                    type="{{$question['type'] == 'string' ? 'text' : 'number'}}"
                                    name="{{$question['backendName']}}"
-                                   value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"/>
+                                   {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                   value="{{isset($question['answer']) ? $question['answer']['value'] : ""}}"/>
                         @endif
                     </div>
                 @endforeach
@@ -73,5 +80,40 @@
             </form>
         </div>
     </div>
+
+@endsection
+
+@section("script")
+
+    @vite(['resources/js/solicitude_view.js'])
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("$(document).ready has been called!");
+            $.datepicker.regional.es = {
+                closeText: 'Cerrar',
+                prevText: 'Ant',
+                nextText: 'Sig',
+                currentText: 'Hoy',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'S&aacute;b'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
+
+            $.datepicker.setDefaults($.datepicker.regional.es);
+
+            $(".datepicker").each((_, element) => {
+                element.datepicker();
+            })
+        });
+    </script>
 
 @endsection
