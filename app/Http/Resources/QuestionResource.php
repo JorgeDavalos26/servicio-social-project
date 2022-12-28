@@ -16,10 +16,14 @@ class QuestionResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "backendName" => $this->field->backend_name,
             "frontendName" => $this->field->frontend_name,
+            "type" => $this->field->type,
             "hidden" => $this->hidden,
             "blocked" => $this->blocked,
-            "updatedAt" => $this->updated_at,
+            "required" => $this->required,
+            "answer" => $this->answer,
+            "updatedAt" => $this->updated_at
         ];
     }
 }

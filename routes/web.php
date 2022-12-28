@@ -41,12 +41,12 @@ Route::prefix('api')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
     });
 
-    Route::get('solicitudes/complete/{id}', [SolicitudeController::class, 'getComplete']);
     Route::get('solicitudes', [SolicitudeController::class, 'index']);
     Route::post('solicitudes', [SolicitudeController::class, 'store']);
     Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
     Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
     Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
+    Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete']);
 
     Route::get('periods', [PeriodController::class, 'index']);
     Route::post('periods', [PeriodController::class, 'store']);

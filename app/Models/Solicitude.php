@@ -26,7 +26,7 @@ class Solicitude extends Model
         return $this->belongsTo(Form::class, "form_id", "id");
     }
 
-    public function responses()
+    public function answers()
     {
         return $this->hasMany(Answer::class, "solicitude_id", "id");
     }
