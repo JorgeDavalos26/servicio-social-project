@@ -2,14 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Enums\ScholarCourse;
-use App\Enums\ScholarLevel;
 use App\Enums\SolicitudeStatus;
-use App\Models\Answer;
-use App\Models\Field;
-use App\Models\Form;
-use App\Models\Question;
-use App\Models\Setting;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,45 +80,4 @@ class SolicitudeHelper
 
         return $solicitude['user_id'] == Auth::user()->id;
     }
-
-    public static function getSolicitudeWithQuestionsAndAnswers(int $solicitudeId): ?array
-    {
-        $solicitude = Solicitude::with(['form', 'period'])
-            ->where('id', $solicitudeId)
-            ->first();
-
-        if (!$solicitude) return null;
-
-        $toReturn = [
-            'solicitudeId' => $solicitudeId,
-            'status' => $solicitude['status'],
-            'periodLabel' => $solicitude['period']['label'],
-            'questions' => []
-        ];
-
-        $questions = Question::with(['field'])
-            ->where('form_id', $solicitude['form']['id'])
-            ->get();
-
-        foreach ($questions as $question) {
-            $answer = Answer::where('question_id', $question['id'])
-                ->where('solicitude_id', $solicitudeId)
-                ->first();
-
-            $toReturn['questions'][] = [
-                    'id' => $question['id'],
-                    'hidden' => $question['hidden'],
-                    'blocked' => $question['blocked'],
-                    'backendName' => $question['field']['backend_name'],
-                    'frontendName' => $question['field']['frontend_name'],
-                    'type' => $question['field']['type']
-                ] + ($answer ? ['answer' => [
-                    'id' => $answer['id'],
-                    'value' => $answer['value']
-                ]] : []);
-        }
-
-        return $toReturn;
-    }
-
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\SolicitudesGetRequest;
 use App\Http\Requests\SolicitudesPostRequest;
 use App\Http\Requests\SolicitudesUpdateRequest;
 use App\Http\Resources\SolicitudeCollection;
+use App\Http\Resources\SolicitudeCompleteResource;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
@@ -55,14 +56,10 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
-    public function getComplete(int $solicitudeId) {
+    public function getComplete(Solicitude $solicitude) {
         if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
-
-        $solicitude = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers($solicitudeId);
-
         if ($solicitude == null) return response()->error("Only solicitude owner can access it", null, 401);
-
-        return response()->success($solicitude);
+        return response()->success(new SolicitudeCompleteResource($solicitude));
     }
 
     public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection

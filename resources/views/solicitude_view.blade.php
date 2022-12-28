@@ -17,7 +17,7 @@
                 {{$solicitude['status']}}
             </span>
             <span>
-                {{$solicitude['periodLabel']}}
+                {{$solicitude['period']['label']}}
             </span>
             <form id="solicitude_form">
                 @foreach($solicitude['questions'] as $question)

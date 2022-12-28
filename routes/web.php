@@ -8,6 +8,8 @@ use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SolicitudeController;
+use App\Http\Resources\SolicitudeCompleteResource;
+use App\Models\Solicitude;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,12 +43,12 @@ Route::prefix('api')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
     });
 
-    Route::get('solicitudes/complete/{id}', [SolicitudeController::class, 'getComplete']);
     Route::get('solicitudes', [SolicitudeController::class, 'index']);
     Route::post('solicitudes', [SolicitudeController::class, 'store']);
     Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
     Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
     Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
+    Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete']);
 
     Route::get('periods', [PeriodController::class, 'index']);
     Route::post('periods', [PeriodController::class, 'store']);
@@ -151,20 +153,18 @@ Route::get('/formulario', function () {
 
 Route::get('/solicitud/{id}', function () {
 
+    $solicitude = Solicitude::find(request()->id);
+
     if (!Auth::check()) return redirect()->route('login_view');
 
-    $solicitudeId = request()->id;
-
-    if (!is_numeric($solicitudeId))
+    if (!is_numeric($solicitude->id))
         return redirect()->route('home_view');
 
-    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
+    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitude->id))
         return redirect()->route('home_view');
-
-    $solicitude = SolicitudeHelper::getSolicitudeWithQuestionsAndAnswers($solicitudeId);
 
     return view('solicitude_view', [
-        'solicitude' => $solicitude
+        'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true)
     ]);
 
 })->name('solicitude_view');

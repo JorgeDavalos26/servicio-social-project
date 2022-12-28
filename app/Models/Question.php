@@ -14,6 +14,7 @@ class Question extends Model
         'field_id',
         'hidden',
         'blocked',
+        'required',
     ];
 
     protected $casts = [

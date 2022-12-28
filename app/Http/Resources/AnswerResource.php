@@ -18,42 +18,34 @@ class AnswerResource extends JsonResource
     {
         $answerValue = $this->value;
 
-        if ($this->question->type == TypesQuestion::FILE) {
+        if ($this->question->field->type == TypesQuestion::FILE->value) {
             if (Storage::disk('local_custom')->exists($this->value)) {
-                $contents = Storage::disk("local_custom")->get($this->value);
+                $relativePath = $this->value;
+                $fullPath = Storage::disk('local_custom')->path($relativePath);
+                $contents = Storage::disk("local_custom")->get($relativePath);
+                $base64 = base64_encode($contents); // contents of file to base64
+                $answerValue = 'data:'.mime_content_type($fullPath).';base64,'.$base64; // format: data:{mime};base64,{base64 data};
             }
             else {
-                $contents = null;
+                $answerValue = null;
             }
-            $answerValue = $contents;
         }
-        else if ($this->question->type == TypesQuestion::INT) {
-
+        else if ($this->question->field->type == TypesQuestion::INT->value) {
+            $answerValue = (int) $answerValue;
         }
-        else if ($this->question->type == TypesQuestion::FLOAT) {
-
+        else if ($this->question->field->type == TypesQuestion::FLOAT->value) {
+            $answerValue = (float) $answerValue;
         }
-        else if ($this->question->type == TypesQuestion::BOOLEAN) {
-
+        else if ($this->question->field->type == TypesQuestion::BOOLEAN->value) {
+            $answerValue = to_boolean($answerValue);
         }
-        else if ($this->question->type == TypesQuestion::DATETIME) {
-
-        }
-        else if ($this->question->type == TypesQuestion::MULTIPLE) {
-
-        }
-        else if ($this->question->type == TypesQuestion::TIME) {
-
+        else if ($this->question->field->type == TypesQuestion::MULTIPLE->value) {
+            
         }
 
         return [
             "id" => $this->id,
             "questionId" => $this->question_id,
-            "questionFrontendName" => $this->question->field->frontend_name,
-            "questionHidden" => $this->question->hidden,
-            "questionBlocked" => $this->question->blocked,
-            "questionRequired" => $this->question->required,
-            "solicitudeId" => $this->solicitude_id,
             "value" => $answerValue,
             "updatedAt" => $this->updated_at,
         ];
