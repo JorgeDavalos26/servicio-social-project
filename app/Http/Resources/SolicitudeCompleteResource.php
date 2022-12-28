@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Answer;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SolicitudeCompleteGetResource extends JsonResource
+class SolicitudeCompleteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class SolicitudeCompleteGetResource extends JsonResource
     {
         $questions = $this->form->questions; // get questions of the solicitude's form
         $answers = $this->answers; // get solicitude's answers
-        
+
         foreach ($questions as &$question) { // check if each question has an answer already
             $answer = $answers->where('question_id', '=', $question->id)->first(); // get the answer of given question
             if ($answer != null) $question['answer'] = new AnswerResource($answer); // insert the formatted answer into question
