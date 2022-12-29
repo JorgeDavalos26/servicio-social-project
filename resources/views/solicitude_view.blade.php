@@ -107,12 +107,14 @@
                 showMonthAfterYear: false,
                 yearSuffix: ''
             };
-
             $.datepicker.setDefaults($.datepicker.regional.es);
 
-            $(".datepicker").each((_, element) => {
-                element.datepicker();
-            })
+
+            const datePickerElements = document.getElementsByClassName("datepicker");
+
+            for(let element of datePickerElements) {
+                $(`#${element.id}`).datepicker();
+            }
         });
     </script>
 
