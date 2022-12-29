@@ -6,6 +6,7 @@ use App\Http\Requests\FormGetRequest;
 use App\Http\Requests\FormPostRequest;
 use App\Http\Requests\FormPutRequest;
 use App\Models\Form;
+use Illuminate\Support\Facades\DB;
 
 class FormHelper
 {
@@ -22,8 +23,8 @@ class FormHelper
         }
 
         if (isset($getRequest['paginated']) && to_boolean($getRequest['paginated'])) {
-            if(!isset($getRequest['perPage'])) $getRequest['perPage'] = 10;
-            if(!isset($getRequest['page'])) $getRequest['page'] = 1;
+            if (!isset($getRequest['perPage'])) $getRequest['perPage'] = 10;
+            if (!isset($getRequest['page'])) $getRequest['page'] = 1;
         } else {
             $getRequest['perPage'] = 10;
             $getRequest['page'] = 1;
@@ -35,7 +36,8 @@ class FormHelper
         return $forms;
     }
 
-    public static function createForm($input) {
+    public static function createForm($input)
+    {
         return Form::create([
             'description' => $input['description'],
             'scholar_course' => $input['scholarCourse'],
@@ -54,5 +56,21 @@ class FormHelper
         $form->save();
 
         return $form;
+    }
+
+    public static function parseFormsToSelectElement(array $formsIds): array
+    {
+        $forms = Form::whereIn('id', $formsIds)->get();
+
+        $formattedForms = [];
+
+        foreach ($forms as $form) {
+            $formattedForms[] = [
+                'id' => $form->id,
+                'text' => $form->scholar_level . ' - ' . $form->scholar_course
+            ];
+        }
+
+        return $formattedForms;
     }
 }

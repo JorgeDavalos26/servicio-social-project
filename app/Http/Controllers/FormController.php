@@ -91,19 +91,4 @@ class FormController extends Controller
 
         return response()->success(new FormResource($form));
     }
-
-    public static function getFormsToSelect() {
-        $forms = Form::all();
-
-        $formattedForms = [];
-
-        foreach ($forms as $form) {
-            $formattedForms[] = [
-                'id' => $form->id,
-                'text' => $form->scholar_level . ' - ' . $form->scholar_course
-            ];
-        }
-
-        return $formattedForms;
-    }
 }

@@ -40,6 +40,8 @@ class SolicitudeController extends Controller
         $input = $request->validated();
         $newSolicitude = SolicitudeHelper::createSolicitude($input);
 
+        if ($newSolicitude == null) return response()->error("Form not found", 404);
+
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
@@ -56,7 +58,8 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
-    public function getComplete(Solicitude $solicitude) {
+    public function getComplete(Solicitude $solicitude)
+    {
         //if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
         return response()->success(new SolicitudeCompleteResource($solicitude));
     }

@@ -28,12 +28,12 @@ class SolicitudesPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'userId' => ['required', 'integer', 'numeric', 'min:1'],
+            'userId' => ['sometimes', 'required', 'integer', 'numeric', 'min:1'],
             'formId' => ['required', 'integer', 'numeric', 'min:1'],
             'status' => ['sometimes', 'required', new Enum(SolicitudeStatus::class)],
-            'scholarLevel' => ['required_with:scholarCourse', new Enum(ScholarLevel::class)],
-            'scholarCourse' => ['required_with:scholarLevel', new Enum(ScholarCourse::class)],
-            'periodId' => ['required_without_all:scholarLevel,scholarCourse', 'integer', 'numeric', 'min:1'],
+//            'scholarLevel' => ['required_with:scholarCourse', new Enum(ScholarLevel::class)],
+//            'scholarCourse' => ['required_with:scholarLevel', new Enum(ScholarCourse::class)],
+//            'periodId' => ['required_without_all:scholarLevel,scholarCourse', 'integer', 'numeric', 'min:1'],
         ];
     }
 }

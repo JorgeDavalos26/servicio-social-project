@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Enums\SolicitudeStatus;
+use App\Models\Form;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,13 +51,21 @@ class SolicitudeHelper
 
     public static function createSolicitude($input)
     {
-        if (isset($input['scholarLevel']) && isset($input['scholarCourse'])) {
-            $periodId = PeriodHelper::getPeriodIdGivenScholarTerms($input['scholarLevel'], $input['scholarCourse']);
-            $input['periodId'] = $periodId;
+        $form = Form::find($input['formId']);
+
+        if (!$form) return null;
+
+        $periodId = PeriodHelper::getPeriodIdGivenScholarTerms($form->scholar_level, $form->scholar_course);
+        $input['periodId'] = $periodId;
+
+        if (!isset($input['userId'])) {
+            $input['userId'] = Auth::user()->id;
         }
+
         if (!isset($input['status'])) {
             $input['status'] = SolicitudeStatus::NEW;
         }
+
         return Solicitude::create([
             'user_id' => $input['userId'],
             'form_id' => $input['formId'],

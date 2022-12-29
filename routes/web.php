@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\FormHelper;
+use App\Helpers\SettingHelper;
 use App\Helpers\SolicitudeHelper;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
@@ -115,8 +117,10 @@ Route::get('/inicio', function () {
 
     //if(Auth::user()->is_admin) return view('admin_view');
 
+    $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
+
     return view('home_view', [
-        'forms' => FormController::getFormsToSelect(),
+        'forms' => $parsedForms,
         'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
         'userId' => Auth::user()->id
     ]);
