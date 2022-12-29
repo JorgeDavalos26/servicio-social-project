@@ -1,16 +1,26 @@
-import { env } from "./environment";
+import {env} from "./environment";
 
-window.saveSolicitude = () => {
+window.saveSolicitude = async () => {
     const formId = document.getElementById("solicitude_type_select").value;
 
-    postData(`${env.APP_URL}/api/auth/login`, data)
-        .then(res =>
-        {
-            console.log(res)
-            if(res.error == null) window.location.href=`${env.APP_URL}/inicio`;
-            else addToast('danger', res.error, 5);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    try {
+        const res = await postData(`${env.APP_URL}/api/solicitudes`, {formId});
+
+        console.log(res)
+        if (res.error == null)
+            window.location.href = `${env.APP_URL}/solicitud/${res.data.id}`;
+        else
+            addToast('danger', res.error, 5);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+window.deleteSolicitude = async (solicitudeId) => {
+    try {
+        await deleteData(`${env.APP_URL}/api/solicitudes/${solicitudeId}`);
+        location.reload();
+    } catch (e) {
+        console.log(e);
+    }
 }
