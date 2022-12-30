@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("frontend_name", 50);
             $table->string("type", 30);
             $table->string("regex_validation", 255)->default("");
+            $table->text("select_values")->default("");
             $table->timestamps();
         });
     }
