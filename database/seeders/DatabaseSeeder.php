@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "exterior", "frontend_name" => "Exterior"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "interior", "frontend_name" => "Interior"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "colonia", "frontend_name" => "Colonia"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "cp", "frontend_name" => "Código Postal"]);
+        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "cp", "frontend_name" => "Código Postal", "regex_validation" => "^[0-9]{5}$"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "municipio", "frontend_name" => "Municipio"]);
         Field::factory()->create(["type" => TypesQuestion::SELECT, "backend_name" => "estados_id", "frontend_name" => "Estado", "select_values" => "Aguascalientes|Baja California|Baja California Sur|Campeche|Ciudad de México|Coahuila|Colima|Chiapas|Chihuahua|Durango|Estado de México|Guanajuato|Guerrero|Hidalgo|Jalisco|Michoacán|Morelos|Nayarit|Nuevo León|Oaxaca|Puebla|Querétaro|Quintana Roo|San Luis Potosí|Sinaloa|Sonora|Tabasco|Tamaulipas|Tlaxcala|Veracruz|Yucatán|Zacatecas"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "telefono_fam", "frontend_name" => "Teléfono Familiar"]);

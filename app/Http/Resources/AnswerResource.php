@@ -39,9 +39,6 @@ class AnswerResource extends JsonResource
         else if ($this->question->field->type == TypesQuestion::BOOLEAN->value) {
             $answerValue = to_boolean($answerValue);
         }
-        else if ($this->question->field->type == TypesQuestion::MULTIPLE->value) {
-            
-        }
 
         return [
             "id" => $this->id,

@@ -49,7 +49,7 @@ solicitudeForm.addEventListener('submit', async (event) => {
 
         addAlert('success', 'Solicitud actualizada!', 10);
 
-        window.location.href=`${env.APP_URL}/inicio`;
+        //window.location.href=`${env.APP_URL}/inicio`;
 
     } catch (error) {
         console.log(error);
@@ -77,6 +77,14 @@ const getBaseAnswersToSend = (solicitudeId, questionsFromApi) => {
             const radioGroup = document.querySelector(`input[name=${question.backendName}]:checked`);
             if (!radioGroup) continue;
             answerValue = radioGroup.value;
+        } else if (question.type === "select" || question.type === "multiple") {
+            const selectedOptions = [];
+            for (let option of document.getElementById(question.id).options) {
+                if (option.selected) {
+                    selectedOptions.push(option.value);
+                }
+            }
+            answerValue = selectedOptions.join('|');
         } else {
             answerValue = formInputs[question.backendName].value;
         }
