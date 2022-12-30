@@ -10,7 +10,9 @@ use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeCompleteResource;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
+use App\Policies\SolicitudePolicy;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SolicitudeController extends Controller
 {
@@ -33,10 +35,6 @@ class SolicitudeController extends Controller
 
     public function store(SolicitudesPostRequest $request)
     {
-        if (!Auth::check()) {
-            return response()->error("Must be authenticated", null, 401);
-        }
-
         $input = $request->validated();
         $newSolicitude = SolicitudeHelper::createSolicitude($input);
 
@@ -60,7 +58,6 @@ class SolicitudeController extends Controller
 
     public function getComplete(Solicitude $solicitude)
     {
-        //if (!Auth::check()) return response()->error("Must be authenticated", null, 401);
         return response()->success(new SolicitudeCompleteResource($solicitude));
     }
 

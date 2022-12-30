@@ -26,11 +26,11 @@ class UserService {
     }
 
     public function isAdmin() {
-        return Auth::user()->isAdmin;
+        return Auth::user()->is_admin;
     }
 
     public function isSupport() {
-        return Auth::user()->isSupport;
+        return Auth::user()->is_support;
     }
 
 }

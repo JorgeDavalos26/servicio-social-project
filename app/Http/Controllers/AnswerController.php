@@ -6,7 +6,6 @@ use App\Helpers\AnswerHelper;
 use App\Http\Requests\AnswerGetRequest;
 use App\Http\Requests\AnswerMediasPostRequest;
 use App\Http\Requests\AnswerPostRequest;
-use App\Http\Requests\AnswersMediaPostRequest;
 use App\Http\Requests\AnswersPostRequest;
 use App\Http\Requests\AnswerUpdateRequest;
 use App\Http\Resources\AnswerCollection;
@@ -14,8 +13,6 @@ use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Solicitude;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AnswerController extends Controller
 {

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
@@ -58,6 +59,9 @@ class Handler extends ExceptionHandler
         else if ($exception instanceof ValidationException) {
             return response()->error($exception->errors(), null, 400);
         } 
+        else if ($exception instanceof AuthorizationException) {
+            return response()->error("You don't have enough privileges for this resource", null, 403);
+        }
 
         return parent::render($request, $exception);
     }

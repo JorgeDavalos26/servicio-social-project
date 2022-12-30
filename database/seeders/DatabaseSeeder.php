@@ -59,22 +59,36 @@ class DatabaseSeeder extends Seeder
             "email" => "delia@gmail.com",
             "username" => "Delia",
             "is_admin" => true,
-            "is_support" => false
+            "is_support" => true
         ]);
 
         $user5 = User::factory()->create([
-            "email" => "user@gmail.com",
-            "username" => "Bonifacio Mesa",
+            "email" => "mario@gmail.com",
+            "username" => "Mario",
             "is_admin" => false,
+            "is_support" => false
+        ]);
+
+        $user6 = User::factory()->create([
+            "email" => "support@gmail.com",
+            "username" => "Support support",
+            "is_admin" => false,
+            "is_support" => true
+        ]);
+
+        $user7 = User::factory()->create([
+            "email" => "admin@gmail.com",
+            "username" => "Admin admin",
+            "is_admin" => true,
             "is_support" => false
         ]);
 
         // Test user
         $testUser = User::factory()->create([
             "email" => "test@gmail.com",
-            "username" => "Test Test",
-            "is_admin" => true,
-            "is_support" => true
+            "username" => "Test test",
+            "is_admin" => false,
+            "is_support" => false
         ]);
 
         //------------------------------------ fields
