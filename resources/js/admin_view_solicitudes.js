@@ -4,10 +4,12 @@ let page = 1;
 const perPage = 10;
 let scholarLevel;
 let scholarCourse;
+let status;
 
 const btnFilter = $("#btn-filter");
 const selectSchoolarLevel = $("#select-scholar-level");
 const selectCourseLevel = $("#select-course-level");
+const selectSolicitudeStatus = $("#select-solicitude-status");
 
 /**
  * Function to update table of solicitudes
@@ -37,6 +39,7 @@ const renderTable = (data = [], tbody = "#table_admin_body") => {
 const filterData = () => {
     scholarLevel = selectSchoolarLevel.find(":selected").text() ?? "Tecnólogo";
     scholarCourse = selectCourseLevel.find(":selected").text() ?? "Nivelación";
+    status = selectSolicitudeStatus.find(":selected").text() ?? "Nuevo";
 };
 
 /**
@@ -47,7 +50,7 @@ const filterData = () => {
 const fetchSolicitudes = async (processData = (data) => {}) => {
     const url = `${
         env.APP_URL
-    }/api/solicitudes?paginated=${true}&perPage=${perPage}&page=${page}&scholarLevel=${scholarLevel}&scholarCourse=${scholarCourse}`;
+    }/api/solicitudes?paginated=${true}&perPage=${perPage}&page=${page}&scholarLevel=${scholarLevel}&scholarCourse=${scholarCourse}&status=${status}`;
     const res = await getData(url);
 
     if (res.status == 200) {
