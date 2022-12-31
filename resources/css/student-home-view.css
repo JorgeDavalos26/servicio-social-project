@@ -1,9 +1,32 @@
-#go-to-profile-link {
+.new-registry-btn {
+    text-decoration: none;
+    font-weight: 500;
+    border: solid 2px #131314;
+    background-color: white;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.new-registry-btn:hover {
+    border-color: #BC955C;
+    color: #BC955C;
+}
+
+.go-to-profile-link {
     text-decoration: none;
     color: #6F7271;
     transition: 0.5s;
 }
 
-#go-to-profile-link:hover {
+.go-to-profile-link:hover {
     color: #F8963A;
+}
+
+.help-icon {
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.help-icon:hover {
+    color: #BC955C;
 }

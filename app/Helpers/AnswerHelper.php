@@ -3,32 +3,32 @@
 namespace App\Helpers;
 
 use App\Enums\TypesQuestion;
-use App\Models\answer;
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Solicitude;
 use Illuminate\Support\Arr;
 
-class AnswerHelper {
+class AnswerHelper
+{
 
-    public static function getAnswers(&$input) {
+    public static function getAnswers(&$input)
+    {
         // Specific from a solicitude
         $answers = Answer::where("solicitude_id", $input['solicitudeId']);
 
         // Pagination
         if (isset($input['paginated']) && to_boolean($input['paginated'])) {
-            if(!isset($input['perPage'])) $input['perPage'] = 10;
-            if(!isset($input['page'])) $input['page'] = 1;
-        }
-        else {
+            if (!isset($input['perPage'])) $input['perPage'] = 10;
+            if (!isset($input['page'])) $input['page'] = 1;
+        } else {
             $input['page'] = 1;
             $input['perPage'] = 100000;
         }
 
         // OrderBy
         if (isset($input['orderBy'])) {
-            $answers = $answers->orderBy('id', to_boolean($input['orderBy'])?'asc':'desc');
-        }
-        else {
+            $answers = $answers->orderBy('id', to_boolean($input['orderBy']) ? 'asc' : 'desc');
+        } else {
             $answers = $answers->orderBy('id', 'asc');
         }
 
@@ -38,7 +38,8 @@ class AnswerHelper {
         return $answers;
     }
 
-    public static function createAnswer($input) {
+    public static function createAnswer($input)
+    {
         return Answer::create([
             'question_id' => $input['questionId'],
             'solicitude_id' => $input['solicitudeId'],
@@ -46,63 +47,106 @@ class AnswerHelper {
         ]);
     }
 
-    public static function createBulkAnswers($input) {
+    public static function createBulkAnswers($input)
+    {
         $solicitude = Solicitude::find($input['solicitudeId']);
-        $period = $solicitude->period;
         $answers = [];
-        
-        foreach($input['answers'] as $questionAnswer) {
+
+        foreach ($input['answers'] as $questionAnswer) {
             $question = Question::find($questionAnswer['questionId']);
             $field = $question->field;
             $answerValue = $questionAnswer['answer'];
-            $value = "";
+//            if ($field->type == TypesQuestion::FILE->value) {
+//                $file = base64ToUploadedFile($answerValue);
+//                $value = storage()->storeMedia($file, 'local_custom', $period->label);
+//            } else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
+//                foreach ($answerValue as $v) {
+//                    $file = base64ToUploadedFile($v);
+//                    $value .= storage()->storeMedia($file, 'local_custom', $period->label) . "|";
+//                }
+//            } else {
+//                $value = $answerValue;
+//            }
 
-            if ($field->type == TypesQuestion::FILE->value) {
-                $file = base64ToUploadedFile($answerValue);
-                $value = storage()->storeMedia($file, 'local_custom', $period->label);
+            if ($field->type == TypesQuestion::FILE || $field->type == TypesQuestion::MULTIPLE_FILE) {
+                continue;
             }
-            else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
-                foreach ($answerValue as $v) {
-                    $file = base64ToUploadedFile($v);
-                    $value .= storage()->storeMedia($file, 'local_custom', $period->label) . "|";
+
+            if ($field->type == TypesQuestion::BOOLEAN && $answerValue != "true" && $answerValue != "false") {
+                continue;
+            }
+
+            if ($field->type == TypesQuestion::SELECT || $field->type == TypesQuestion::MULTIPLE) {
+                $selected = explode("|", $answerValue);
+                $allValuesValid = true;
+                foreach ($selected as $selectValue) {
+                    if (!str_contains($field->select_values, $selectValue)) {
+                        $allValuesValid = false;
+                        break;
+                    }
+                }
+
+                if (!$allValuesValid) {
+                    break;
                 }
             }
-            else {
-                $value = $answerValue;
-            }
 
-            $answers[] = Answer::create([
-                'question_id' => $question->id,
-                'solicitude_id' => $solicitude->id,
-                'value' => $value,
-            ]);
+            $answer = self::getAnswerWithSolicitudeIdAndQuestionId($solicitude->id, $question->id);
+
+            $answer->value = $answerValue;
+            $answer->save();
+
+            $answers[] = $answer;
         }
         return $answers;
     }
 
-    public static function updateMediaAnswer($answer, Array $files) {
-        $period = $answer->solicitude->period;
-        $field = $answer->question->field;
+    public static function updateMediaAnswer(Solicitude $solicitude, Question $question, array $files)
+    {
+        $period = $solicitude->period;
+        $field = $question->field;
         $answerValue = "";
 
         if ($field->type == TypesQuestion::FILE) {
             $file = Arr::first($files);
             $path = storage()->storeMedia($file, 'local_custom', $period->label);
             $answerValue = $path;
-        } 
-        else if ($field->type == TypesQuestion::MULTIPLE_FILE) {
+        } else if ($field->type == TypesQuestion::MULTIPLE_FILE) {
             foreach ($files as $file) {
                 $path = storage()->storeMedia($file, 'local_custom', $period->label);
                 $answerValue .= $path . "|";
             }
+        } else {
+            return null;
         }
+
+        $answer = self::getAnswerWithSolicitudeIdAndQuestionId($solicitude->id, $question->id);
 
         $answer->value = $answerValue;
         $answer->save();
+
         return $answer;
     }
 
-    public static function updateAnswer($answer, $input) {
+    private static function getAnswerWithSolicitudeIdAndQuestionId($solicitudeId, $questionId)
+    {
+        $answer = Answer::where('question_id', $questionId)
+            ->where('solicitude_id', $solicitudeId)
+            ->first();
+
+        if ($answer == null) {
+            $answer = Answer::create([
+                'question_id' => $questionId,
+                'solicitude_id' => $solicitudeId,
+                'value' => "",
+            ]);
+        }
+
+        return $answer;
+    }
+
+    public static function updateAnswer($answer, $input)
+    {
         if (isset($input['questionId'])) {
             $answer->question_id = $input['questionId'];
         }

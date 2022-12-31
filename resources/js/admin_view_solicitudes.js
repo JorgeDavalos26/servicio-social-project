@@ -19,13 +19,14 @@ const renderTable = (data = [], tbody = "#table_admin_body") => {
     tableBody.empty();
 
     for (const row of data) {
+        console.log(row);
         tableBody.append(`
         <tr>
-            <th scope="row">${row.id}</th>
-            <td>${row.formLabel}</td>
-            <td>${row.formScholarCourse}</td>
-            <td>${row.formScholarLevel}</td>
-            <td>${row.userUsername}</td>
+        <th scope="row">${row.id}</th>
+        <td>${row.form.label}</td>
+        <td>${row.form.scholarCourse}</td>
+        <td>${row.form.scholarLevel}</td>
+        <td>${row.username}</td>
         </tr>
     `);
     }
@@ -48,7 +49,7 @@ const fetchSolicitudes = async (processData = (data) => {}) => {
         env.APP_URL
     }/api/solicitudes?paginated=${true}&perPage=${perPage}&page=${page}&scholarLevel=${scholarLevel}&scholarCourse=${scholarCourse}`;
     const res = await getData(url);
-    console.log(res);
+
     if (res.status == 200) {
         const pages = calculatePages(
             res.additional_data["paginationTotalItems"],

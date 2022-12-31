@@ -2,7 +2,10 @@
 
 namespace App\Helpers;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use App\Models\Period;
+use App\Models\Setting;
 
 class PeriodHelper {
 
@@ -61,6 +64,24 @@ class PeriodHelper {
         }
         $period->save();
         return $period;
+    }
+
+    public static function getPeriodIdGivenScholarTerms($scholarLevel, $scholarCourse) {
+        $key = "";
+
+        foreach(ScholarLevel::cases() as $case)
+            if($case->value == $scholarLevel)
+                $key .= $case->name;
+
+        $key .= "_";
+
+        foreach(ScholarCourse::cases() as $case)
+            if($case->value == $scholarCourse)
+                $key .= $case->name;
+
+        $periodId = Setting::where("key", "PERIODS." . $key . ".ACTIVE_ID_PERIOD")->first()->value;
+
+        return $periodId;
     }
 
 }

@@ -1,11 +1,17 @@
 <?php
 
+use App\Helpers\FormHelper;
+use App\Helpers\SettingHelper;
+use App\Helpers\SolicitudeHelper;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SolicitudeController;
+use App\Http\Resources\SolicitudeCompleteResource;
+use App\Models\Solicitude;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-/* 
+/*
 Route::get('/', function () {
     return view('welcome_view');
 });
@@ -28,14 +34,12 @@ Route::get('/', function () {
 
 /**
  * Data
- * 
+ *
  * Return JSON
  */
 
-Route::prefix('api')->group(function () 
-{
-    Route::prefix('auth')->group(function ()
-    {
+Route::prefix('api')->group(function () {
+    Route::prefix('auth')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('register', [AuthController::class, 'register']);
@@ -46,12 +50,19 @@ Route::prefix('api')->group(function ()
     Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
     Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
     Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
+    Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete']);
 
     Route::get('periods', [PeriodController::class, 'index']);
     Route::post('periods', [PeriodController::class, 'store']);
     Route::get('periods/{period}', [PeriodController::class, 'show']);
     Route::put('periods/{period}', [PeriodController::class, 'update']);
     Route::delete('periods/{period}', [PeriodController::class, 'destroy']);
+
+    Route::get('forms', [FormController::class, 'index']);
+    Route::post('forms', [FormController::class, 'store']);
+    Route::get('forms/{form}', [FormController::class, 'show']);
+    Route::put('forms/{form}', [FormController::class, 'update']);
+    Route::delete('forms/{form}', [FormController::class, 'destroy']);
 
     Route::get('questions', [QuestionController::class, 'index']);
     Route::post('questions', [QuestionController::class, 'store']);
@@ -62,11 +73,11 @@ Route::prefix('api')->group(function ()
     Route::get('answers', [AnswerController::class, 'index']);
     Route::post('answers', [AnswerController::class, 'store']);
     Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk']);
-    Route::post('answers/{answer}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
+    Route::post('answers/{solicitude}/{question}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
     Route::get('answers/{answer}', [AnswerController::class, 'show']);
     Route::put('answers/{answer}', [AnswerController::class, 'update']);
     Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
-    
+
     Route::get('settings', [SettingController::class, 'index']);
     Route::post('settings', [SettingController::class, 'store']);
     Route::get('settings/{setting}', [SettingController::class, 'show']);
@@ -82,9 +93,9 @@ Route::prefix('api')->group(function ()
 
 });
 
-/** 
+/**
  * Views
- * 
+ *
  * Return HTML
  */
 
@@ -101,36 +112,65 @@ Route::get('/gobmx', function () {
 })->name('gobmx');
 
 Route::get('/inicio', function () {
-    if(!Auth::check()) return view('login_view');
+
+    if (!Auth::check()) return view('login_view');
+
     if(Auth::user()->is_admin) return view('admin_view');
-    return view('home_view');
+
+    $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
+
+    return view('home_view', [
+        'forms' => $parsedForms,
+        'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
+        'userId' => Auth::user()->id
+    ]);
 
 })->middleware('auth')->name('home_view');
 
 Route::get('/ingreso', function () {
 
-    if(Auth::check()) return redirect()->route('home_view');
+    if (Auth::check()) return redirect()->route('home_view');
     else return view('login_view');
 
 })->name('login_view');
 
 Route::get('/registro', function () {
-    
-    if(Auth::check()) return redirect()->route('home_view');
+
+    if (Auth::check()) return redirect()->route('home_view');
     else return view('signup_view');
 
 })->name('signup_view');
 
 Route::get('/perfil', function () {
-    
-    if(Auth::check()) return view('profile_view');
+
+    if (Auth::check()) return view('profile_view');
     else return redirect()->route('login_view');
 
 })->name('profile_view');
 
 Route::get('/formulario', function () {
-    
-    if(Auth::check()) return view('form_view');
+
+    if (Auth::check()) return view('form_view');
     else return redirect()->route('login_view');
 
 })->name('form_view');
+
+Route::get('/solicitud/{id}', function () {
+
+    $solicitudeId = request()->id;
+
+    if (!Auth::check()) return redirect()->route('login_view');
+
+    if (!is_numeric($solicitudeId))
+        return redirect()->route('home_view');
+
+    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
+        return redirect()->route('home_view');
+
+    $solicitude = Solicitude::find($solicitudeId);
+
+    return view('solicitude_view', [
+        'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true)
+    ]);
+
+})->name('solicitude_view');

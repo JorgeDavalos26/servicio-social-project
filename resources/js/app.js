@@ -8,13 +8,13 @@ window.getData = async function (url = "") {
     return response.json();
 }
 
-window.postData = async (url = "", data = {}) => {
+window.postData = async (url = "", data = {}, contentType = 'application/json; charset=UTF-8') => {
 
     const postData = {
         method: 'POST',
         body: JSON.stringify(data),
         headers: new Headers({
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': contentType
         })
     }
     const response = await fetch(url, postData);
@@ -126,7 +126,7 @@ let idToast = 0
 
 let generateToast = (type, msg, idToast) => {
     return `
-        <div id="toast-${idToast}" class="alert alert-${type} m-1 p-2 alert-dismissible fade show" role="alert" 
+        <div id="toast-${idToast}" class="alert alert-${type} m-1 p-2 alert-dismissible fade show" role="alert"
             style="height: auto; pointer-events: auto;">
             <span type="button" class="close-alert-button" data-dismiss="alert" aria-label="Close" onclick="removeToast(${idToast})">
                 <i class="bi bi-x"></i>
