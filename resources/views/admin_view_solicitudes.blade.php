@@ -29,7 +29,7 @@
 			<div class="card-body ">
 				<form role="form">
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="type-03">Nivel:</label>
+						<label class="col-3 col-form-label" for="select-scholar-level">Nivel:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-scholar-level"> @foreach(App\Enums\ScholarLevel::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach 
@@ -37,17 +37,24 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="type-03">Curso:</label>
+						<label class="col-3 col-form-label" for="select-course-level">Curso:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-course-level"> @foreach(App\Enums\ScholarCourse::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach </select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="type-03">Estatus:</label>
+						<label class="col-3 col-form-label" for="select-solicitude-status">Estatus:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-solicitude-status"> @foreach(App\Enums\SolicitudeStatus::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach 
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label" for="select-period">Periodo:</label>
+						<div class="col-9" >
+							<select class="form-control" id="select-period">
 							</select>
 						</div>
 					</div>
