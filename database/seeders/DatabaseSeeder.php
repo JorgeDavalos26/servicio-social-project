@@ -347,13 +347,13 @@ class DatabaseSeeder extends Seeder
             "description" => "El formulario en vigor del curso Ingeniería-Nivelación"]);
 
         Setting::create(["key" => "SOLICITUDES.TECNOLOGO_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
-            "description" => "Se reciben solicitudes para el curso Tecnólogo-Propedéutico?"]);
+            "description" => "¿Se reciben solicitudes para el curso propedéutico de tecnólogo ?"]);
         Setting::create(["key" => "SOLICITUDES.INGENIERIA_PROPEDEUTICO.RECEIVE_UPCOMING", "value" => true,
-            "description" => "Se reciben solicitudes para el curso Ingeniería-Propedéutico?"]);
+            "description" => "¿Se reciben solicitudes para el curso propedéutico de ingeniería ?"]);
         Setting::create(["key" => "SOLICITUDES.TECNOLOGO_NIVELACION.RECEIVE_UPCOMING", "value" => true,
-            "description" => "Se reciben solicitudes para el curso Tecnólogo-Nivelación?"]);
+            "description" => "¿Se reciben solicitudes para el curso de nivelación de tecnólogo?"]);
         Setting::create(["key" => "SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING", "value" => true,
-            "description" => "Se reciben solicitudes para el curso Ingeniería-Nivelación?"]);
+            "description" => "¿Se reciben solicitudes para el curso de nivelación de ingeniería?"]);
 
         //------------------------------------ form
 
