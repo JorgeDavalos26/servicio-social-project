@@ -82,7 +82,3 @@
 	<ul class="pagination" id="pagination"> </ul>
 </div>
 
-@section("script")
-	@vite(['resources/js/paginate.js'])
-	@vite(['resources/js/admin_view_solicitudes.js'])
-@endsection

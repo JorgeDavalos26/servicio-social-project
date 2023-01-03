@@ -5,7 +5,7 @@ const perPage = 10;
 let scholarLevel;
 let scholarCourse;
 let status;
-let periodId;
+let periodId = 0;
 
 const btnFilter = $("#btn-filter");
 const selectSchoolarLevel = $("#select-scholar-level");
@@ -61,7 +61,7 @@ const fetchPeriods = async () => {
 };
 
 function urlBuilder() {
-    const periodString = periodId ? `&periodId=${periodId}` : "";
+    const periodString = +periodId ? `&periodId=${periodId}` : "";
     return `${
         env.APP_URL
     }/api/solicitudes?paginated=${true}&perPage=${perPage}&page=${page}&scholarLevel=${scholarLevel}&scholarCourse=${scholarCourse}&status=${status}${periodString}`;
@@ -98,7 +98,7 @@ async function renderPeriodsSelect(div = "#select-period", periods) {
     select.empty();
     const periodsToRender = [
         {
-            id: null,
+            id: 0,
             label: "Sin seleccionar",
         },
         ...periods,

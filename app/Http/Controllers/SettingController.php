@@ -83,7 +83,6 @@ class SettingController extends Controller
     }
 
     public function updateReceiveUpcomingSolicitudes(SettingsService $setting, Array $input) {
-        
         $upcomingSolicitudes = $setting->updateReceiveUpcomingSolicitudes($input);
         return response()->success($upcomingSolicitudes);
     }
