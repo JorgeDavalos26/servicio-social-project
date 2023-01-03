@@ -27,7 +27,7 @@
                                     id="{{$question['id']}}"
                                     type="text"
                                     name="{{$question['backendName']}}"
-                                    {!! $question['required'] ? 'required' : '' !!}
+                                    {!! $question['required'] ? 'required="true"' : '' !!}
                                     {!! $question['blocked'] ? 'disabled' : '' !!}
                                     value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"/>
                                 <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
@@ -39,7 +39,7 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
-                                        {!! $question['required'] ? 'required' : '' !!}
+                                        {!! $question['required'] ? 'required="true"' : '' !!}
                                         {!! $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> Sí
@@ -49,7 +49,7 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
-                                        {!! $question['required'] ? 'required' : '' !!}
+                                        {!! $question['required'] ? 'required="true"' : '' !!}
                                         {!! $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> No
@@ -61,7 +61,7 @@
                                 class="question-answer-input form-control"
                                 type="file"
                                 name="{{$question['backendName']}}"
-                                {!! $question['required'] ? 'required' : '' !!}
+                                {!! $question['required'] ? 'required="true"' : '' !!}
                                 {!! $question['blocked'] ? 'disabled' : '' !!}
                                 value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"
                             />
@@ -70,7 +70,7 @@
                                 id="{{$question['id']}}"
                                 name="{{$question['backendName']}}"
                                 {!! $question['type'] == 'multiple' ? 'multiple' : '' !!}
-                                {!! $question['required'] ? 'required' : '' !!}
+                                {!! $question['required'] ? 'required="true"' : '' !!}
                                 {!! $question['blocked'] ? 'disabled' : '' !!}
                                 class="question-answer-input form-control"
                             >
@@ -95,7 +95,7 @@
                                    class="question-answer-input form-control"
                                    type="{{$question['type'] == 'string' ? 'text' : 'number'}}"
                                    name="{{$question['backendName']}}"
-                                   {!! $question['required'] ? 'required' : '' !!}
+                                   {!! $question['required'] ? 'required="true"' : '' !!}
                                    {!! $question['blocked'] ? 'disabled' : '' !!}
                                    pattern="{{$question['regexValidation'] ?: '*'}}"
                                    value="{{isset($question['answer']) ? $question['answer']['value'] : ""}}"/>

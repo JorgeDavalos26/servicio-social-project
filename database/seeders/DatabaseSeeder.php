@@ -79,81 +79,15 @@ class DatabaseSeeder extends Seeder
 
         //------------------------------------ fields
 
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nombre", "frontend_name" => "Nombre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "curp", "frontend_name" => "CURP", "regex_validation" => "^[A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d]\d$"]);
+        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nombre", "frontend_name" => "Nombre(s)"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "paterno", "frontend_name" => "Paterno"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "materno", "frontend_name" => "Materno"]);
+        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "curp", "frontend_name" => "CURP", "regex_validation" => "^[A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d]\d$"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "correo", "frontend_name" => "Correo"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "celular", "frontend_name" => "Celular", "regex_validation" => "^[0-9]{10}$"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "telefono", "frontend_name" => "Teléfono", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "calle", "frontend_name" => "Calle"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "exterior", "frontend_name" => "Exterior"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "interior", "frontend_name" => "Interior"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "colonia", "frontend_name" => "Colonia"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "cp", "frontend_name" => "Código Postal", "regex_validation" => "^[0-9]{5}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "municipio", "frontend_name" => "Municipio"]);
-        Field::factory()->create(["type" => TypesQuestion::SELECT, "backend_name" => "estados_id", "frontend_name" => "Estado", "select_values" => "Aguascalientes|Baja California|Baja California Sur|Campeche|Ciudad de México|Coahuila|Colima|Chiapas|Chihuahua|Durango|Estado de México|Guanajuato|Guerrero|Hidalgo|Jalisco|Michoacán|Morelos|Nayarit|Nuevo León|Oaxaca|Puebla|Querétaro|Quintana Roo|San Luis Potosí|Sinaloa|Sonora|Tabasco|Tamaulipas|Tlaxcala|Veracruz|Yucatán|Zacatecas"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "telefono_fam", "frontend_name" => "Teléfono Familiar"]);
-        Field::factory()->create(["type" => TypesQuestion::SELECT, "backend_name" => "estadocivil", "frontend_name" => "Estado Civil", "select_values" => "Casado|Soltero|Unión Libre|Viudo(a)|Proceso de separación"]);
-        Field::factory()->create(["type" => TypesQuestion::SELECT, "backend_name" => "sexo", "frontend_name" => "Sexo", "select_values" => "Masculino|Femenino|Otro"]);
-        Field::factory()->create(["type" => TypesQuestion::DATETIME, "backend_name" => "fecha_nacimiento", "frontend_name" => "Fecha Nacimiento"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nacionalidad", "frontend_name" => "Nacionalidad"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "pais_nacimiento", "frontend_name" => "País de Nacimiento"]);
-        Field::factory()->create(["type" => TypesQuestion::SELECT, "backend_name" => "edo_nacimiento", "frontend_name" => "Estado de Nacimiento", "select_values" => "Aguascalientes|Baja California|Baja California Sur|Campeche|Ciudad de México|Coahuila|Colima|Chiapas|Chihuahua|Durango|Estado de México|Guanajuato|Guerrero|Hidalgo|Jalisco|Michoacán|Morelos|Nayarit|Nuevo León|Oaxaca|Puebla|Querétaro|Quintana Roo|San Luis Potosí|Sinaloa|Sonora|Tabasco|Tamaulipas|Tlaxcala|Veracruz|Yucatán|Zacatecas"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "mpio_nacimiento", "frontend_name" => "Municipio de Nacimiento"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "tiene_hermano", "frontend_name" => "Tiene hermanos?"]);
-        Field::factory()->create(["type" => TypesQuestion::INT, "backend_name" => "num_hermanos", "frontend_name" => "Número de hermanos"]);
-        Field::factory()->create(["type" => TypesQuestion::INT, "backend_name" => "lugar_hermanos", "frontend_name" => "Lugar que ocupa de hermano"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "aspirantes_hermanos_ceti_id", "frontend_name" => "Aspirantes hermanos CETI???"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "aspirantes_catmedios_id", "frontend_name" => "Aspirantes CATMEDIOS???"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "otro_nivel", "frontend_name" => "Otro nivel???"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "entero_otro", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "trabaja", "frontend_name" => "Trabajas?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_puesto", "frontend_name" => "Puesto en el que trabajas"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_empresa", "frontend_name" => "Empresa en la que trabajas"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_tel", "frontend_name" => "Teléfono de tu trabajo", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_turno_id", "frontend_name" => "Turno de tu trabajo"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_antiguedad", "frontend_name" => "Tiempo trabajando"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "trabaja_horario", "frontend_name" => "Horario de tu trabajo"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "finado_padre", "frontend_name" => "Está vivo tu padre?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nom_padre", "frontend_name" => "Nombre de tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "dom_padre", "frontend_name" => "Domicilio de tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "col_padre", "frontend_name" => "Colonia donde vive tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "tel_padre", "frontend_name" => "Teléfono de tu padre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "cel_padre", "frontend_name" => "Celular de tu padre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "mismo_dom_padre", "frontend_name" => "Comparten domicilio tú y tu padre?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "ocup_padre", "frontend_name" => "Ocupación de tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "teltrab_padre", "frontend_name" => "Teléfono del trabajo de tu padre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "horario_padre", "frontend_name" => "Horario del trabajo de tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "sueldo_padre", "frontend_name" => "Sueldo mensual de tu padre"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "finado_madre", "frontend_name" => "Está viva tu madre?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nom_madre", "frontend_name" => "Nombre de tu madre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "dom_madre", "frontend_name" => "Domicilio de tu madre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "col_madre", "frontend_name" => "Colonia donde vive tu madre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "tel_madre", "frontend_name" => "Teléfono de tu madre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "cel_madre", "frontend_name" => "Celular de tu madre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "mismo_dom_madre", "frontend_name" => "Comparten domicilio tú y tu madre?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "ocup_madre", "frontend_name" => "Ocupación de tu madre"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "teltrab_madre", "frontend_name" => "Teléfono del trabajo de tu madre", "regex_validation" => "^[0-9]{10}$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "horario_madre", "frontend_name" => "Horario del trabajo de tu madre"]);
-        Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "sueldo_madre", "frontend_name" => "Sueldo de tu madre?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "tipo_sangre", "frontend_name" => "Cuál es tu tipo de sangre?"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "enf_cronica", "frontend_name" => "Sufres de alguna enfermedad crónica?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "especifica_cronica", "frontend_name" => "Especifica la enfermedad crónica que pedeces"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "enf_alergia", "frontend_name" => "Sufres de alguna alergia?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "especifica_alergia", "frontend_name" => "Especifica la alergia que padeces"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "enf_diferente", "frontend_name" => "Padeces algún otro tipo de enfermedad?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "especifica_diferente", "frontend_name" => "Especifica la enfermedad"]);
-        Field::factory()->create(["type" => TypesQuestion::BOOLEAN, "backend_name" => "enf_protesis", "frontend_name" => "Cuentas con alguna prótesis?"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "especifica_protesis", "frontend_name" => "Especifica la prótesis"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nivel", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "escuela", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "mpio", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "estados_id", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "tipo", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "tipo_especificar", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "axo_al", "frontend_name" => ""]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "axo_del", "frontend_name" => ""]);
+        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "escuela_origan", "frontend_name" => "Escuela de Origen"]);
+        Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "promedio_actual", "frontend_name" => "Promedio Actual"]);
+
 
 
         // Test fields
@@ -202,22 +136,10 @@ class DatabaseSeeder extends Seeder
 
         //------------------------------------ questions
 
-        for($i = 1; $i < 74; $i++) {
-            Question::factory()->create(["form_id" => $form1->id, "field_id" => $i]);
-        }
-
-        for($i = 1; $i < 74; $i++) {
-            Question::factory()->create(["form_id" => $form2->id, "field_id" => $i]);
-        }
-
-        for($i = 1; $i < 74; $i++) {
-            Question::factory()->create(["form_id" => $form3->id, "field_id" => $i]);
-        }
-
-        for($i = 1; $i < 74; $i++) {
-            Question::factory()->create(["form_id" => $form4->id, "field_id" => $i]);
-        }
-
+        $this->seedQuestions($form1);
+        $this->seedQuestions($form2);
+        $this->seedQuestions($form3);
+        $this->seedQuestions($form4);
 
         // Test questions
         for($i = 0; $i < count(TypesQuestion::cases()); $i++) {
@@ -341,7 +263,7 @@ class DatabaseSeeder extends Seeder
         Setting::create(["key" => "SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING", "value" => true,
             "description" => "Se reciben solicitudes para el curso Ingeniería-Nivelación?"]);
 
-        //------------------------------------ form
+        //------------------------------------ solicitudes
 
         $solicitude1 = Solicitude::create(["user_id" => $user1->id, "form_id" => $form1->id, "period_id" => $period1->id,
             "status" => SolicitudeStatus::NEW]);
@@ -382,7 +304,7 @@ class DatabaseSeeder extends Seeder
 
         // for solicitude1
 
-        for($i = 1; $i < 74; $i++) {
+        for($i = 1; $i < 8; $i++) {
             $answer = Answer::factory()->create(["question_id" => $i, "solicitude_id" => $solicitude1->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
@@ -390,19 +312,30 @@ class DatabaseSeeder extends Seeder
 
         // for solicitude2
 
-        for($i = 74; $i < 148; $i++) {
-            $answer = Answer::factory()->create(["question_id" => $i, "solicitude_id" => $solicitude2->id, "value" => ""]);
+        for($i = 1; $i < 8; $i++) {
+            $answer = Answer::factory()->create(["question_id" => $i + 8, "solicitude_id" => $solicitude2->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
         }
 
         // for solicitude3
 
-        for($i = 74; $i < 148; $i++) {
-            $answer = Answer::factory()->create(["question_id" => $i, "solicitude_id" => $solicitude3->id, "value" => ""]);
+        for($i = 1; $i < 8; $i++) {
+            $answer = Answer::factory()->create(["question_id" => $i + 16, "solicitude_id" => $solicitude3->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
         }
 
+    }
+
+    private function seedQuestions($form) {
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 1, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 2, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 3, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 4, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 5, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 6, "required" => false]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 7, "required" => true]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 8, "required" => true]);
     }
 }
