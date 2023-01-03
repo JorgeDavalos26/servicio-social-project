@@ -89,18 +89,18 @@ Route::prefix('api')->group(function () {
         Route::put('answers/{answer}', [AnswerController::class, 'update'])->can('update', 'answer');
         Route::delete('answers/{answer}', [AnswerController::class, 'destroy'])->can('destroy', 'answer');
     
-        Route::get('settings', [SettingController::class, 'index'])->can('index', Setting::class);
-        Route::post('settings', [SettingController::class, 'store'])->can('index', Setting::class);
-        Route::get('settings/{setting}', [SettingController::class, 'show'])->can('show', 'setting');
-        Route::put('settings/{setting}', [SettingController::class, 'update'])->can('update', 'setting');
-        Route::delete('settings/{setting}', [SettingController::class, 'destroy'])->can('destroy', 'setting');
-    
         Route::get('settings/getActivePeriods', [SettingController::class, 'getActivePeriods'])->can('getActivePeriods', Setting::class);
         Route::put('settings/updateActivePeriods', [SettingController::class, 'updateActivePeriods'])->can('updateActivePeriods', Setting::class);
         Route::get('settings/getActiveForms', [SettingController::class, 'getActiveForms'])->can('getActiveForms', Setting::class);
         Route::put('settings/updateActiveForms', [SettingController::class, 'updateActiveForms'])->can('updateActiveForms', Setting::class);
         Route::get('settings/getReceiveUpcomingSolicitudes', [SettingController::class, 'getReceiveUpcomingSolicitudes'])->can('getReceiveUpcomingSolicitudes', Setting::class);
         Route::put('settings/updateReceiveUpcomingSolicitudes', [SettingController::class, 'updateReceiveUpcomingSolicitudes'])->can('updateReceiveUpcomingSolicitudes', Setting::class);
+        
+        Route::get('settings', [SettingController::class, 'index'])->can('index', Setting::class);
+        Route::post('settings', [SettingController::class, 'store'])->can('index', Setting::class);
+        Route::get('settings/{setting}', [SettingController::class, 'show'])->can('show', 'setting');
+        Route::put('settings/{setting}', [SettingController::class, 'update'])->can('update', 'setting');
+        Route::delete('settings/{setting}', [SettingController::class, 'destroy'])->can('destroy', 'setting');
 
     });
 
