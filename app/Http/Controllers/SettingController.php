@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Helpers\SettingHelper;
 use App\Http\Requests\SettingGetRequest;
 use App\Http\Requests\SettingPostRequest;
+use App\Http\Requests\SettingPutBulkRequest;
 use App\Http\Requests\SettingUpdateRequest;
 use App\Http\Resources\SettingCollection;
 use App\Http\Resources\SettingResource;
 use App\Models\Setting;
 use App\Services\SettingsService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class SettingController extends Controller
 {
@@ -58,8 +61,9 @@ class SettingController extends Controller
         return response()->success($activePeriods);
     }
 
-    public function updateActivePeriods(SettingsService $setting, Array $input) {
-        $activePeriods = $setting->updateActivePeriods($input);
+    public function updateActivePeriods(SettingsService $setting, SettingPutBulkRequest $request) {
+        $input = $request->validated();
+        $activePeriods = $setting->updateActivePeriods($input['input']);
         return response()->success($activePeriods);
     }
 
@@ -70,8 +74,9 @@ class SettingController extends Controller
         return response()->success($activeForms);
     }
 
-    public function updateActiveForms(SettingsService $setting, Array $input) {
-        $activeForms = $setting->updateActiveForms($input);
+    public function updateActiveForms(SettingsService $setting, SettingPutBulkRequest $request) {
+        $input = $request->validated();
+        $activeForms = $setting->updateActiveForms($input['input']);
         return response()->success($activeForms);
     }
 
@@ -82,10 +87,10 @@ class SettingController extends Controller
         return response()->success($upcomingSolicitudes);
     }
 
-    public function updateReceiveUpcomingSolicitudes(SettingsService $setting, Array $input) {
-        $upcomingSolicitudes = $setting->updateReceiveUpcomingSolicitudes($input);
+    public function updateReceiveUpcomingSolicitudes(SettingsService $setting, SettingPutBulkRequest $request) {
+        $input = $request->validated();
+        $upcomingSolicitudes = $setting->updateReceiveUpcomingSolicitudes($input['input']);
         return response()->success($upcomingSolicitudes);
     }
-
 
 }

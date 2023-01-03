@@ -10,7 +10,15 @@ use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SolicitudeController;
+use App\Http\Middleware\AuthAPI;
+use App\Http\Middleware\AuthWeb;
+use App\Http\Middleware\GetAuthWeb;
 use App\Http\Resources\SolicitudeCompleteResource;
+use App\Models\Answer;
+use App\Models\Form;
+use App\Models\Period;
+use App\Models\Question;
+use App\Models\Setting;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -39,57 +47,62 @@ Route::get('/', function () {
  */
 
 Route::prefix('api')->group(function () {
+
     Route::prefix('auth')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('register', [AuthController::class, 'register']);
     });
 
-    Route::get('solicitudes', [SolicitudeController::class, 'index']);
-    Route::post('solicitudes', [SolicitudeController::class, 'store']);
-    Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show']);
-    Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update']);
-    Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy']);
-    Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete']);
+    Route::middleware([AuthAPI::class])->group(function () {
 
-    Route::get('periods', [PeriodController::class, 'index']);
-    Route::post('periods', [PeriodController::class, 'store']);
-    Route::get('periods/{period}', [PeriodController::class, 'show']);
-    Route::put('periods/{period}', [PeriodController::class, 'update']);
-    Route::delete('periods/{period}', [PeriodController::class, 'destroy']);
+        Route::get('solicitudes', [SolicitudeController::class, 'index'])->can('index', Solicitude::class);
+        Route::post('solicitudes', [SolicitudeController::class, 'store'])->can('store', Solicitude::class);
+        Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show'])->can('show', 'solicitude');
+        Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update'])->can('update', 'solicitude');
+        Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy'])->can('destroy', 'solicitude');
+        Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete'])->can('getComplete', 'solicitude');
 
-    Route::get('forms', [FormController::class, 'index']);
-    Route::post('forms', [FormController::class, 'store']);
-    Route::get('forms/{form}', [FormController::class, 'show']);
-    Route::put('forms/{form}', [FormController::class, 'update']);
-    Route::delete('forms/{form}', [FormController::class, 'destroy']);
+        Route::get('periods', [PeriodController::class, 'index'])->can('index', Period::class);
+        Route::post('periods', [PeriodController::class, 'store'])->can('store', Period::class);
+        Route::get('periods/{period}', [PeriodController::class, 'show'])->can('show', 'period');
+        Route::put('periods/{period}', [PeriodController::class, 'update'])->can('update', 'period');
+        Route::delete('periods/{period}', [PeriodController::class, 'destroy'])->can('destroy', 'period');
+    
+        Route::get('forms', [FormController::class, 'index'])->can('index', Form::class);
+        Route::post('forms', [FormController::class, 'store'])->can('store', Form::class);
+        Route::get('forms/{form}', [FormController::class, 'show'])->can('show', 'form');
+        Route::put('forms/{form}', [FormController::class, 'update'])->can('update', 'form');
+        Route::delete('forms/{form}', [FormController::class, 'destroy'])->can('destroy', 'form');
+    
+        Route::get('questions', [QuestionController::class, 'index'])->can('index', Question::class);
+        Route::post('questions', [QuestionController::class, 'store'])->can('store', Question::class);
+        Route::get('questions/{question}', [QuestionController::class, 'show'])->can('show', 'question');
+        Route::put('questions/{question}', [QuestionController::class, 'update'])->can('update', 'question');
+        Route::delete('questions/{question}', [QuestionController::class, 'destroy'])->can('destroy', 'question');
+    
+        Route::get('answers', [AnswerController::class, 'index'])->can('index', Answer::class);
+        Route::post('answers', [AnswerController::class, 'store'])->can('store', Answer::class);
+        Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk'])->can('storeBulk', Answer::class);
+        Route::post('answers/{solicitude}/{question}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer'])->can('updateMediaAnswer', Answer::class);
+        Route::get('answers/{answer}', [AnswerController::class, 'show'])->can('show', 'answer');
+        Route::put('answers/{answer}', [AnswerController::class, 'update'])->can('update', 'answer');
+        Route::delete('answers/{answer}', [AnswerController::class, 'destroy'])->can('destroy', 'answer');
+    
+        Route::get('settings/getActivePeriods', [SettingController::class, 'getActivePeriods'])->can('getActivePeriods', Setting::class);
+        Route::put('settings/updateActivePeriods', [SettingController::class, 'updateActivePeriods'])->can('updateActivePeriods', Setting::class);
+        Route::get('settings/getActiveForms', [SettingController::class, 'getActiveForms'])->can('getActiveForms', Setting::class);
+        Route::put('settings/updateActiveForms', [SettingController::class, 'updateActiveForms'])->can('updateActiveForms', Setting::class);
+        Route::get('settings/getReceiveUpcomingSolicitudes', [SettingController::class, 'getReceiveUpcomingSolicitudes'])->can('getReceiveUpcomingSolicitudes', Setting::class);
+        Route::put('settings/updateReceiveUpcomingSolicitudes', [SettingController::class, 'updateReceiveUpcomingSolicitudes'])->can('updateReceiveUpcomingSolicitudes', Setting::class);
+        
+        Route::get('settings', [SettingController::class, 'index'])->can('index', Setting::class);
+        Route::post('settings', [SettingController::class, 'store'])->can('index', Setting::class);
+        Route::get('settings/{setting}', [SettingController::class, 'show'])->can('show', 'setting');
+        Route::put('settings/{setting}', [SettingController::class, 'update'])->can('update', 'setting');
+        Route::delete('settings/{setting}', [SettingController::class, 'destroy'])->can('destroy', 'setting');
 
-    Route::get('questions', [QuestionController::class, 'index']);
-    Route::post('questions', [QuestionController::class, 'store']);
-    Route::get('questions/{question}', [QuestionController::class, 'show']);
-    Route::put('questions/{question}', [QuestionController::class, 'update']);
-    Route::delete('questions/{question}', [QuestionController::class, 'destroy']);
-
-    Route::get('answers', [AnswerController::class, 'index']);
-    Route::post('answers', [AnswerController::class, 'store']);
-    Route::post('answers/storeBulk', [AnswerController::class, 'storeBulk']);
-    Route::post('answers/{solicitude}/{question}/updateMediaAnswer', [AnswerController::class, 'updateMediaAnswer']);
-    Route::get('answers/{answer}', [AnswerController::class, 'show']);
-    Route::put('answers/{answer}', [AnswerController::class, 'update']);
-    Route::delete('answers/{answer}', [AnswerController::class, 'destroy']);
-
-    Route::get('settings', [SettingController::class, 'index']);
-    Route::post('settings', [SettingController::class, 'store']);
-    Route::get('settings/{setting}', [SettingController::class, 'show']);
-    Route::put('settings/{setting}', [SettingController::class, 'update']);
-    Route::delete('settings/{setting}', [SettingController::class, 'destroy']);
-
-    Route::get('settings/getActivePeriods', [SettingController::class, 'getActivePeriods']);
-    Route::put('settings/updateActivePeriods', [SettingController::class, 'updateActivePeriods']);
-    Route::get('settings/getActiveForms', [SettingController::class, 'getActiveForms']);
-    Route::put('settings/updateActiveForms', [SettingController::class, 'updateActiveForms']);
-    Route::get('settings/getReceiveUpcomingSolicitudes', [SettingController::class, 'getReceiveUpcomingSolicitudes']);
-    Route::put('settings/updateReceiveUpcomingSolicitudes', [SettingController::class, 'updateReceiveUpcomingSolicitudes']);
+    });
 
 });
 
@@ -100,77 +113,65 @@ Route::prefix('api')->group(function () {
  */
 
 Route::get('/', function () {
-
     return view('portal_view');
-
 });
 
-Route::get('/gobmx', function () {
+Route::middleware([GetAuthWeb::class])->group(function () {
+    Route::get('/ingreso', function () {
+        return view('login_view');
+    })->name('login_view');
+    
+    Route::get('/registro', function () {
+        return view('signup_view');
+    })->name('signup_view');
+});
 
-    return view('examples-gobmx.gobmx_view');
+Route::middleware([AuthWeb::class])->group(function () {
+    
+    Route::get('/gobmx', function () {
+         return view('examples-gobmx.gobmx_view');
+    })->name('gobmx');
+    
+    Route::get('/inicio', function () {
+    
+        if(user()->isAdmin()) {
+            return view('admin_view');
+        } 
+        else {
+            $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
+            return view('home_view', [
+                'forms' => $parsedForms,
+                'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
+                'userId' => Auth::user()->id
+            ]);
+        }
+    
+    })->name('home_view');
+    
+    Route::get('/perfil', function () {
+        return view('profile_view');
+    })->name('profile_view');
+    
+    Route::get('/formulario', function () {
+        return view('form_view');
+    })->name('form_view');
+    
+    Route::get('/solicitud/{id}', function () {
+    
+        $solicitudeId = request()->id;
+    
+        if (!is_numeric($solicitudeId))
+            return redirect()->route('home_view');
+    
+        if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
+            return redirect()->route('home_view');
+    
+        $solicitude = Solicitude::find($solicitudeId);
+    
+        return view('solicitude_view', [
+            'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true)
+        ]);
+    
+    })->name('solicitude_view');
 
-})->name('gobmx');
-
-Route::get('/inicio', function () {
-
-    if (!Auth::check()) return view('login_view');
-
-    if(Auth::user()->is_admin) return view('admin_view');
-
-    $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
-
-    return view('home_view', [
-        'forms' => $parsedForms,
-        'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
-        'userId' => Auth::user()->id
-    ]);
-
-})->middleware('auth')->name('home_view');
-
-Route::get('/ingreso', function () {
-
-    if (Auth::check()) return redirect()->route('home_view');
-    else return view('login_view');
-
-})->name('login_view');
-
-Route::get('/registro', function () {
-
-    if (Auth::check()) return redirect()->route('home_view');
-    else return view('signup_view');
-
-})->name('signup_view');
-
-Route::get('/perfil', function () {
-
-    if (Auth::check()) return view('profile_view');
-    else return redirect()->route('login_view');
-
-})->name('profile_view');
-
-Route::get('/formulario', function () {
-
-    if (Auth::check()) return view('form_view');
-    else return redirect()->route('login_view');
-
-})->name('form_view');
-
-Route::get('/solicitud/{id}', function () {
-
-    $solicitudeId = request()->id;
-
-    if (!Auth::check()) return redirect()->route('login_view');
-
-    if (!is_numeric($solicitudeId))
-        return redirect()->route('home_view');
-
-    if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId))
-        return redirect()->route('home_view');
-
-    $solicitude = Solicitude::find($solicitudeId);
-
-    return view('solicitude_view', [
-        'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true)
-    ]);
-
-})->name('solicitude_view');
+});
