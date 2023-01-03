@@ -13,6 +13,8 @@ class Field extends Model
         'backend_name',
         'frontend_name',
         'type',
+        'regex_validation',
+        'select_values'
     ];
 
 }

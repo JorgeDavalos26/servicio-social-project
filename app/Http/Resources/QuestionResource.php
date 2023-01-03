@@ -19,9 +19,11 @@ class QuestionResource extends JsonResource
             "backendName" => $this->field->backend_name,
             "frontendName" => $this->field->frontend_name,
             "type" => $this->field->type,
-            "hidden" => $this->hidden,
-            "blocked" => $this->blocked,
-            "required" => $this->required,
+            "regexValidation" => $this->field->regex_validation,
+            "selectValues" => $this->field->select_values,
+            "hidden" => boolval($this->hidden),
+            "blocked" => boolval($this->blocked),
+            "required" => boolval($this->required),
             "answer" => $this->answer,
             "updatedAt" => $this->updated_at
         ];

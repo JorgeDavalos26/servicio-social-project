@@ -15,7 +15,7 @@
             </span>
             <form id="solicitude_form">
                 @foreach($solicitude['questions'] as $question)
-                    <div class="mt-5">
+                    <div class="mt-5" {!! $question['hidden'] ? 'hidden' : '' !!} >
                         <label for="{{$question['id']}}"
                                class="question-answer-label control-label">
                             {{$question['frontendName']}}
@@ -27,7 +27,8 @@
                                     id="{{$question['id']}}"
                                     type="text"
                                     name="{{$question['backendName']}}"
-                                    {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                    {!! $question['required'] ? 'required' : '' !!}
+                                    {!! $question['blocked'] ? 'disabled' : '' !!}
                                     value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"/>
                                 <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
                             </div>
@@ -38,7 +39,8 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
-                                        {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                        {!! $question['required'] ? 'required' : '' !!}
+                                        {!! $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> Sí
                                 </label>
@@ -47,7 +49,8 @@
                                         class="question-answer-input"
                                         type="radio"
                                         name="{{$question['backendName']}}"
-                                        {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                        {!! $question['required'] ? 'required' : '' !!}
+                                        {!! $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> No
                                 </label>
@@ -58,15 +61,43 @@
                                 class="question-answer-input form-control"
                                 type="file"
                                 name="{{$question['backendName']}}"
-                                {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                {!! $question['required'] ? 'required' : '' !!}
+                                {!! $question['blocked'] ? 'disabled' : '' !!}
                                 value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"
                             />
+                        @elseif($question['type'] == 'select' || $question['type'] == 'multiple')
+                            <select
+                                id="{{$question['id']}}"
+                                name="{{$question['backendName']}}"
+                                {!! $question['type'] == 'multiple' ? 'multiple' : '' !!}
+                                {!! $question['required'] ? 'required' : '' !!}
+                                {!! $question['blocked'] ? 'disabled' : '' !!}
+                                class="question-answer-input form-control"
+                            >
+                                @if(!isset($question['answer']) || empty($question['answer']['value']))
+                                    <option value="" disabled hidden selected>Selecciona una opción...</option>
+                                @endif
+                                @foreach(explode('|', $question['selectValues']) as $selectValue)
+                                    <option value="{{$selectValue}}"
+                                        {!!
+                                            isset($question['answer']) &&
+                                            !empty($question['answer']['value']) &&
+                                            str_contains($selectValue, $question['answer']['value']) ?
+                                            'selected' : ''
+                                        !!}
+                                    >
+                                        {{$selectValue}}
+                                    </option>
+                                @endforeach
+                            </select>
                         @else
                             <input id="{{$question['id']}}"
                                    class="question-answer-input form-control"
                                    type="{{$question['type'] == 'string' ? 'text' : 'number'}}"
                                    name="{{$question['backendName']}}"
-                                   {!!$question['required'] == 'true' ? 'required' : ''!!}
+                                   {!! $question['required'] ? 'required' : '' !!}
+                                   {!! $question['blocked'] ? 'disabled' : '' !!}
+                                   pattern="{{$question['regexValidation'] ?: '*'}}"
                                    value="{{isset($question['answer']) ? $question['answer']['value'] : ""}}"/>
                         @endif
                     </div>
@@ -112,7 +143,7 @@
 
             const datePickerElements = document.getElementsByClassName("datepicker");
 
-            for(let element of datePickerElements) {
+            for (let element of datePickerElements) {
                 $(`#${element.id}`).datepicker();
             }
         });

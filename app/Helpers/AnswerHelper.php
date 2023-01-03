@@ -50,30 +50,50 @@ class AnswerHelper
     public static function createBulkAnswers($input)
     {
         $solicitude = Solicitude::find($input['solicitudeId']);
-        $period = $solicitude->period;
         $answers = [];
 
         foreach ($input['answers'] as $questionAnswer) {
             $question = Question::find($questionAnswer['questionId']);
             $field = $question->field;
             $answerValue = $questionAnswer['answer'];
-            $value = "";
+//            if ($field->type == TypesQuestion::FILE->value) {
+//                $file = base64ToUploadedFile($answerValue);
+//                $value = storage()->storeMedia($file, 'local_custom', $period->label);
+//            } else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
+//                foreach ($answerValue as $v) {
+//                    $file = base64ToUploadedFile($v);
+//                    $value .= storage()->storeMedia($file, 'local_custom', $period->label) . "|";
+//                }
+//            } else {
+//                $value = $answerValue;
+//            }
 
-            if ($field->type == TypesQuestion::FILE->value) {
-                $file = base64ToUploadedFile($answerValue);
-                $value = storage()->storeMedia($file, 'local_custom', $period->label);
-            } else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
-                foreach ($answerValue as $v) {
-                    $file = base64ToUploadedFile($v);
-                    $value .= storage()->storeMedia($file, 'local_custom', $period->label) . "|";
+            if ($field->type == TypesQuestion::FILE || $field->type == TypesQuestion::MULTIPLE_FILE) {
+                continue;
+            }
+
+            if ($field->type == TypesQuestion::BOOLEAN && $answerValue != "true" && $answerValue != "false") {
+                continue;
+            }
+
+            if ($field->type == TypesQuestion::SELECT || $field->type == TypesQuestion::MULTIPLE) {
+                $selected = explode("|", $answerValue);
+                $allValuesValid = true;
+                foreach ($selected as $selectValue) {
+                    if (!str_contains($field->select_values, $selectValue)) {
+                        $allValuesValid = false;
+                        break;
+                    }
                 }
-            } else {
-                $value = $answerValue;
+
+                if (!$allValuesValid) {
+                    break;
+                }
             }
 
             $answer = self::getAnswerWithSolicitudeIdAndQuestionId($solicitude->id, $question->id);
 
-            $answer->value = $value;
+            $answer->value = $answerValue;
             $answer->save();
 
             $answers[] = $answer;

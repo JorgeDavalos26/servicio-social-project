@@ -26,6 +26,11 @@ class SolicitudeHelper
         if (isset($input['userId'])) {
             $solicitudes = $solicitudes->where("user_id", $input['userId']);
         }
+       
+        // Specific status
+        if (isset($input['status'])) {
+            $solicitudes = $solicitudes->where("status", $input['status']);
+        }
 
         // Pagination
         if (isset($input['paginated']) && to_boolean($input['paginated'])) {
