@@ -1,21 +1,51 @@
 @extends("templates.main_gobmx_template")
 
 @section("template")
-
     @vite(['resources/css/solicitude-view.css'])
+
+    <span hidden>{{$solicitude['status']}}</span>
+
+    @php
+        use \App\Enums\SolicitudeStatus;
+        $color = '';
+        switch ($solicitude['status']) {
+            case SolicitudeStatus::NEW->value:
+                $color = 'application-state-new-color';
+                break;
+            case SolicitudeStatus::COMPLETED->value:
+                $color = 'application-state-completed-color';
+                break;
+            case SolicitudeStatus::IN_REVIEW->value:
+                $color = 'application-state-in-revision-color';
+                break;
+            case SolicitudeStatus::ACCEPTED->value:
+                $color = 'application-state-accepted-color';
+                break;
+            case SolicitudeStatus::REJECTED->value:
+                $color = 'application-state-canceled-color';
+                break;
+        }
+    @endphp
 
     <div>
         <h2>Solicitud</h2>
         <div>
-            <span>
-                {{$solicitude['status']}}
-            </span>
-            <span>
-                {{$solicitude['period']['label']}}
-            </span>
-            <form id="solicitude_form">
+            <div class="d-flex justify-content-between">
+                <span class="forms-badge {{$color}}">
+                    {{$solicitude['status']}}
+                </span>
+                @if($adminView)
+                    <span class="forms-badge">
+                        {{$solicitudeOwner['email']}}
+                    </span>
+                @endif
+                <span class="forms-badge">
+                    {{$solicitude['period']['label']}}
+                </span>
+            </div>
+            <form id="solicitude_form" class="mt-4">
                 @foreach($solicitude['questions'] as $question)
-                    <div class="mt-5" {!! $question['hidden'] ? 'hidden' : '' !!} >
+                    <div class="mb-5" {!! $question['hidden'] ? 'hidden' : '' !!} >
                         <label for="{{$question['id']}}"
                                class="question-answer-label control-label">
                             {{$question['frontendName']}}
@@ -28,7 +58,7 @@
                                     type="text"
                                     name="{{$question['backendName']}}"
                                     {!! $question['required'] ? 'required="true"' : '' !!}
-                                    {!! $question['blocked'] ? 'disabled' : '' !!}
+                                    {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                     value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"/>
                                 <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
                             </div>
@@ -40,7 +70,7 @@
                                         type="radio"
                                         name="{{$question['backendName']}}"
                                         {!! $question['required'] ? 'required="true"' : '' !!}
-                                        {!! $question['blocked'] ? 'disabled' : '' !!}
+                                        {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> Sí
                                 </label>
@@ -50,7 +80,7 @@
                                         type="radio"
                                         name="{{$question['backendName']}}"
                                         {!! $question['required'] ? 'required="true"' : '' !!}
-                                        {!! $question['blocked'] ? 'disabled' : '' !!}
+                                        {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
                                     /> No
                                 </label>
@@ -62,7 +92,7 @@
                                 type="file"
                                 name="{{$question['backendName']}}"
                                 {!! $question['required'] ? 'required="true"' : '' !!}
-                                {!! $question['blocked'] ? 'disabled' : '' !!}
+                                {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                 value="{{isset($question['answer']) ? $question['answer']['value'] : null}}"
                             />
                         @elseif($question['type'] == 'select' || $question['type'] == 'multiple')
@@ -71,7 +101,7 @@
                                 name="{{$question['backendName']}}"
                                 {!! $question['type'] == 'multiple' ? 'multiple' : '' !!}
                                 {!! $question['required'] ? 'required="true"' : '' !!}
-                                {!! $question['blocked'] ? 'disabled' : '' !!}
+                                {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                 class="question-answer-input form-control"
                             >
                                 @if(!isset($question['answer']) || empty($question['answer']['value']))
@@ -96,18 +126,61 @@
                                    type="{{$question['type'] == 'string' ? 'text' : 'number'}}"
                                    name="{{$question['backendName']}}"
                                    {!! $question['required'] ? 'required="true"' : '' !!}
-                                   {!! $question['blocked'] ? 'disabled' : '' !!}
+                                   {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                    pattern="{{$question['regexValidation'] ?: '*'}}"
                                    value="{{isset($question['answer']) ? $question['answer']['value'] : ""}}"/>
                         @endif
                     </div>
                 @endforeach
-                <div class="my-5">
-                    <button class="mr-4 btn btn-secondary">
-                        Cancelar
-                    </button>
-                    <input type="submit" class="btn btn-primary" value="Guardar"/>
-                </div>
+                @if($adminView)
+                    <div class="mb-5">
+                        <button class="mr-4 btn btn-secondary" type="button" id="cancel_solicitude_btn">
+                            Cancelar
+                        </button>
+                        <button
+                            class="mr-4 btn btn-primary"
+                            type="button"
+                            id="accept_solicitude_btn"
+                            {!! $solicitude['status'] != SolicitudeStatus::COMPLETED->value ? 'disabled' : '' !!}
+                        >
+                            Aceptar
+                        </button>
+                        <button
+                            class="btn btn-primary"
+                            type="button"
+                            id="reject_solicitude_btn"
+                            {!! $solicitude['status'] != SolicitudeStatus::COMPLETED->value ? 'disabled' : '' !!}
+                        >
+                            Rechazar
+                        </button>
+                    </div>
+                @else
+                    <div class="mb-5 d-flex justify-content-between">
+                        <div>
+                            <button class="mr-4 btn btn-secondary" type="button" id="cancel_solicitude_btn">
+                                Cancelar
+                            </button>
+                            <button
+                                class="btn btn-primary"
+                                type="submit"
+                                id="submit_answers"
+                                {!! $solicitude['status'] != SolicitudeStatus::NEW->value ? 'disabled' : '' !!}
+                            >
+                                Guardar
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="send_to_revision_btn"
+                                {!! $solicitude['status'] != SolicitudeStatus::COMPLETED ? 'disabled' : '' !!}
+                            >
+                                Enviar a revisión
+                            </button>
+                        </div>
+                    </div>
+                @endif
             </form>
         </div>
     </div>
@@ -116,7 +189,11 @@
 
 @section("script")
 
-    @vite(['resources/js/solicitude_view.js'])
+    @if($adminView)
+        @vite(['resources/js/solicitude_admin_view.js'])
+    @else
+        @vite(['resources/js/solicitude_student_view.js'])
+    @endif
 
     <script type="text/javascript">
         $(document).ready(function () {

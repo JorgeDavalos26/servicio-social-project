@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\SolicitudeStatus;
 use App\Enums\TypesQuestion;
 use App\Models\Answer;
 use App\Models\Question;
@@ -98,6 +99,7 @@ class AnswerHelper
 
             $answers[] = $answer;
         }
+
         return $answers;
     }
 

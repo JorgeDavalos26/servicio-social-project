@@ -50,6 +50,14 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
+    public function updateToRevision(Solicitude $solicitude)
+    {
+        $updatedSolicitude = SolicitudeHelper::updateSolicitudeToRevision($solicitude);
+        if ($updatedSolicitude == null) return response()->error("Solicitude not completely answered", 400);
+
+        return response()->success(new SolicitudeResource($solicitude));
+    }
+
     public function destroy(Solicitude $solicitude)
     {
         $solicitude->delete();

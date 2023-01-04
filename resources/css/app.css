@@ -1,24 +1,24 @@
 
-/* 
+/*
 .page-content
 {
     min-height: calc(100vh - 433.433px - 60px);
-} 
+}
 */
 
 .shadowed-card
 {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; 
-    border-radius: 10px; 
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
 }
 
 .auth-card
 {
-    width: 80%; 
-    padding: 50px 60px; 
-    margin-right: auto; 
-    margin-left: auto; 
-    margin-top: 60px; 
+    width: 80%;
+    padding: 50px 60px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
     margin-bottom: 60px;
 }
 
@@ -57,4 +57,27 @@
     border-radius: 10px;
     background-color: transparent;
     pointer-events: none;
+}
+
+
+.application-state-new-color {
+    background-color: #DDC9A3;
+}
+
+.application-state-completed-color {
+    background-color: #198754;
+    color: white;
+}
+
+.application-state-in-revision-color {
+    background-color: #0DCAF0;
+}
+
+.application-state-accepted-color {
+    background-color: #10312B;
+    color: white;
+}
+
+.application-state-canceled-color {
+    background-color: #DC3545;
 }

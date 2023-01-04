@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SolicitudeStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
             $table->foreignId("form_id")->references("id")->on("forms")->onDelete("cascade");
             $table->foreignId("period_id")->references("id")->on("periods")->onDelete("cascade");
-            $table->string('status', 30)->default('Nuevo');
+            $table->enum('status', SolicitudeStatus::cases())->default(SolicitudeStatus::NEW);
             $table->timestamps();
         });
     }

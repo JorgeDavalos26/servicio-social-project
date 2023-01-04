@@ -3,9 +3,12 @@
 namespace App\Helpers;
 
 use App\Enums\SolicitudeStatus;
+use App\Models\Answer;
 use App\Models\Form;
+use App\Models\Question;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
+use function GuzzleHttp\Promise\all;
 
 class SolicitudeHelper
 {
@@ -26,7 +29,7 @@ class SolicitudeHelper
         if (isset($input['userId'])) {
             $solicitudes = $solicitudes->where("user_id", $input['userId']);
         }
-       
+
         // Specific status
         if (isset($input['status'])) {
             $solicitudes = $solicitudes->where("status", $input['status']);
@@ -93,5 +96,38 @@ class SolicitudeHelper
         if ($solicitude == null) return false;
 
         return $solicitude['user_id'] == Auth::user()->id;
+    }
+
+    public static function updateSolicitudeToRevision(Solicitude $solicitude): ?Solicitude
+    {
+        if (user()->id != $solicitude['user_id'] || !self::isSolicitudeCompletelyAnswered($solicitude)) {
+            return null;
+        }
+
+        $solicitude->status = SolicitudeStatus::COMPLETED;
+        $solicitude->save();
+
+        return $solicitude;
+    }
+
+    public static function isSolicitudeCompletelyAnswered(Solicitude $solicitude): bool {
+        $questionsRequiredOfForm = Question::where('form_id', $solicitude['form_id'])
+            ->where('required', true)
+            ->get();
+
+        $allAnswered = true;
+
+        foreach ($questionsRequiredOfForm as $question) {
+            $answer = Answer::where('question_id', $question['id'])
+                ->where('solicitude_id', $solicitude['id'])
+                ->first();
+
+            if ($answer == null) {
+                $allAnswered = false;
+                break;
+            }
+        }
+
+        return $allAnswered;
     }
 }

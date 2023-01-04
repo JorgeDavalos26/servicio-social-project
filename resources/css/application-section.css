@@ -1,4 +1,3 @@
-
 .application-section {
     border: 1px solid #98989A;
     border-radius: 10px;
@@ -22,29 +21,12 @@
 }
 
 .scholar-level-badge-color {
-    background-color: #235B4E;
-    color: aliceblue;
+    background-color: #98989A;
+    color: black;
 }
 
 .course-badge-color {
-    background-color: #DDC9A3;
-}
-
-.application-state-new-color {
-    background-color: #DDC9A3;
-}
-
-.application-state-completed-color {
-    background-color: #198754;
-    color: white;
-}
-
-.application-state-in-revision-color {
-    background-color: #0DCAF0;
-}
-
-.application-state-canceled-color {
-    background-color: #DC3545;
+    background-color: #BC955C;
 }
 
 .edit-form-icon {

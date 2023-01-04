@@ -1,7 +1,3 @@
-<!-- styles -->
-@vite(['resources/css/application-section.css'])
-
-<!-- template -->
 @php
     use \App\Enums\SolicitudeStatus;
 @endphp
@@ -30,6 +26,9 @@
                 break;
             case SolicitudeStatus::IN_REVIEW:
                 $color = 'application-state-in-revision-color';
+                break;
+            case SolicitudeStatus::ACCEPTED:
+                $color = 'application-state-accepted-color';
                 break;
             case SolicitudeStatus::REJECTED:
                 $color = 'application-state-canceled-color';

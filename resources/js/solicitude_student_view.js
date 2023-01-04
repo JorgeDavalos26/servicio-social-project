@@ -49,12 +49,10 @@ solicitudeForm.addEventListener('submit', async (event) => {
 
         addAlert('success', 'Solicitud actualizada!', 10);
 
-        //window.location.href=`${env.APP_URL}/inicio`;
-
+        location.reload();
     } catch (error) {
         console.log(error);
     }
-
 });
 
 const getBaseAnswersToSend = (solicitudeId, questionsFromApi) => {
@@ -121,3 +119,26 @@ const getFileAnswersToSend = (questionsFromApi) => {
 
     return fileAnswerToSend;
 }
+
+const sendSolicitudeToReviewButton = document.getElementById("send_to_revision_btn");
+sendSolicitudeToReviewButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const solicitudeId = document.URL.split("/").at(-1);
+
+    try {
+        await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toRevision`);
+
+
+        addAlert('success', 'Solicitud enviada!', 10);
+
+        window.location.href = `${env.APP_URL}/inicio`;
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+const cancelButton = document.getElementById('cancel_solicitude_btn');
+cancelButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    window.location.href = `${env.APP_URL}/inicio`;
+})

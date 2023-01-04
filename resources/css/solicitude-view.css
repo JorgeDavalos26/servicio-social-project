@@ -1,3 +1,14 @@
 .boolean-input-label {
     font-weight: 400;
 }
+
+.forms-badge {
+    padding: 0.6rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.solicitude-owner-badge {
+    background-color: #691C32;
+    color: white;
+}

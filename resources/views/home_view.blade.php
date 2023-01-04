@@ -8,6 +8,7 @@
 
 @section("template")
 
+    @vite(['resources/css/application-section.css'])
     @vite(['resources/css/student-home-view.css'])
 
     <div class="modal fade" id="newRegistryModalForm" tabindex="1">
