@@ -15,11 +15,11 @@
             case SolicitudeStatus::COMPLETED->value:
                 $color = 'application-state-completed-color';
                 break;
-            case SolicitudeStatus::IN_REVIEW->value:
-                $color = 'application-state-in-revision-color';
+            case SolicitudeStatus::WAITING_PAYMENT->value:
+                $color = 'application-state-waiting-payment-color';
                 break;
-            case SolicitudeStatus::ACCEPTED->value:
-                $color = 'application-state-accepted-color';
+            case SolicitudeStatus::PAYMENT_REGISTERED->value:
+                $color = 'application-state-payment-registered-color';
                 break;
             case SolicitudeStatus::REJECTED->value:
                 $color = 'application-state-canceled-color';
@@ -134,24 +134,16 @@
                 @endforeach
                 @if($adminView)
                     <div class="mb-5">
-                        <button class="mr-4 btn btn-secondary" type="button" id="cancel_solicitude_btn">
-                            Cancelar
-                        </button>
-                        <button
-                            class="mr-4 btn btn-primary"
-                            type="button"
-                            id="accept_solicitude_btn"
-                            {!! $solicitude['status'] != SolicitudeStatus::COMPLETED->value ? 'disabled' : '' !!}
-                        >
-                            Aceptar
+                        <button class="mr-4 btn btn-secondary" type="button" id="return_admin_btn">
+                            Regresar
                         </button>
                         <button
                             class="btn btn-primary"
                             type="button"
-                            id="reject_solicitude_btn"
-                            {!! $solicitude['status'] != SolicitudeStatus::COMPLETED->value ? 'disabled' : '' !!}
+                            id="confirm_payment_btn"
+                            {!! $solicitude['status'] != SolicitudeStatus::WAITING_PAYMENT->value ? 'disabled' : '' !!}
                         >
-                            Rechazar
+                            Confirmar pago
                         </button>
                     </div>
                 @else
@@ -173,10 +165,13 @@
                             <button
                                 type="button"
                                 class="btn btn-primary"
-                                id="send_to_revision_btn"
+                                id="proceed_to_payment_btn"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                data-bs-title="Último guardado antes de proceder al pago"
                                 {!! $solicitude['status'] != SolicitudeStatus::COMPLETED ? 'disabled' : '' !!}
                             >
-                                Enviar a revisión
+                                Proceder a pago
                             </button>
                         </div>
                     </div>

@@ -61,7 +61,7 @@ Route::prefix('api')->group(function () {
         Route::post('solicitudes', [SolicitudeController::class, 'store'])->can('store', Solicitude::class);
         Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show'])->can('show', 'solicitude');
         Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update'])->can('update', 'solicitude');
-        Route::put('solicitudes/{solicitude}/toRevision', [SolicitudeController::class, 'updateToRevision'])->can('update', 'solicitude');
+        Route::put('solicitudes/{solicitude}/toPayment', [SolicitudeController::class, 'updateToWaitingPayment'])->can('update', 'solicitude');
         Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy'])->can('destroy', 'solicitude');
         Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete'])->can('getComplete', 'solicitude');
 

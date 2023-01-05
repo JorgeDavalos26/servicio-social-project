@@ -15,7 +15,7 @@ class SolicitudeHelper
 
     public static function getSolicitudes(&$input)
     {
-        $solicitudes = Solicitude::with(["form"]);
+        $solicitudes = Solicitude::with(["form", 'period']);
 
         // Specific from a Period
         if (isset($input['periodId'])) {
@@ -98,13 +98,13 @@ class SolicitudeHelper
         return $solicitude['user_id'] == Auth::user()->id;
     }
 
-    public static function updateSolicitudeToRevision(Solicitude $solicitude): ?Solicitude
+    public static function updateSolicitudeToWaitingForPayment(Solicitude $solicitude): ?Solicitude
     {
         if (user()->id != $solicitude['user_id'] || !self::isSolicitudeCompletelyAnswered($solicitude)) {
             return null;
         }
 
-        $solicitude->status = SolicitudeStatus::COMPLETED;
+        $solicitude->status = SolicitudeStatus::WAITING_PAYMENT;
         $solicitude->save();
 
         return $solicitude;

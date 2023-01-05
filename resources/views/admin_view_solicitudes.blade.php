@@ -32,7 +32,7 @@
 						<label class="col-3 col-form-label" for="select-scholar-level">Nivel:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-scholar-level"> @foreach(App\Enums\ScholarLevel::cases() as $key=>$value)
-								<option value="{{ $value }}">{{ $value }}</option> @endforeach 
+								<option value="{{ $value }}">{{ $value }}</option> @endforeach
 							</select>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 						<label class="col-3 col-form-label" for="select-solicitude-status">Estatus:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-solicitude-status"> @foreach(App\Enums\SolicitudeStatus::cases() as $key=>$value)
-								<option value="{{ $value }}">{{ $value }}</option> @endforeach 
+								<option value="{{ $value }}">{{ $value }}</option> @endforeach
 							</select>
 						</div>
 					</div>
@@ -75,6 +75,8 @@
 				<th>Curso</th>
 				<th>Nivel</th>
 				<th>Usuario</th>
+                <th>Estado</th>
+                <th>Ver detalles</th>
 			</tr>
 		</thead>
 		<tbody id="table_admin_body"> </tbody>

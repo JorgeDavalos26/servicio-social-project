@@ -69,11 +69,11 @@
     color: white;
 }
 
-.application-state-in-revision-color {
+.application-state-waiting-payment-color {
     background-color: #0DCAF0;
 }
 
-.application-state-accepted-color {
+.application-state-payment-registered-color {
     background-color: #10312B;
     color: white;
 }

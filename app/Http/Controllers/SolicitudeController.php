@@ -50,9 +50,9 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeResource($solicitude));
     }
 
-    public function updateToRevision(Solicitude $solicitude)
+    public function updateToWaitingPayment(Solicitude $solicitude)
     {
-        $updatedSolicitude = SolicitudeHelper::updateSolicitudeToRevision($solicitude);
+        $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
         if ($updatedSolicitude == null) return response()->error("Solicitude not completely answered", 400);
 
         return response()->success(new SolicitudeResource($solicitude));

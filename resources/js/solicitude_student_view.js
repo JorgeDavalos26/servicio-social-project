@@ -120,13 +120,13 @@ const getFileAnswersToSend = (questionsFromApi) => {
     return fileAnswerToSend;
 }
 
-const sendSolicitudeToReviewButton = document.getElementById("send_to_revision_btn");
-sendSolicitudeToReviewButton.addEventListener('click', async (event) => {
+const proceedToPaymentBtn = document.getElementById("proceed_to_payment_btn");
+proceedToPaymentBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     const solicitudeId = document.URL.split("/").at(-1);
 
     try {
-        await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toRevision`);
+        await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toPayment`);
 
 
         addAlert('success', 'Solicitud enviada!', 10);

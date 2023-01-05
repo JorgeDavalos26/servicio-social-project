@@ -1,0 +1,10 @@
+.see-details-icon {
+    text-decoration: none;
+    color: #131314;
+    transition: all 0.5s;
+}
+
+.see-details-icon:hover {
+    text-decoration: none;
+    color: #BC955C;
+}
