@@ -100,7 +100,7 @@ class SolicitudeHelper
 
     public static function updateSolicitudeToWaitingForPayment(Solicitude $solicitude): ?Solicitude
     {
-        if (user()->id != $solicitude['user_id'] || !self::isSolicitudeCompletelyAnswered($solicitude)) {
+        if (user()->getUser()->id != $solicitude['user_id'] || !self::isSolicitudeCompletelyAnswered($solicitude)) {
             return null;
         }
 
@@ -110,7 +110,20 @@ class SolicitudeHelper
         return $solicitude;
     }
 
-    public static function isSolicitudeCompletelyAnswered(Solicitude $solicitude): bool {
+    public static function confirmPayment(Solicitude $solicitude): ?Solicitude
+    {
+        if ((!user()->isSupport() && !user()->isAdmin()) || $solicitude->status != SolicitudeStatus::WAITING_PAYMENT) {
+            return null;
+        }
+
+        $solicitude->status = SolicitudeStatus::PAYMENT_REGISTERED;
+        $solicitude->save();
+
+        return $solicitude;
+    }
+
+    public static function isSolicitudeCompletelyAnswered(Solicitude $solicitude): bool
+    {
         $questionsRequiredOfForm = Question::where('form_id', $solicitude['form_id'])
             ->where('required', true)
             ->get();

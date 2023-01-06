@@ -55,7 +55,15 @@ class SolicitudeController extends Controller
         $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
         if ($updatedSolicitude == null) return response()->error("Solicitude not completely answered", 400);
 
-        return response()->success(new SolicitudeResource($solicitude));
+        return response()->success(new SolicitudeResource($updatedSolicitude));
+    }
+
+    public function confirmPayment(Solicitude $solicitude)
+    {
+        $updatedSolicitude = SolicitudeHelper::confirmPayment($solicitude);
+        if ($updatedSolicitude == null) return response()->error("Solicitude not available for payment confirm", 400);
+
+        return response()->success(new SolicitudeResource($updatedSolicitude));
     }
 
     public function destroy(Solicitude $solicitude)

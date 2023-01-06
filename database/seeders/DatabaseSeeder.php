@@ -97,7 +97,6 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "paterno", "frontend_name" => "Paterno"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "materno", "frontend_name" => "Materno"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "curp", "frontend_name" => "CURP", "regex_validation" => "^[A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d]\d$"]);
-        Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "correo", "frontend_name" => "Correo"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "telefono", "frontend_name" => "Teléfono", "regex_validation" => "^[0-9]{10}$"]);
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "escuela_origan", "frontend_name" => "Escuela de Origen"]);
         Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "promedio_actual", "frontend_name" => "Promedio Actual"]);
@@ -298,7 +297,7 @@ class DatabaseSeeder extends Seeder
             "status" => SolicitudeStatus::NEW]);
 
         Solicitude::create(["user_id" => $user5->id, "form_id" => $form2->id, "period_id" => $period2->id,
-            "status" => SolicitudeStatus::ACCEPTED]);
+            "status" => SolicitudeStatus::PAYMENT_REGISTERED]);
 
         Solicitude::create(["user_id" => $user5->id, "form_id" => $form3->id, "period_id" => $period3->id,
             "status" => SolicitudeStatus::NEW]);
@@ -347,9 +346,8 @@ class DatabaseSeeder extends Seeder
         Question::factory()->create(["form_id" => $form->id, "field_id" => 2, "required" => true]);
         Question::factory()->create(["form_id" => $form->id, "field_id" => 3, "required" => true]);
         Question::factory()->create(["form_id" => $form->id, "field_id" => 4, "required" => true]);
-        Question::factory()->create(["form_id" => $form->id, "field_id" => 5, "required" => true]);
-        Question::factory()->create(["form_id" => $form->id, "field_id" => 6, "required" => false]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 5, "required" => false]);
+        Question::factory()->create(["form_id" => $form->id, "field_id" => 6, "required" => true]);
         Question::factory()->create(["form_id" => $form->id, "field_id" => 7, "required" => true]);
-        Question::factory()->create(["form_id" => $form->id, "field_id" => 8, "required" => true]);
     }
 }

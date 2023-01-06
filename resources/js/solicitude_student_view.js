@@ -47,7 +47,7 @@ solicitudeForm.addEventListener('submit', async (event) => {
             );
         }
 
-        addAlert('success', 'Solicitud actualizada!', 10);
+        addAlert('success', '¡Solicitud actualizada!', 10);
 
         location.reload();
     } catch (error) {
@@ -125,11 +125,13 @@ proceedToPaymentBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     const solicitudeId = document.URL.split("/").at(-1);
 
+    const confirmResult = confirm("¿Seguro que deseas proceder al pago? \nYa no podrás editar tus respuestas.");
+    if (!confirmResult) return;
+
     try {
         await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toPayment`);
 
-
-        addAlert('success', 'Solicitud enviada!', 10);
+        addAlert('success', '¡Solicitud esperando confirmación de pago!', 10);
 
         window.location.href = `${env.APP_URL}/inicio`;
     } catch (e) {

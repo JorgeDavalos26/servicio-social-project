@@ -62,6 +62,7 @@ Route::prefix('api')->group(function () {
         Route::get('solicitudes/{solicitude}', [SolicitudeController::class, 'show'])->can('show', 'solicitude');
         Route::put('solicitudes/{solicitude}', [SolicitudeController::class, 'update'])->can('update', 'solicitude');
         Route::put('solicitudes/{solicitude}/toPayment', [SolicitudeController::class, 'updateToWaitingPayment'])->can('update', 'solicitude');
+        Route::put('solicitudes/{solicitude}/confirmPayment', [SolicitudeController::class, 'confirmPayment'])->can('confirmPayment', 'solicitude');
         Route::delete('solicitudes/{solicitude}', [SolicitudeController::class, 'destroy'])->can('destroy', 'solicitude');
         Route::get('solicitudes/{solicitude}/complete', [SolicitudeController::class, 'getComplete'])->can('getComplete', 'solicitude');
 
@@ -166,7 +167,7 @@ Route::middleware([AuthWeb::class])->group(function () {
         $adminView = false;
         $solicitudeOwner = null;
         $solicitude = Solicitude::find($solicitudeId);
-        $solicitudeDeliverable = null;
+        $solicitudeDeliverable = false;
 
         if (user()->isAdmin()) {
             $adminView = true;

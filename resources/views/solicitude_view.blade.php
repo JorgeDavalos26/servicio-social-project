@@ -124,10 +124,12 @@
                             <input id="{{$question['id']}}"
                                    class="question-answer-input form-control"
                                    type="{{$question['type'] == 'string' ? 'text' : 'number'}}"
+                                   step="any"
+                                   min="0"
                                    name="{{$question['backendName']}}"
                                    {!! $question['required'] ? 'required="true"' : '' !!}
                                    {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
-                                   pattern="{{$question['regexValidation'] ?: '*'}}"
+                                   {!! isset($question['regexValidation']) && !blank($question['regexValidation']) ? 'pattern="' . $question['regexValidation'] . '"' : '' !!}
                                    value="{{isset($question['answer']) ? $question['answer']['value'] : ""}}"/>
                         @endif
                     </div>
@@ -166,10 +168,7 @@
                                 type="button"
                                 class="btn btn-primary"
                                 id="proceed_to_payment_btn"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                data-bs-title="Último guardado antes de proceder al pago"
-                                {!! $solicitude['status'] != SolicitudeStatus::COMPLETED ? 'disabled' : '' !!}
+                                {!! $solicitude['status'] != SolicitudeStatus::NEW->value || !$solicitudeDeliverable ? 'disabled' : '' !!}
                             >
                                 Proceder a pago
                             </button>

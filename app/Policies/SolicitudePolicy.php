@@ -153,4 +153,12 @@ class SolicitudePolicy
         }
         return true;
     }
+
+    public function confirmPayment(User $user, Solicitude $solicitude)
+    {
+        if (!$user->is_support) {
+            return false;
+        }
+        return true;
+    }
 }

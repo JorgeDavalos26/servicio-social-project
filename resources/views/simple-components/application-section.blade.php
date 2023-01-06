@@ -24,11 +24,11 @@
             case SolicitudeStatus::COMPLETED:
                 $color = 'application-state-completed-color';
                 break;
-            case SolicitudeStatus::IN_REVIEW:
-                $color = 'application-state-in-revision-color';
+            case SolicitudeStatus::WAITING_PAYMENT:
+                $color = 'application-state-waiting-payment-color';
                 break;
-            case SolicitudeStatus::ACCEPTED:
-                $color = 'application-state-accepted-color';
+            case SolicitudeStatus::PAYMENT_REGISTERED:
+                $color = 'application-state-payment-registered-color';
                 break;
             case SolicitudeStatus::REJECTED:
                 $color = 'application-state-canceled-color';
