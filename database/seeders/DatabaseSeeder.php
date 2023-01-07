@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use App\Enums\SolicitudeStatus;
 use App\Enums\TypesQuestion;
 use App\Models\Answer;
@@ -112,26 +114,26 @@ class DatabaseSeeder extends Seeder
         //------------------------------------ forms
 
         $form1 = Form::factory()->create([
-            "scholar_course" => "Propedéutico",
-            "scholar_level" => "Tecnólogo",
+            "scholar_course" => ScholarCourse::PROPEDEUTICO->value,
+            "scholar_level" => ScholarLevel::TECNOLOGO->value,
             "label" => "2023A",
         ]);
 
         $form2 = Form::factory()->create([
-            "scholar_course" => "Propedéutico",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::PROPEDEUTICO->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2023A",
         ]);
 
         $form3 = Form::factory()->create([
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Tecnólogo",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::TECNOLOGO->value,
             "label" => "2023A",
         ]);
 
         $form4 = Form::factory()->create([
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2023A",
         ]);
 
@@ -139,8 +141,8 @@ class DatabaseSeeder extends Seeder
         // Test form
         $testForm = Form::factory()->create([
             "id" => 1000000,
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2000A",
         ]);
 

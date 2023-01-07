@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GroupHelper;
 use App\Helpers\SolicitudeHelper;
 use App\Http\Requests\SolicitudesGetRequest;
 use App\Http\Requests\SolicitudesPostRequest;
@@ -54,6 +55,8 @@ class SolicitudeController extends Controller
     {
         $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
         if ($updatedSolicitude == null) return response()->error("Solicitude not completely answered", 400);
+
+        $updatedSolicitude = GroupHelper::addSolicitudeToGroup($updatedSolicitude);
 
         return response()->success(new SolicitudeResource($updatedSolicitude));
     }
