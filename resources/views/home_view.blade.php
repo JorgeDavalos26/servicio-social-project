@@ -62,15 +62,23 @@
 
     <div class="container">
         <div class="mb-5">
-            @foreach($solicitudes as $application)
-                @include('simple-components.application-section')
-            @endforeach
-        </div>
-        <div class="my-4">
-            <button type="button" class="btn btn-secondary" onclick="addAlert('warning', 'a warning alert', 10)">Alert
-            </button>
-            <button type="button" class="btn btn-secondary" onclick="addToast('danger', 'a danger toast', 10)">Toast
-            </button>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nivel</th>
+                    <th>Curso</th>
+                    <th>Periodo</th>
+                    <th>Estado</th>
+                    <th>En estado desde</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($solicitudes as $application)
+                    @include('simple-components.application-section')
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 

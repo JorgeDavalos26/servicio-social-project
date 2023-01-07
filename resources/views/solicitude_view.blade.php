@@ -49,6 +49,9 @@
                         <label for="{{$question['id']}}"
                                class="question-answer-label control-label">
                             {{$question['frontendName']}}
+                            <span class="required-asterisk">
+                                {{$question['required'] ? '*' : ''}}
+                            </span>
                         </label>
                         @if($question["type"] == "datetime")
                             <div class="form-group datepicker-group">
@@ -137,7 +140,7 @@
                 @if($adminView)
                     <div class="mb-5">
                         <button class="mr-4 btn btn-secondary" type="button" id="return_admin_btn">
-                            Regresar
+                            Salir
                         </button>
                         <button
                             class="btn btn-primary"
@@ -152,7 +155,7 @@
                     <div class="mb-5 d-flex justify-content-between">
                         <div>
                             <button class="mr-4 btn btn-secondary" type="button" id="cancel_solicitude_btn">
-                                Cancelar
+                                Salir
                             </button>
                             <button
                                 class="btn btn-primary"

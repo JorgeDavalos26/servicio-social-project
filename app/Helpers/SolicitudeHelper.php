@@ -133,6 +133,7 @@ class SolicitudeHelper
         foreach ($questionsRequiredOfForm as $question) {
             $answer = Answer::where('question_id', $question['id'])
                 ->where('solicitude_id', $solicitude['id'])
+                ->where('value', '<>', '')
                 ->first();
 
             if ($answer == null) {

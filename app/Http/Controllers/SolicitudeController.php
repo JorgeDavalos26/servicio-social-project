@@ -79,7 +79,7 @@ class SolicitudeController extends Controller
 
     public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
     {
-        $solicitudes = Solicitude::with(['form'])
+        $solicitudes = Solicitude::with(['form', 'period'])
             ->where('user_id', $studentId)
             ->get();
 
