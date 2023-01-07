@@ -75,4 +75,24 @@ class GroupHelper
             }
         }
     }
+
+    public static function getGroups($input)
+    {
+        $groups = Group::with(['solicitudes.user']);
+
+        if (isset($input['periodId'])) {
+            $groups = $groups->where('period_id', $input['periodId']);
+        }
+
+        if (isset($input['paginated']) && to_boolean($input['paginated'])) {
+            if (!isset($input['perPage'])) $input['perPage'] = 10;
+            if (!isset($input['page'])) $input['page'] = 1;
+        } else {
+            $input['perPage'] = 10;
+            $input['page'] = 1;
+        }
+
+        return $groups->orderBy('id', 'desc')
+            ->paginate(perPage: $input['perPage'], page: $input['page']);
+    }
 }

@@ -1,9 +1,3 @@
-@section("script")
-	@vite(['resources/js/admin_view_config.js'])
-	@vite(['resources/js/paginate.js'])
-	@vite(['resources/js/admin_view_solicitudes.js'])
-@endsection
-
 @php
 	$settingService = settings();
 @endphp
@@ -16,7 +10,7 @@
 			@foreach($settingService->getReceiveUpcomingSolicitudes() as $key=>$upcomingSolicitude)
 				<label>
 					<input type="checkbox"  name={{$upcomingSolicitude->key}}
-					{{ $upcomingSolicitude->value == 1 ? "checked" : ""}}> 
+					{{ $upcomingSolicitude->value == 1 ? "checked" : ""}}>
 					{{ $upcomingSolicitude->description }}
 					</input>
 				</label>
@@ -26,6 +20,6 @@
 
 	</div>
 	<div id="periodos">
-		
+
 	</div>
 </div>

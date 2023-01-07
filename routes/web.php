@@ -6,6 +6,7 @@ use App\Helpers\SolicitudeHelper;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
@@ -16,6 +17,7 @@ use App\Http\Middleware\GetAuthWeb;
 use App\Http\Resources\SolicitudeCompleteResource;
 use App\Models\Answer;
 use App\Models\Form;
+use App\Models\Group;
 use App\Models\Period;
 use App\Models\Question;
 use App\Models\Setting;
@@ -104,6 +106,8 @@ Route::prefix('api')->group(function () {
         Route::get('settings/{setting}', [SettingController::class, 'show'])->can('show', 'setting');
         Route::put('settings/{setting}', [SettingController::class, 'update'])->can('update', 'setting');
         Route::delete('settings/{setting}', [SettingController::class, 'destroy'])->can('destroy', 'setting');
+
+        Route::get('groups', [GroupController::class, 'index'])->can('index', Group::class);
 
     });
 
