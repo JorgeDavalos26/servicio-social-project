@@ -7,7 +7,7 @@
     transition: all 0.3s;
 }
 
-.new-registry-btn:hover {
+.new-registry-btn.can-create:hover {
     border-color: #BC955C;
     color: #BC955C;
 }

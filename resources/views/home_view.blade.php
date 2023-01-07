@@ -54,7 +54,20 @@
     <div class="d-flex justify-content-between align-items-center">
         <h2>Mis registros</h2>
         <div>
-            <button type="button" class="new-registry-btn" data-toggle="modal" data-target="#newRegistryModalForm">
+            <button
+                type="button"
+                @if(empty($forms))
+                    class="new-registry-btn"
+                    disabled
+                data-toggle="tooltip"
+                data-placement="top"
+                title="No hay solicitudes restantes por crear"
+                @else
+                    class="new-registry-btn can-create"
+                    data-toggle="modal"
+                data-target="#newRegistryModalForm"
+                @endif
+            >
                 + Registro
             </button>
         </div>

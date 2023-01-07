@@ -7,6 +7,7 @@ use App\Enums\ScholarLevel;
 use App\Enums\SolicitudeStatus;
 use App\Models\Setting;
 use App\Models\Solicitude;
+use Illuminate\Support\Facades\Auth;
 
 class SettingHelper
 {
@@ -78,13 +79,54 @@ class SettingHelper
 
     public static function getActiveFormsIds(): array
     {
-        $ids = [];
+        $userId = Auth::user()->id;
+        $periodsIds = [];
 
-        foreach (settings()->getActiveForms() as $activeForm) {
-            $ids[] = $activeForm->value;
+        if (Setting::where('key', 'SOLICITUDES.TECNOLOGO_PROPEDEUTICO.RECEIVE_UPCOMING')
+            ->where('value', '1')
+            ->exists()) {
+            $periodId = Setting::firstWhere("key", 'FORMS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_FORM')
+                ->value;
+
+            if (!Solicitude::where('user_id', $userId)->where('period_id', $periodId)->exists()) {
+                $periodsIds[] = $periodId;
+            }
         }
 
-        return $ids;
+        if (Setting::where('key', 'SOLICITUDES.INGENIERIA_PROPEDEUTICO.RECEIVE_UPCOMING')
+            ->where('value', '1')
+            ->exists()) {
+            $periodId = Setting::firstWhere("key", 'FORMS.INGENIERIA_PROPEDEUTICO.ACTIVE_ID_FORM')
+                ->value;
+
+            if (!Solicitude::where('user_id', $userId)->where('period_id', $periodId)->exists()) {
+                $periodsIds[] = $periodId;
+            }
+        }
+
+        if (Setting::where('key', 'SOLICITUDES.TECNOLOGO_NIVELACION.RECEIVE_UPCOMING')
+            ->where('value', '1')
+            ->exists()) {
+            $periodId = Setting::firstWhere("key", 'FORMS.TECNOLOGO_NIVELACION.ACTIVE_ID_FORM')
+                ->value;
+
+            if (!Solicitude::where('user_id', $userId)->where('period_id', $periodId)->exists()) {
+                $periodsIds[] = $periodId;
+            }
+        }
+
+        if (Setting::where('key', 'SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING')
+            ->where('value', '1')
+            ->exists()) {
+            $periodId = Setting::firstWhere("key", 'FORMS.INGENIERIA_NIVELACION.ACTIVE_ID_FORM')
+                ->value;
+
+            if (!Solicitude::where('user_id', $userId)->where('period_id', $periodId)->exists()) {
+                $periodsIds[] = $periodId;
+            }
+        }
+
+        return $periodsIds;
     }
 
 }
