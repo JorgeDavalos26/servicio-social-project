@@ -7,6 +7,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
@@ -111,7 +112,7 @@ Route::prefix('api')->group(function () {
 
     });
 
-    Route::get('yeah', [SettingController::class, 'yeah']);
+    Route::get('yeah', [MailController::class, 'sendMailTest']);
 
 });
 
