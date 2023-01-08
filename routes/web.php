@@ -24,6 +24,7 @@ use App\Models\Question;
 use App\Models\Setting;
 use App\Models\Solicitude;
 use App\Models\User;
+use App\Policies\MailPolicy;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -110,9 +111,9 @@ Route::prefix('api')->group(function () {
 
         Route::get('groups', [GroupController::class, 'index'])->can('index', Group::class);
 
-    });
+        Route::post('emails/sendFormCompletedMail', [MailController::class, 'sendFormCompletedMail']);
 
-    Route::get('yeah', [MailController::class, 'sendMailTest']);
+    });
 
 });
 
