@@ -62,6 +62,7 @@ class Handler extends ExceptionHandler
         else if ($exception instanceof AuthorizationException) {
             return response()->error(__("You don't have enough privileges for this resource"), null, 403);
         }
+
         return parent::render($request, $exception);
     }
 }

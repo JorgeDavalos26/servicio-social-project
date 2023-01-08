@@ -14,8 +14,7 @@ class MailController extends Controller
     public function sendFormCompletedMail(MailFormCompletedRequest $request) {
         $input = $request->validated();
         Gate::authorize('sendFormCompletedMail');
-        $from = Setting::where("key", "FORMS.COMPLETED_FORM.FROM_EMAIL_ADDRESS")->first();
-        HelpersMailHelper::sendFormCompletedMail($from->value, $input['to']);
+        HelpersMailHelper::sendFormCompletedMail($input);
         return response()->success(__('Email sent successfully'));
     }
 

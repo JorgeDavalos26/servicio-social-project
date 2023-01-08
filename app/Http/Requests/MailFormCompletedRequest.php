@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class MailFormCompletedRequest extends FormRequest
 {
@@ -24,7 +27,9 @@ class MailFormCompletedRequest extends FormRequest
     public function rules()
     {
         return [
-            'to' => ['required', 'email', 'exists:users,email']
+            'to' => ['sometimes', 'required', 'email', 'exists:users,email'],
+            'level' => ['required', 'string', new Enum(ScholarLevel::class)],
+            'course' => ['required', 'string', new Enum(ScholarCourse::class)]
         ];
     }
 }
