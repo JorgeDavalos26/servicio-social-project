@@ -41,10 +41,10 @@ async function handleChangeUpcoming(value, key) {
 
 async function renderCheckSection(id, key, value) {
     const checkDiv = $(`#check-${id}`);
-    console.log({
+    /* console.log({
         checkDiv,
         id,
-    });
+    }); */
     checkDiv.append(
         `<label>
             <input type="checkbox"  name="checkbox-${id}" id="checkbox-${id}" ${
@@ -73,11 +73,34 @@ async function renderPeriod(id, activePeriod) {
         </label>
         <div class="form-group datepicker-group">
             <label class="control-label" for="calendar">Calendario:</label>
-            <input class="form-control" id="calendar" type="text">
+            <input class="form-control" id="calendarpenudo${id}" type="text">
             <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
         </div>
     </div>
     `);
+
+    /* 
+    yo creo que esto a de ser general y no se necesita, porque sin esto si funca de todas formas
+    $.datepicker.regional.es = {
+        closeText: 'Cerrar',
+        prevText: 'Ant',
+        nextText: 'Sig',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+        dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'S&aacute;b'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    $.datepicker.setDefaults($.datepicker.regional.es); 
+    */ 
+    $(`#calendarpenudo${id}`).datepicker();
 }
 
 async function fetchData() {
@@ -106,7 +129,7 @@ async function fetchData() {
         const course = capitalizeFirstLetter(
             convertWordsToAccentWords(formatSetting(key))
         );
-        console.log(activePeriod);
+        //console.log(activePeriod);
 
         tabDiv.append();
         const isFirstRender = index == 0;

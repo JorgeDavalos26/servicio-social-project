@@ -4,9 +4,38 @@
     @vite(['resources/js/paginate.js'])
     @vite(['resources/js/admin_view_solicitudes.js'])
     @vite(['resources/js/admin_view_groups.js'])
+
+    <script type="text/javascript">
+		$(document).ready(function () {
+			/* 
+            creo que no se necesita esto x2
+            $.datepicker.regional.es = {
+				closeText: 'Cerrar',
+				prevText: 'Ant',
+				nextText: 'Sig',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+				dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'S&aacute;b'],
+				weekHeader: 'Sm',
+				dateFormat: 'dd/mm/yy',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: ''
+			};
+			$.datepicker.setDefaults($.datepicker.regional.es); */
+			$("#calendarjojo").datepicker();
+		});
+	</script>
+
 @endsection
+
 @section("template")
     @vite(['resources/css/admin_home_view.css'])
+
     <div class="container block my-3">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-link active" id="nav-tab-solicitudes" data-toggle="tab" href="#nav-solicitudes" role="tab"
