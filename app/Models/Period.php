@@ -15,4 +15,9 @@ class Period extends Model
         'label',
     ];
 
+    public function groups()
+    {
+        return $this->hasMany(Group::class, "period_id", "id");
+    }
+
 }

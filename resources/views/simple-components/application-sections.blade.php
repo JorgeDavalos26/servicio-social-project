@@ -1,7 +1,7 @@
 
 <!-- template -->
 <div class="my-5">
-    <h4>Trámites {{ $application['level'] }}</h4>
+    <h4>{{ __('Paperworks') }} {{ $application['level'] }}</h4>
     <div>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             @foreach ($application['courses'] as $course)
@@ -34,10 +34,9 @@
                     id="nav-{{ $s }}" role="tabpanel"
                     aria-labelledby="nav-tab-{{ $s }}">
                     <p>
-                        {{ $course }} nivel {{ $application['level'] }}
+                        {{ $course }} {{ __('level') }} {{ $application['level'] }}
 
                         @include('simple-components.application-section', ["level" => $application['level'], $course])
-
                     </p>
                 </div>
             @endforeach

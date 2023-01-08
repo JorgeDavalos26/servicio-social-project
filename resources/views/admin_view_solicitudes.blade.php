@@ -1,5 +1,5 @@
 <div class="tab-pane fade show active" id="nav-solicitudes" role="tabpanel" aria-labelledby="nav-tab-01">
-	<h2>Solicitudes</h2>
+	<h2>{{ __('Solicitudes') }}</h2>
 	<div class="row">
 		<div class="col">
 			<button class="btn btn-primary " data-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">
@@ -9,14 +9,14 @@
 		</div>
 		<div class="col">
 			<div class="btn-group-vertical pull-right" role="group" aria-label="Vertical button group">
-				<div class="btn-group " role="group">
+				<div class="btn-group" role="group">
 					<button id="actions" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> ! </button>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="actions">
 						<li>
-							<button type="button" class="btn">Generar grupo</button>
+							<button type="button" class="btn">{{ __('Generate group') }}</button>
 						</li>
 						<li>
-							<label class="btn" for="lista-aceptados">Cargar excel de aceptados:</label>
+							<label class="btn" for="lista-aceptados">{{ __('Load accepted-ones excel') }}:</label>
 							<input id="lista-aceptados" style="visibility:hidden;display:none;" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /> </li>
 					</ul>
 				</div>
@@ -29,7 +29,7 @@
 			<div class="card-body ">
 				<form role="form">
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="select-scholar-level">Nivel:</label>
+						<label class="col-3 col-form-label" for="select-scholar-level">{{ __('Level') }}:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-scholar-level"> @foreach(App\Enums\ScholarLevel::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach
@@ -37,14 +37,14 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="select-course-level">Curso:</label>
+						<label class="col-3 col-form-label" for="select-course-level">{{ __('Course') }}:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-course-level"> @foreach(App\Enums\ScholarCourse::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach </select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="select-solicitude-status">Estatus:</label>
+						<label class="col-3 col-form-label" for="select-solicitude-status">{{ __('State') }}:</label>
 						<div class="col-9">
 							<select class="form-control" id="select-solicitude-status"> @foreach(App\Enums\SolicitudeStatus::cases() as $key=>$value)
 								<option value="{{ $value }}">{{ $value }}</option> @endforeach
@@ -52,7 +52,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="select-period">Periodo:</label>
+						<label class="col-3 col-form-label" for="select-period">{{ __('Period') }}:</label>
 						<div class="col-9" >
 							<select class="form-control" id="select-period">
 							</select>
@@ -60,7 +60,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col">
-							<button class="btn btn-primary pull-left" id="btn-filter">Filtrar</button>
+							<button class="btn btn-primary pull-left" id="btn-filter">{{ __('Filter') }}</button>
 						</div>
 					</div>
 				</form>

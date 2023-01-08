@@ -10,47 +10,47 @@
 
     <div class="auth-card shadowed-card">
         <form id="form_signup">
-            <h2>Registro en el sistema de trámites</h2>
+            <h2>{{ __('Sign up in Paperworks system') }}</h2>
             <hr class="red"><br>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>Nombre de Usuario *:</strong></span>
+                    <span><strong>{{ __('Username') }} *:</strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="username" placeholder="Nombre de usuario" class="w-100">
+                    <input type="text" name="username" placeholder={{ __('Username') }} class="w-100">
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>Correo *:</strong></span>
+                    <span><strong>{{ __('Email') }} *:</strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="email" placeholder="Correo" class="w-100">
+                    <input type="text" name="email" placeholder={{ __('Email') }} class="w-100">
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>Contraseña *:</strong></span>
+                    <span><strong>{{ __('Password') }} *:</strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="password" placeholder="Contraseña" class="w-100">
+                    <input type="text" name="password" placeholder={{ __('Password') }} class="w-100">
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>Confirmar contraseña *:</strong></span>
+                    <span><strong>{{ __('Confirm password') }} *:</strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="password_confirmation" placeholder="Confirmar contraseña" class="w-100">
+                    <input type="text" name="password_confirmation" placeholder={{ __('Confirm password') }} class="w-100">
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-4 text-right">
-                    <span><small>* Campos obligatorios.</small></span>
+                    <span><small>* {{ __('Required fields') }}</small></span>
                 </div>
                 <div class="col-8">
-                    <button type="button" class="btn btn-success pull-right" onclick="signup()">Registrar</button>
+                    <button type="button" class="btn btn-success pull-right" onclick="signup()">{{ __('Sign up') }}</button>
                 </div>
             </div>
         </form>

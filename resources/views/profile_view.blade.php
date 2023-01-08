@@ -9,8 +9,8 @@
     <div>
         <h2>Perfil</h2>
         <br>
-        <p><strong>Correo:</strong> {{ auth()->user()->email }}</p>
-        <p><strong>Usuario:</strong> {{ auth()->user()->username }}</p>
+        <p><strong>{{ __('Mail') }}:</strong> {{ auth()->user()->email }}</p>
+        <p><strong>{{ __('User') }}:</strong> {{ auth()->user()->username }}</p>
         <br>
     </div>
 

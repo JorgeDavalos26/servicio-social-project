@@ -12,9 +12,8 @@ class AuthController extends Controller
     public function login(AuthLoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
- 
         if (Auth::attempt($credentials)) return response()->success(Auth::user());
-        else return response()->error('Credenciales inválidas');
+        else return response()->error(__("Invalid credentials"));
     }
 
     public function register(AuthRegisterRequest $request)
@@ -32,7 +31,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return response()->success("Logout exitoso");
+        return response()->success(__('Successful logout'));
     }
 
 }

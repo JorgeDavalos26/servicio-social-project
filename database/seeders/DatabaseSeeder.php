@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\ScholarCourse;
+use App\Enums\ScholarLevel;
 use App\Enums\SolicitudeStatus;
 use App\Enums\TypesQuestion;
 use App\Models\Answer;
@@ -102,7 +104,6 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "promedio_actual", "frontend_name" => "Promedio Actual"]);
 
 
-
         // Test fields
         foreach (TypesQuestion::cases() as $i => $case) {
             Field::create(["id" => 1000000 + $i, "type" => $case->value,
@@ -113,26 +114,26 @@ class DatabaseSeeder extends Seeder
         //------------------------------------ forms
 
         $form1 = Form::factory()->create([
-            "scholar_course" => "Propedéutico",
-            "scholar_level" => "Tecnólogo",
+            "scholar_course" => ScholarCourse::PROPEDEUTICO->value,
+            "scholar_level" => ScholarLevel::TECNOLOGO->value,
             "label" => "2023A",
         ]);
 
         $form2 = Form::factory()->create([
-            "scholar_course" => "Propedéutico",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::PROPEDEUTICO->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2023A",
         ]);
 
         $form3 = Form::factory()->create([
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Tecnólogo",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::TECNOLOGO->value,
             "label" => "2023A",
         ]);
 
         $form4 = Form::factory()->create([
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2023A",
         ]);
 
@@ -140,11 +141,10 @@ class DatabaseSeeder extends Seeder
         // Test form
         $testForm = Form::factory()->create([
             "id" => 1000000,
-            "scholar_course" => "Nivelación",
-            "scholar_level" => "Ingeniería",
+            "scholar_course" => ScholarCourse::NIVELACION->value,
+            "scholar_level" => ScholarLevel::INGENIERIA->value,
             "label" => "2000A",
         ]);
-
 
 
         //------------------------------------ questions
@@ -155,7 +155,7 @@ class DatabaseSeeder extends Seeder
         $this->seedQuestions($form4);
 
         // Test questions
-        for($i = 0; $i < count(TypesQuestion::cases()); $i++) {
+        for ($i = 0; $i < count(TypesQuestion::cases()); $i++) {
             Question::create(["id" => 1000000 + $i, "form_id" => $testForm->id, "field_id" => 1000000 + $i]);
         }
 
@@ -235,7 +235,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-
         // Test period
         $testPeriod = Period::create([
             "id" => 1000000,
@@ -243,8 +242,6 @@ class DatabaseSeeder extends Seeder
             "end_date" => date_format(date_create('2000-02-2'), 'Y-m-d'),
             "label" => "INGENIERIA_NIVELACION_2000A"
         ]);
-
-
 
 
         //------------------------------------ settings
@@ -257,6 +254,15 @@ class DatabaseSeeder extends Seeder
             "description" => "El periodo en vigor del curso Tecnólogo-Nivelación"]);
         Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.ACTIVE_ID_PERIOD", "value" => $period4->id,
             "description" => "El periodo en vigor del curso Ingeniería-Nivelación"]);
+
+        Setting::create(["key" => "PERIODS.TECNOLOGO_PROPEDEUTICO.MAX_STUDENTS_PER_GROUP", "value" => 30,
+            "description" => "Cantidad máxima de estudiantes por salón en el curso Tecnólogo-Propedéutico"]);
+        Setting::create(["key" => "PERIODS.INGENIERIA_PROPEDEUTICO.MAX_STUDENTS_PER_GROUP", "value" => 30,
+            "description" => "Cantidad máxima de estudiantes por salón en el curso Ingeniería-Propedéutico"]);
+        Setting::create(["key" => "PERIODS.TECNOLOGO_NIVELACION.MAX_STUDENTS_PER_GROUP", "value" => 30,
+            "description" => "Cantidad máxima de estudiantes por salón en el curso Tecnólogo-Nivelación"]);
+        Setting::create(["key" => "PERIODS.INGENIERIA_NIVELACION.MAX_STUDENTS_PER_GROUP", "value" => 30,
+            "description" => "Cantidad máxima de estudiantes por salón en el curso Ingeniería-Nivelación"]);
 
         Setting::create(["key" => "FORMS.TECNOLOGO_PROPEDEUTICO.ACTIVE_ID_FORM", "value" => $form1->id,
             "description" => "El formulario en vigor del curso Tecnólogo-Propedéutico"]);
@@ -281,7 +287,7 @@ class DatabaseSeeder extends Seeder
         $solicitude1 = Solicitude::create(["user_id" => $user1->id, "form_id" => $form1->id, "period_id" => $period1->id,
             "status" => SolicitudeStatus::NEW]);
 
-        $solicitude2  =Solicitude::create(["user_id" => $user1->id, "form_id" => $form2->id, "period_id" => $period2->id,
+        $solicitude2 = Solicitude::create(["user_id" => $user1->id, "form_id" => $form2->id, "period_id" => $period2->id,
             "status" => SolicitudeStatus::REJECTED]);
 
         $solicitude3 = Solicitude::create(["user_id" => $user2->id, "form_id" => $form2->id, "period_id" => $period2->id,
@@ -306,18 +312,16 @@ class DatabaseSeeder extends Seeder
             "status" => SolicitudeStatus::COMPLETED]);
 
 
-
         // Test solicitude
         $testSolicitude = Solicitude::create(["id" => 1000000, "user_id" => $testUser->id, "form_id" => $testForm->id,
             "period_id" => $testPeriod->id, "status" => SolicitudeStatus::NEW]);
-
 
 
         //------------------------------------ answers
 
         // for solicitude1
 
-        for($i = 1; $i < 8; $i++) {
+        for ($i = 1; $i < 8; $i++) {
             $answer = Answer::factory()->create(["question_id" => $i, "solicitude_id" => $solicitude1->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
@@ -325,7 +329,7 @@ class DatabaseSeeder extends Seeder
 
         // for solicitude2
 
-        for($i = 1; $i < 8; $i++) {
+        for ($i = 1; $i < 8; $i++) {
             $answer = Answer::factory()->create(["question_id" => $i + 8, "solicitude_id" => $solicitude2->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
@@ -333,7 +337,7 @@ class DatabaseSeeder extends Seeder
 
         // for solicitude3
 
-        for($i = 1; $i < 8; $i++) {
+        for ($i = 1; $i < 8; $i++) {
             $answer = Answer::factory()->create(["question_id" => $i + 16, "solicitude_id" => $solicitude3->id, "value" => ""]);
             $answer->value = get_data_regarding_type($answer->question->field->type);
             $answer->save();
@@ -341,7 +345,8 @@ class DatabaseSeeder extends Seeder
 
     }
 
-    private function seedQuestions($form) {
+    private function seedQuestions($form)
+    {
         Question::factory()->create(["form_id" => $form->id, "field_id" => 1, "required" => true]);
         Question::factory()->create(["form_id" => $form->id, "field_id" => 2, "required" => true]);
         Question::factory()->create(["form_id" => $form->id, "field_id" => 3, "required" => true]);

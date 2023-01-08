@@ -28,7 +28,7 @@
     @endphp
 
     <div>
-        <h2>Solicitud</h2>
+        <h2>{{ __('Solicitude') }}</h2>
         <div>
             <div class="d-flex justify-content-between">
                 <span class="forms-badge {{$color}}">
@@ -75,7 +75,7 @@
                                         {!! $question['required'] ? 'required="true"' : '' !!}
                                         {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
-                                    /> Sí
+                                    /> {{ __('Yes') }}
                                 </label>
                                 <label class="boolean-input-label">
                                     <input
@@ -85,7 +85,7 @@
                                         {!! $question['required'] ? 'required="true"' : '' !!}
                                         {!! $adminView || $solicitude['status'] != SolicitudeStatus::NEW->value || $question['blocked'] ? 'disabled' : '' !!}
                                         value="{{isset($question['answer']) && $question['answer'] == "true" ? "true" : "false"}}"
-                                    /> No
+                                    /> {{ __('No') }}
                                 </label>
                             </div>
                         @elseif($question["type"] == "file")
@@ -108,7 +108,7 @@
                                 class="question-answer-input form-control"
                             >
                                 @if(!isset($question['answer']) || empty($question['answer']['value']))
-                                    <option value="" disabled hidden selected>Selecciona una opción...</option>
+                                    <option value="" disabled hidden selected>{{ __('Select an option') }}...</option>
                                 @endif
                                 @foreach(explode('|', $question['selectValues']) as $selectValue)
                                     <option value="{{$selectValue}}"
@@ -140,7 +140,7 @@
                 @if($adminView)
                     <div class="mb-5">
                         <button class="mr-4 btn btn-secondary" type="button" id="return_admin_btn">
-                            Salir
+                            {{ __('Exit') }}
                         </button>
                         <button
                             class="btn btn-primary"
@@ -148,14 +148,14 @@
                             id="confirm_payment_btn"
                             {!! $solicitude['status'] != SolicitudeStatus::WAITING_PAYMENT->value ? 'disabled' : '' !!}
                         >
-                            Confirmar pago
+                            {{ __('Confirm payment') }}
                         </button>
                     </div>
                 @else
                     <div class="mb-5 d-flex justify-content-between">
                         <div>
                             <button class="mr-4 btn btn-secondary" type="button" id="cancel_solicitude_btn">
-                                Salir
+                                {{ __('Exit') }}
                             </button>
                             <button
                                 class="btn btn-primary"
@@ -163,7 +163,7 @@
                                 id="submit_answers"
                                 {!! $solicitude['status'] != SolicitudeStatus::NEW->value ? 'disabled' : '' !!}
                             >
-                                Guardar
+                                {{ __('Save') }}
                             </button>
                         </div>
                         <div>
@@ -173,7 +173,7 @@
                                 id="proceed_to_payment_btn"
                                 {!! $solicitude['status'] != SolicitudeStatus::NEW->value || !$solicitudeDeliverable ? 'disabled' : '' !!}
                             >
-                                Proceder a pago
+                                {{ __('Proceed to payment') }}
                             </button>
                         </div>
                     </div>

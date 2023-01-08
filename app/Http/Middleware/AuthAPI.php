@@ -17,7 +17,7 @@ class AuthAPI
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) return response()->error("Necesita autenticarse para acceder a los recursos", null, 403);
+        if (!Auth::check()) return response()->error(__("You need to be authenticated to API access"), null, 403);
         return $next($request);
     }
 }

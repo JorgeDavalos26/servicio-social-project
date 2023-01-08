@@ -16,15 +16,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title fs-5" id="newRegistryModalFormTitle">
-                        Nuevo Registro
+                        {{ __('New solicitude') }}
                     </h2>
                 </div>
                 <div class="modal-body">
                     <div class="mb-4">
                         <label class="control-label d-flex align-items-center" for="solicitude_type_select">
-                            Tipo de formulario
+                            {{ __('Kind of form') }}
                             <span class="help-icon ml-3" data-toggle="tooltip" data-placement="top"
-                                  data-original-title="Ayuda">
+                                  data-original-title={{ __('Help') }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                      class="bi bi-question-circle" viewBox="0 0 16 16">
                                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -44,15 +44,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveSolicitude()"> Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSolicitude()">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center">
-        <h2>Mis registros</h2>
+        <h2>{{ __('My solicitudes') }}</h2>
         <div>
             <button
                 type="button"
@@ -61,14 +61,14 @@
                     disabled
                 data-toggle="tooltip"
                 data-placement="top"
-                title="No hay solicitudes restantes por crear"
+                title={{ __('No solicitudes to create anymore') }}
                 @else
                     class="new-registry-btn can-create"
                     data-toggle="modal"
                 data-target="#newRegistryModalForm"
                 @endif
             >
-                + Registro
+                + {{ __('Solicitude') }}
             </button>
         </div>
     </div>
@@ -78,12 +78,12 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Nivel</th>
-                    <th>Curso</th>
-                    <th>Periodo</th>
-                    <th>Estado</th>
-                    <th>En estado desde</th>
-                    <th>Acciones</th>
+                    <th>{{ __('Level') }}</th>
+                    <th>{{ __('Course') }}</th>
+                    <th>{{ __('Period') }}</th>
+                    <th>{{ __('State') }}</th>
+                    <th>{{ __('In state since') }}</th>
+                    <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>

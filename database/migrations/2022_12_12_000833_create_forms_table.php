@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,8 +15,8 @@ return new class extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->string("description", 100)->nullable();
-            $table->string('scholar_course', 30);
-            $table->string("scholar_level", 30);
+            $table->enum('scholar_course', self::getScholarCoursesAsArray());
+            $table->string("scholar_level", self::getScholarLevelsAsArray());
             $table->string("label", 50);
             $table->timestamps();
         });
@@ -31,5 +30,27 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('forms');
+    }
+
+    private static function getScholarLevelsAsArray(): array
+    {
+        $toReturn = [];
+
+        foreach (\App\Enums\ScholarLevel::cases() as $scholarLevel) {
+            $toReturn[] = $scholarLevel->value;
+        }
+
+        return $toReturn;
+    }
+
+    private static function getScholarCoursesAsArray()
+    {
+        $toReturn = [];
+
+        foreach (\App\Enums\ScholarCourse::cases() as $scholarCourse) {
+            $toReturn[] = $scholarCourse->value;
+        }
+
+        return $toReturn;
     }
 };
