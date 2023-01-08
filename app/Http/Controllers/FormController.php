@@ -43,13 +43,10 @@ class FormController extends Controller
     public function store(FormPostRequest $request)
     {
         if (!Auth::check()) {
-            return response()->error("Must be authenticated", null, 401);
+            return response()->error(__("Must be authenticated"), null, 401);
         }
-
         $input = $request->validated();
-
         $newForm = FormHelper::createForm($input);
-
         return response()->success(new SolicitudeResource($newForm));
     }
 
@@ -75,7 +72,6 @@ class FormController extends Controller
     {
         $input = $request->validated();
         $form = FormHelper::updateForm($form, $input);
-
         return response()->success(new FormResource($form));
     }
 
@@ -88,7 +84,6 @@ class FormController extends Controller
     public function destroy(Form $form)
     {
         $form->delete();
-
         return response()->success(new FormResource($form));
     }
 }

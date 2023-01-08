@@ -111,6 +111,8 @@ Route::prefix('api')->group(function () {
 
     });
 
+    Route::get('yeah', [SettingController::class, 'yeah']);
+
 });
 
 /**

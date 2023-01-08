@@ -7,7 +7,7 @@
 @section("template")
 
     <div>
-        <h2>Formulario</h2>
+        <h2>{{ __('Form') }}</h2>
     </div>
 
 @endsection

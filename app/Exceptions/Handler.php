@@ -54,15 +54,14 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response()->error("No available resource", 418);
+            return response()->error(__("No available resource"), 418);
         }
         else if ($exception instanceof ValidationException) {
             return response()->error($exception->errors(), null, 400);
         } 
         else if ($exception instanceof AuthorizationException) {
-            return response()->error("You don't have enough privileges for this resource", null, 403);
+            return response()->error(__("You don't have enough privileges for this resource"), null, 403);
         }
-
         return parent::render($request, $exception);
     }
 }

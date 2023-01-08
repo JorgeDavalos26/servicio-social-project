@@ -10,13 +10,13 @@
     <div class="container block my-3">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-link active" id="nav-tab-solicitudes" data-toggle="tab" href="#nav-solicitudes" role="tab"
-               aria-controls="nav-solicitudes" aria-selected="true">Solicitudes</a>
+               aria-controls="nav-solicitudes" aria-selected="true">{{ __('Solicitudes') }}</a>
             <a class="nav-link" id="nav-tab-config" data-toggle="tab" href="#nav-config" role="tab"
-               aria-controls="nav-config" aria-selected="false">Configuraciones</a>
+               aria-controls="nav-config" aria-selected="false">{{ __('Settings') }}</a>
             <a class="nav-link" id="nav-tab-stats" data-toggle="tab" href="#nav-stats" role="tab"
-               aria-controls="nav-stats" aria-selected="false">Estadísticas</a>
+               aria-controls="nav-stats" aria-selected="false">{{ __('Statistics') }}</a>
             <a class="nav-link" id="nav-tab-groups" data-toggle="tab" href="#nav-groups" role="tab"
-               aria-controls="nav-groups" aria-selected="false">Grupos</a>
+               aria-controls="nav-groups" aria-selected="false">{{ __('Groups') }}</a>
         </div>
         <div class="tab-content" id="nav-tabContent">
             @include('admin_view_solicitudes')

@@ -64,9 +64,7 @@ class AnswerController extends Controller
     {
         $input = $request->validated();
         $answer = AnswerHelper::updateMediaAnswer($solicitude, $question, $input);
-
-        if ($answer == null) return response()->error("Field type not matched", 401);
-
+        if ($answer == null) return response()->error(__("Field type not matched"), 401);
         return response()->success(new AnswerResource($answer));
     }
 
