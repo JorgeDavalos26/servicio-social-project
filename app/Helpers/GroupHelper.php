@@ -152,7 +152,7 @@ class GroupHelper
                     ->value;
 
                 $innerToReturn['solicitudes'][] = [
-                    "solicitudeId" => $solicitude->id,
+                    "id" => $solicitude->id,
                     "name" => $nameValue,
                     "firstLastName" => $firstLastNameValue,
                     "secondLastName" => $secondLastNameValue,
