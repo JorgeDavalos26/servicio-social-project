@@ -1,14 +1,13 @@
 @section("script")
 
-<script>
-      $gmx(document).ready(function() {
-          console.log("CDN's DOM completed")
-      });
-  </script> 
+	@vite(['resources/js/admin_view_config.js'])
+	@vite(['resources/js/paginate.js'])
+	@vite(['resources/js/admin_view_solicitudes.js'])
+   
 
   <script type="text/javascript">
     $(document).ready(function () {
-      console.log("$(document).ready has been called!");
+    
       $.datepicker.regional.es = {
           closeText: 'Cerrar',
           prevText: 'Ant',
@@ -29,14 +28,11 @@
 
       $.datepicker.setDefaults($.datepicker.regional.es);
       $("#calendar").datepicker();
-      $("#calendarYear").datepicker({changeYear: true});
-      $("#datepicker").datepicker();
+    
 
     });
   </script>
-	@vite(['resources/js/admin_view_config.js'])
-	@vite(['resources/js/paginate.js'])
-	@vite(['resources/js/admin_view_solicitudes.js'])
+	
 
 
   
@@ -56,6 +52,11 @@
       </div>
       <div class="tab-content" id="nav-tabContent-config-internal">
       </div>
+	  <div class="form-group datepicker-group">
+            <label class="control-label" for="calendar">Calendario:</label>
+            <input class="form-control" id="calendar" type="text">
+            <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
+        </div>	
 		<!-- <div class="checkbox" id="receptions"> @foreach($settingService->getReceiveUpcomingSolicitudes() as $key=>$upcomingSolicitude) @endforeach
 			<div class="nav nav-tabs" id="nav-tab" role="tablist"> @foreach($settingService->getReceiveUpcomingSolicitudes() as $key=>$upcomingSolicitude)
 				 <a class="nav-link " id="nav-tab-{{$upcomingSolicitude->id}}" data-toggle="tab" href="#nav-{{$upcomingSolicitude->id}}" role="tab" aria-controls="nav-{{$upcomingSolicitude->id}}" aria-selected="false"> {{$upcomingSolicitude->id}}</a> @endforeach </div>
