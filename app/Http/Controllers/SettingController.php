@@ -83,7 +83,7 @@ class SettingController extends Controller
     // Receive Upcoming Solicitudes
 
     public function getReceiveUpcomingSolicitudes(SettingsService $setting) {
-        $upcomingSolicitudes = $setting->getActivePeriods();
+        $upcomingSolicitudes = $setting->getReceiveUpcomingSolicitudes();
         return response()->success($upcomingSolicitudes);
     }
 
