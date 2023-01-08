@@ -24,13 +24,11 @@ class FormController extends Controller
     {
         $input = $request->validated();
         $forms = FormHelper::getForms($input);
-
         $additionalData = [
             "pagination:total_items" => $forms->total(),
             "pagination:per_page" => (int)$request->perPage,
             "pagination:page" => (int)$request->page
         ];
-
         return response()->success(new FormCollection($forms), $additionalData);
     }
 

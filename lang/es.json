@@ -59,5 +59,9 @@
     "Account": "Cuenta",
     "Profile": "Perfil",
     "Close session": "Cerrar sesión",
+    "Successful logout": "Logout exitoso",
+    "Solicitude not completely answered": "Solicitud no ha sido completada",
+    "Solicitude not ready for payment confirm": "Solicitud no esta lista para confirmar su pago",
+    "Form not found": "Formulario no encontrado",
     "Group|Groups": "Grupo|Grupos"
 }

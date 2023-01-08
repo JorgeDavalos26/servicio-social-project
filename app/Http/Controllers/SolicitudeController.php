@@ -38,9 +38,7 @@ class SolicitudeController extends Controller
     {
         $input = $request->validated();
         $newSolicitude = SolicitudeHelper::createSolicitude($input);
-
-        if ($newSolicitude == null) return response()->error("Form not found", 404);
-
+        if ($newSolicitude == null) return response()->error(__('Form not found'), 404);
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
@@ -54,18 +52,15 @@ class SolicitudeController extends Controller
     public function updateToWaitingPayment(Solicitude $solicitude)
     {
         $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
-        if ($updatedSolicitude == null) return response()->error("Solicitude not completely answered", 400);
-
+        if ($updatedSolicitude == null) return response()->error(__('Solicitude not completely answered'), 400);
         $updatedSolicitude = GroupHelper::addSolicitudeToGroup($updatedSolicitude);
-
         return response()->success(new SolicitudeResource($updatedSolicitude));
     }
 
     public function confirmPayment(Solicitude $solicitude)
     {
         $updatedSolicitude = SolicitudeHelper::confirmPayment($solicitude);
-        if ($updatedSolicitude == null) return response()->error("Solicitude not available for payment confirm", 400);
-
+        if ($updatedSolicitude == null) return response()->error(__('Solicitude not ready for payment confirm'), 400);
         return response()->success(new SolicitudeResource($updatedSolicitude));
     }
 
@@ -85,7 +80,6 @@ class SolicitudeController extends Controller
         $solicitudes = Solicitude::with(['form', 'period'])
             ->where('user_id', $studentId)
             ->get();
-
         return new SolicitudeCollection($solicitudes);
     }
 
