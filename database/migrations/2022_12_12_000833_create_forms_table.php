@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string("description", 100)->nullable();
             $table->enum('scholar_course', self::getScholarCoursesAsArray());
-            $table->string("scholar_level", self::getScholarLevelsAsArray());
+            $table->enum("scholar_level", self::getScholarLevelsAsArray());
             $table->string("label", 50);
             $table->timestamps();
         });
