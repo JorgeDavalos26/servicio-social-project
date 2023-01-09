@@ -63,5 +63,7 @@
     "Solicitude not completely answered": "Solicitud no ha sido completada",
     "Solicitude not ready for payment confirm": "Solicitud no esta lista para confirmar su pago",
     "Form not found": "Formulario no encontrado",
-    "Group|Groups": "Grupo|Grupos"
+    "Group|Groups": "Grupo|Grupos",
+    "Email sent successfully": "Email enviado con éxito",
+    "The file :file has not been found": "El archivo :file no se pudo encontrar"
 }

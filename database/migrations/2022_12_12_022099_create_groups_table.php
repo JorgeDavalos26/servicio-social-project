@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('period_id')->references('id')->on('periods')->onDelete('cascade');
-            $table->string('name');
+            $table->string('name', 60);
             $table->timestamps();
         });
     }

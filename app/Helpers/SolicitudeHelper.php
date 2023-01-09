@@ -3,13 +3,13 @@
 namespace App\Helpers;
 
 use App\Enums\SolicitudeStatus;
+use App\Helpers\MailHelper as HelpersMailHelper;
+use App\Http\Resources\SolicitudeCollection;
 use App\Models\Answer;
 use App\Models\Form;
 use App\Models\Question;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
-use function GuzzleHttp\Promise\all;
-
 class SolicitudeHelper
 {
 
@@ -143,5 +143,25 @@ class SolicitudeHelper
         }
 
         return $allAnswered;
+    }
+
+    public static function sendEmailTo(int $solicitudeId): void
+    {
+        $solicitude = Solicitude::with(['user', 'form', 'group'])->find($solicitudeId);
+        $grNameExploded = explode("_", $solicitude->group->name);
+        HelpersMailHelper::sendFormCompletedMail([
+            'to' => $solicitude->user->email,
+            'level' => $solicitude->form->scholar_level,
+            'course' => $solicitude->form->scholar_course,
+            'group_name' => $grNameExploded[array_key_last($grNameExploded)]
+        ]);
+    }
+
+    public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
+    {
+        $solicitudes = Solicitude::with(['form', 'period'])
+            ->where('user_id', $studentId)
+            ->get();
+        return new SolicitudeCollection($solicitudes);
     }
 }

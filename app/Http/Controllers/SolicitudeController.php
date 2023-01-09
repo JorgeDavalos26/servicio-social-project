@@ -11,9 +11,6 @@ use App\Http\Resources\SolicitudeCollection;
 use App\Http\Resources\SolicitudeCompleteResource;
 use App\Http\Resources\SolicitudeResource;
 use App\Models\Solicitude;
-use App\Policies\SolicitudePolicy;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class SolicitudeController extends Controller
 {
@@ -54,6 +51,7 @@ class SolicitudeController extends Controller
         $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
         if ($updatedSolicitude == null) return response()->error(__('Solicitude not completely answered'), 400);
         $updatedSolicitude = GroupHelper::addSolicitudeToGroup($updatedSolicitude);
+        SolicitudeHelper::sendEmailTo($updatedSolicitude->id);
         return response()->success(new SolicitudeResource($updatedSolicitude));
     }
 
@@ -75,12 +73,9 @@ class SolicitudeController extends Controller
         return response()->success(new SolicitudeCompleteResource($solicitude));
     }
 
-    public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
-    {
-        $solicitudes = Solicitude::with(['form', 'period'])
-            ->where('user_id', $studentId)
-            ->get();
-        return new SolicitudeCollection($solicitudes);
+    public function testingSendEmailTo(int $solicitudeId) {
+        SolicitudeHelper::sendEmailTo($solicitudeId);
+        return response()->success("Email sent!");
     }
 
 }
