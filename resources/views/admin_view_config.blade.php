@@ -15,7 +15,7 @@
 
 	<div class="form-group datepicker-group">
 		<label class="control-label" for="calendar">Calendario:</label>
-		<input class="form-control" id="calendarjojo" type="text">
+		<input class="form-control" id="calendar" type="text">
 		<span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
     </div>	
 

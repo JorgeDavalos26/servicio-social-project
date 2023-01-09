@@ -27,7 +27,7 @@
 				yearSuffix: ''
 			};
 			$.datepicker.setDefaults($.datepicker.regional.es); */
-			$("#calendarjojo").datepicker();
+			$("#calendar").datepicker();
 		});
 	</script>
 
