@@ -112,6 +112,7 @@ Route::prefix('api')->group(function () {
         Route::get('groups', [GroupController::class, 'index'])->can('index', Group::class);
 
         Route::post('emails/sendFormCompletedMail', [MailController::class, 'sendFormCompletedMail']);
+        Route::get('emails/{solicitudeId}/testSend', [SolicitudeController::class, 'testingSendEmailTo']);
 
     });
 
@@ -151,7 +152,7 @@ Route::middleware([AuthWeb::class])->group(function () {
             $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
             return view('home_view', [
                 'forms' => $parsedForms,
-                'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
+                'solicitudes' => SolicitudeHelper::getSolicitudesOfStudent(Auth::user()->id),
                 'userId' => Auth::user()->id
             ]);
         }
