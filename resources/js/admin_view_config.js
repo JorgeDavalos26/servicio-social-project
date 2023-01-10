@@ -194,6 +194,9 @@ async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
             </div>
         </div>`
     );
+    $(`#btn-create-period-${id}`).click(function () {
+        $(`#modal-create-period-${id}`).modal();
+    });
     const startDateInput = $(`#start-date-${id}`);
     const endDateInput = $(`#end-date-${id}`);
     startDateInput.datepicker({ changeYear: true });
@@ -250,57 +253,30 @@ async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
     });
 }
 
-async function fetchData() {
-    const url = `${env.APP_URL}/api/settings`;
-    const rawData = await getData(url);
-    const groups = {};
-    const fieldsToQuery = [
-        "RECEIVE_UPCOMING",
-        "ACTIVE_ID_PERIOD",
-        "MAX_STUDENTS_PER_GROUP",
-    ];
-    rawData.data.map((obj) => {
-        const splitedObj = obj.key.split(".");
-        const group = splitedObj[1];
-        const field = splitedObj[2];
-        if (!fieldsToQuery.includes(field)) return;
-        const existingData = groups[group];
-        groups[group] = {
-            ...existingData,
-            [field]: obj,
-        };
-    });
+async function buildSettingSection(courseSetting, index, tabDiv, contentDiv) {
+    const {
+        RECEIVE_UPCOMING: receiveUpcomingSolicitudes,
+        ACTIVE_ID_PERIOD: activePeriod,
+        MAX_STUDENTS_PER_GROUP: maxStudents,
+    } = courseSetting;
+    if (!receiveUpcomingSolicitudes) return;
+    const { id, key, value } = receiveUpcomingSolicitudes;
+    const courseName = window.capitalizeFirstLetter(
+        window.convertWordsToAccentWords(window.formatSetting(key))
+    );
 
-    const courseSettings = Object.values(groups);
-    const tabDiv = $("#nav-tab-config-internal");
-    const contentDiv = $("#nav-tabContent-config-internal");
-    contentDiv.empty();
-    tabDiv.empty();
-    courseSettings.forEach((courseSetting, index) => {
-        const {
-            RECEIVE_UPCOMING: receiveUpcomingSolicitudes,
-            ACTIVE_ID_PERIOD: activePeriod,
-            MAX_STUDENTS_PER_GROUP: maxStudents,
-        } = courseSetting;
-        if (!receiveUpcomingSolicitudes) return;
-        const { id, key, value } = receiveUpcomingSolicitudes;
-        const courseName = window.capitalizeFirstLetter(
-            window.convertWordsToAccentWords(window.formatSetting(key))
-        );
-
-        tabDiv.append();
-        const shouldRender = index == renderActiveTabNumber;
-        tabDiv.append(
-            `<a class="nav-link ${
-                shouldRender && " show active"
-            }" id="nav-tab-${id}" data-toggle="tab" href="#nav-${id}" role="tab" aria-controls="nav-${id}" aria-selected="true">
+    const shouldRender = index == renderActiveTabNumber;
+    tabDiv.append(
+        `<a class="nav-link ${
+            shouldRender && " show active"
+        }" id="nav-tab-${id}" data-toggle="tab" href="#nav-${id}" role="tab" aria-controls="nav-${id}" aria-selected="true">
             ${courseName}
             </a>`
-        );
-        contentDiv.append(
-            `<div class="tab-pane fade ${
-                shouldRender && "show active"
-            }" id="nav-${id}" role="tabpanel" aria-labelledby="nav-tab-${id}">
+    );
+    contentDiv.append(
+        `<div class="tab-pane fade ${
+            shouldRender && "show active"
+        }" id="nav-${id}" role="tabpanel" aria-labelledby="nav-tab-${id}">
             <div class="row">
                 <div id="period-${id}">
                 </div>
@@ -320,14 +296,46 @@ async function fetchData() {
             </div>
           </div>
             `
-        );
-        $(`#btn-create-period-${id}`).click(function () {
-            $(`#modal-create-period-${id}`).modal();
-        });
-        renderCheckSection(id, key, value);
-        renderPeriod(id, activePeriod);
-        renderMaxStudents(id, maxStudents);
-        renderCreatePeriodModal(id, activePeriod.id, index);
+    );
+
+    renderCheckSection(id, key, value);
+    renderPeriod(id, activePeriod);
+    renderMaxStudents(id, maxStudents);
+    renderCreatePeriodModal(id, activePeriod.id, index);
+}
+
+function processData(rawData) {
+    const groups = {};
+    const fieldsToQuery = [
+        "RECEIVE_UPCOMING",
+        "ACTIVE_ID_PERIOD",
+        "MAX_STUDENTS_PER_GROUP",
+    ];
+    rawData.data.map((rawSetting) => {
+        const splitedObj = rawSetting.key.split(".");
+        const group = splitedObj[1];
+        const field = splitedObj[2];
+        if (!fieldsToQuery.includes(field)) return;
+        const existingData = groups[group];
+        groups[group] = {
+            ...existingData,
+            [field]: rawSetting,
+        };
+    });
+    return groups;
+}
+
+async function fetchData() {
+    const url = `${env.APP_URL}/api/settings`;
+    const rawData = await getData(url);
+    const groups = processData(rawData);
+    const courseSettings = Object.values(groups);
+    const tabDiv = $("#nav-tab-config-internal");
+    const contentDiv = $("#nav-tabContent-config-internal");
+    contentDiv.empty();
+    tabDiv.empty();
+    courseSettings.forEach((courseSetting, index) => {
+        buildSettingSection(courseSetting, index, tabDiv, contentDiv);
     });
 }
 
