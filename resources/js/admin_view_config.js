@@ -75,7 +75,7 @@ async function renderPeriod(id, activePeriod) {
         <div class="row">
             <div class="col-12">
                 <p>
-                    Nombre 
+                    Nombre: 
                 </p>
             </div>
             <div class="col-12">
@@ -253,30 +253,38 @@ async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
 async function fetchData() {
     const url = `${env.APP_URL}/api/settings`;
     const rawData = await getData(url);
-    const results = {};
+    const groups = {};
+    const fieldsToQuery = [
+        "RECEIVE_UPCOMING",
+        "ACTIVE_ID_PERIOD",
+        "MAX_STUDENTS_PER_GROUP",
+    ];
     rawData.data.map((obj) => {
         const splitedObj = obj.key.split(".");
-        const agroupationKey = splitedObj[1];
-        const key = splitedObj[2];
-        const existingData = results[agroupationKey];
-        results[agroupationKey] = {
+        const group = splitedObj[1];
+        const field = splitedObj[2];
+        if (!fieldsToQuery.includes(field)) return;
+        const existingData = groups[group];
+        groups[group] = {
             ...existingData,
-            [key]: obj,
+            [field]: obj,
         };
     });
-    const data = Object.values(results);
+
+    const courseSettings = Object.values(groups);
     const tabDiv = $("#nav-tab-config-internal");
     const contentDiv = $("#nav-tabContent-config-internal");
     contentDiv.empty();
     tabDiv.empty();
-    data.forEach((obj, index) => {
+    courseSettings.forEach((courseSetting, index) => {
         const {
             RECEIVE_UPCOMING: receiveUpcomingSolicitudes,
             ACTIVE_ID_PERIOD: activePeriod,
             MAX_STUDENTS_PER_GROUP: maxStudents,
-        } = obj;
+        } = courseSetting;
+        if (!receiveUpcomingSolicitudes) return;
         const { id, key, value } = receiveUpcomingSolicitudes;
-        const course = window.capitalizeFirstLetter(
+        const courseName = window.capitalizeFirstLetter(
             window.convertWordsToAccentWords(window.formatSetting(key))
         );
 
@@ -286,7 +294,7 @@ async function fetchData() {
             `<a class="nav-link ${
                 shouldRender && " show active"
             }" id="nav-tab-${id}" data-toggle="tab" href="#nav-${id}" role="tab" aria-controls="nav-${id}" aria-selected="true">
-            ${course}
+            ${courseName}
             </a>`
         );
         contentDiv.append(
