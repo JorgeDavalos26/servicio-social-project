@@ -55,28 +55,30 @@ class GroupHelper
     {
         Group::where('period_id', $period->id)->delete();
 
-        $solicitudes = Solicitude::where('period_id', $period->id)->orderBy('id')->get();
-
-        if ($solicitudes->isEmpty()) return;
-
-        $firstSolicitude = $solicitudes[0];
+        $solicitude = Solicitude::where('period_id', $period->id)->orderBy('id')->first();
+        if ($solicitude == null) return;
+        $firstSolicitude = $solicitude;
 
         $form = Form::find($firstSolicitude->form_id);
         $key = "PERIODS." . $form->scholar_level . '_' . $form->scholar_course . ".MAX_STUDENTS_PER_GROUP";
         $maxStudents = Setting::findWhere('key', $key)->value;
 
-        for ($i = 0; $i < $solicitudes->count(); $i += $maxStudents) {
+        $groupNumber = 0;
+
+        while (Solicitude::where('period_id', $period->id)
+            ->where('group_id', null)
+            ->exists()) {
             $group = Group::create([
                 'period_id' => $period->id,
                 'name' => $form->scholar_level . '_' . $form->scholar_course .
-                    substr(self::ALPHABET, $i % strlen(self::ALPHABET), 1)
+                    substr(self::ALPHABET, $groupNumber % strlen(self::ALPHABET), 1)
             ]);
-            $solicitudesToCurrentGroup = array_slice($solicitudes, $maxStudents * $i, $maxStudents);
 
-            foreach ($solicitudesToCurrentGroup as $solicitudeCurrentGroup) {
-                $solicitudeCurrentGroup->group_id = $group->id;
-                $solicitudeCurrentGroup->save();
-            }
+            Solicitude::where('period_id', $period->id)
+                ->where('group_id', null)
+                ->orderBy('id')
+                ->limit($maxStudents)
+                ->update(['group_id' => $group->id]);
         }
     }
 

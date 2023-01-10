@@ -7,6 +7,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
@@ -23,6 +24,7 @@ use App\Models\Question;
 use App\Models\Setting;
 use App\Models\Solicitude;
 use App\Models\User;
+use App\Policies\MailPolicy;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -109,9 +111,10 @@ Route::prefix('api')->group(function () {
 
         Route::get('groups', [GroupController::class, 'index'])->can('index', Group::class);
 
-    });
+        Route::post('emails/sendFormCompletedMail', [MailController::class, 'sendFormCompletedMail']);
+        Route::get('emails/{solicitudeId}/testSend', [SolicitudeController::class, 'testingSendEmailTo']);
 
-    Route::get('yeah', [SettingController::class, 'yeah']);
+    });
 
 });
 
@@ -149,7 +152,7 @@ Route::middleware([AuthWeb::class])->group(function () {
             $parsedForms = FormHelper::parseFormsToSelectElement(SettingHelper::getActiveFormsIds());
             return view('home_view', [
                 'forms' => $parsedForms,
-                'solicitudes' => SolicitudeController::getSolicitudesOfStudent(Auth::user()->id),
+                'solicitudes' => SolicitudeHelper::getSolicitudesOfStudent(Auth::user()->id),
                 'userId' => Auth::user()->id
             ]);
         }

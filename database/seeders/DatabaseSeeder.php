@@ -11,6 +11,7 @@ use App\Enums\TypesQuestion;
 use App\Models\Answer;
 use App\Models\Field;
 use App\Models\Form;
+use App\Models\Group;
 use App\Models\Period;
 use App\Models\Question;
 use App\Models\Setting;
@@ -93,6 +94,14 @@ class DatabaseSeeder extends Seeder
             "is_support" => false
         ]);
 
+        // Emisor user for emails
+        $userEmail = User::factory()->create([
+            "email" => "ceti_tramites@gmail.com",
+            "username" => "Ceti Trámites",
+            "is_admin" => false,
+            "is_support" => false
+        ]);
+
         //------------------------------------ fields
 
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "nombre", "frontend_name" => "Nombre(s)"]);
@@ -103,13 +112,11 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create(["type" => TypesQuestion::STRING, "backend_name" => "escuela_origan", "frontend_name" => "Escuela de Origen"]);
         Field::factory()->create(["type" => TypesQuestion::FLOAT, "backend_name" => "promedio_actual", "frontend_name" => "Promedio Actual"]);
 
-
         // Test fields
         foreach (TypesQuestion::cases() as $i => $case) {
             Field::create(["id" => 1000000 + $i, "type" => $case->value,
                 "backend_name" => "field_type_" . $case->value, "frontend_name" => "field_type_" . $case->value]);
         }
-
 
         //------------------------------------ forms
 
@@ -158,7 +165,6 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < count(TypesQuestion::cases()); $i++) {
             Question::create(["id" => 1000000 + $i, "form_id" => $testForm->id, "field_id" => 1000000 + $i]);
         }
-
 
         //------------------------------------ periods
 
@@ -282,6 +288,17 @@ class DatabaseSeeder extends Seeder
         Setting::create(["key" => "SOLICITUDES.INGENIERIA_NIVELACION.RECEIVE_UPCOMING", "value" => true,
             "description" => "¿Se reciben solicitudes para el curso de nivelación de ingeniería?"]);
 
+        Setting::create(["key" => "FORMS.COMPLETED_FORM.FROM_EMAIL_ADDRESS", "value" => $userEmail->id,
+            "description" => "Email emisor quien manda el correo al momento de completar un formulario"]);
+
+        //------------------------------------ groups
+
+        $group1 = Group::create(["period_id" => $period2->id, "name" => "A"]);
+
+        $group2 = Group::create(["period_id" => $period3->id, "name" => "B"]);
+
+        $group3 = Group::create(["period_id" => $period2->id, "name" => "C"]);
+
         //------------------------------------ solicitudes
 
         $solicitude1 = Solicitude::create(["user_id" => $user1->id, "form_id" => $form1->id, "period_id" => $period1->id,
@@ -291,10 +308,10 @@ class DatabaseSeeder extends Seeder
             "status" => SolicitudeStatus::REJECTED]);
 
         $solicitude3 = Solicitude::create(["user_id" => $user2->id, "form_id" => $form2->id, "period_id" => $period2->id,
-            "status" => SolicitudeStatus::NEW]);
+            "status" => SolicitudeStatus::COMPLETED, "group_id" => $group1->id]);
 
         Solicitude::create(["user_id" => $user2->id, "form_id" => $form3->id, "period_id" => $period3->id,
-            "status" => SolicitudeStatus::COMPLETED]);
+            "status" => SolicitudeStatus::COMPLETED, "group_id" => $group2->id]);
 
         Solicitude::create(["user_id" => $user3->id, "form_id" => $form3->id, "period_id" => $period3->id,
             "status" => SolicitudeStatus::NEW]);
@@ -303,7 +320,7 @@ class DatabaseSeeder extends Seeder
             "status" => SolicitudeStatus::NEW]);
 
         Solicitude::create(["user_id" => $user5->id, "form_id" => $form2->id, "period_id" => $period2->id,
-            "status" => SolicitudeStatus::PAYMENT_REGISTERED]);
+            "status" => SolicitudeStatus::PAYMENT_REGISTERED, "group_id" => $group3->id]);
 
         Solicitude::create(["user_id" => $user5->id, "form_id" => $form3->id, "period_id" => $period3->id,
             "status" => SolicitudeStatus::NEW]);
