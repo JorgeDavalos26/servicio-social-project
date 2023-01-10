@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->foreignId("form_id")->references("id")->on("forms")->onDelete("cascade");
             $table->foreignId("period_id")->references("id")->on("periods")->onDelete("cascade");
             $table->foreignId('group_id')->nullable()->references('id')->on('groups')->nullOnDelete();
-            $table->enum('status', self::getSolicitudeStatusArray())->default(SolicitudeStatus::NEW->value);
+            $table->string('status', 30)->default("Nuevo");
             $table->timestamps();
         });
     }
@@ -34,14 +34,4 @@ return new class extends Migration {
         Schema::dropIfExists('solicitudes');
     }
 
-    private static function getSolicitudeStatusArray(): array
-    {
-        $toReturn = [];
-
-        foreach (SolicitudeStatus::cases() as $solicitudeStatus) {
-            $toReturn[] = $solicitudeStatus->value;
-        }
-
-        return $toReturn;
-    }
 };
