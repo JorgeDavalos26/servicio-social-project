@@ -1,55 +1,11 @@
 import { env } from "./environment";
-
-function isPositiveInteger(str) {
-    try {
-        if (typeof str !== "string") {
-            return false;
-        }
-        const num = Number(str);
-        if (Number.isInteger(num) && num > 0) {
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
-
-function parseDatepickerDate(string) {
-    const splitString = string.split(/\D/);
-    return splitString.reverse().join("-");
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function formatSetting(string) {
-    return string.split(".")[1].replace("_", " ").toLowerCase();
-}
-function convertWordsToAccentWords(string) {
-    const str = string.split(" ");
-    const words = {
-        tecnologo: "tecnólogo",
-        ingenieria: "ingeniería",
-        nivelacion: "nivelación",
-        propedeutico: "propedéutico",
-    };
-    return str
-        .map((word) => {
-            if (words[word]) return words[word];
-            return word;
-        })
-        .join(",")
-        .replace(",", " ");
-}
+let renderActiveTabNumber = 0;
 
 async function handleUpdatePeriod(periodId, label) {
     const url = `${env.APP_URL}/api/periods/${periodId}`;
     const res = await putData(url, { label });
     if (res.status == 200) {
-        return;
+        return addToast("success", "Periodo actualizado con éxito", 3);
     }
     addToast("danger", res.error, 5);
 }
@@ -58,7 +14,7 @@ async function handleUpdateSetting(key, value) {
     const url = `${env.APP_URL}/api/settings/${key}`;
     const res = await putData(url, { value });
     if (res.status == 200) {
-        return;
+        return addToast("success", "Configuración actualizada con éxito", 3);
     }
     addToast("danger", res.error, 5);
 }
@@ -72,7 +28,7 @@ async function handleChangeUpcoming(value, key) {
     });
     const res = await putData(url, { input: data });
     if (res.status == 200) {
-        return;
+        return addToast("success", "Accion realizada con éxito", 3);
     }
     addToast("danger", res.error, 5);
 }
@@ -112,6 +68,7 @@ async function renderPeriod(id, activePeriod) {
     const url = `${env.APP_URL}/api/periods/${activePeriod.value}`;
     const { data: period } = await getData(url);
     if (!period) return;
+    console.log(period.label);
     periodDiv.append(`
     <div class="p-2">
     <h4>Periodo actual</h4>
@@ -122,7 +79,7 @@ async function renderPeriod(id, activePeriod) {
                 </p>
             </div>
             <div class="col-12">
-                <input class="form-control" id="name-period-${id}" originalValue=${period.label} value=${period.label}> 
+                <input class="form-control" type="text" autocomplete="off" id="name-period-${id}" originalValue='${period.label}' value='${period.label}'> 
                 <button class="btn btn-primary m-2 hidden" id="btn-period-name-${id}"  type="button" >Guardar</button>
             </div>
             
@@ -163,7 +120,6 @@ async function renderPeriod(id, activePeriod) {
 
 async function renderMaxStudents(id, maxStudents) {
     const maxStudenDiv = $(`#max-students-${id}`);
-    console.log({ maxStudents, maxStudenDiv });
     maxStudenDiv.append(
         `
         <div class="p-2">
@@ -186,7 +142,7 @@ async function renderMaxStudents(id, maxStudents) {
     btn.click(function (e) {
         e.preventDefault();
         const value = inputMaxStudent.val();
-        if (isPositiveInteger(value)) {
+        if (window.isPositiveInteger(value)) {
             handleUpdateSetting(maxStudents.id, value);
             btn.addClass("hidden");
             return;
@@ -199,7 +155,7 @@ async function renderMaxStudents(id, maxStudents) {
     });
 }
 
-async function renderCreatePeriodModal(id, periodSettingId) {
+async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
     const modalcreatePeriodDiv = $(`#modal-create-period-${id}`);
     modalcreatePeriodDiv.append(
         `
@@ -215,14 +171,19 @@ async function renderCreatePeriodModal(id, periodSettingId) {
                             <input class="form-control" id="create-name-period-${id}" > 
                         </div>
                         <div class="row">
-                            <label class="control-label" for="start-date-${id}">Inicio del periodo:</label>
-                            <input class="form-control" id="start-date-${id}" type="text">
-                            <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                            <div class="form-group datepicker-group">
+                                <label class="control-label" for="start-date-${id}">Inicio del periodo:</label>
+                                <input class="form-control" id="start-date-${id}" type="text">
+                                <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                            </div>
                         </div>
                         <div class="row">
-                            <label class="control-label" for="end-date-${id}">Fin del periodo:</label>
-                            <input class="form-control" id="end-date-${id}" type="text">
-                            <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                            <div class="form-group datepicker-group">
+                                <label class="control-label" for="end-date-${id}">Fin del periodo:</label>
+                                <input class="form-control" id="end-date-${id}" type="text">
+                                <span class="bootstrap-icons" aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                            </div>
+                        
                         </div>
                     </div>
                 </div>
@@ -235,8 +196,8 @@ async function renderCreatePeriodModal(id, periodSettingId) {
     );
     const startDateInput = $(`#start-date-${id}`);
     const endDateInput = $(`#end-date-${id}`);
-    startDateInput.datepicker();
-    endDateInput.datepicker();
+    startDateInput.datepicker({ changeYear: true });
+    endDateInput.datepicker({ changeYear: true });
     const btn = $(`#btn-save-period-${id}`);
     const nameInput = $(`#create-name-period-${id}`);
     btn.click(async function (e) {
@@ -261,8 +222,8 @@ async function renderCreatePeriodModal(id, periodSettingId) {
                 4
             );
         const label = nameInput.val();
-        const startDate = parseDatepickerDate(startDateInput.val());
-        const endDate = parseDatepickerDate(endDateInput.val());
+        const startDate = window.parseDatepickerDate(startDateInput.val());
+        const endDate = window.parseDatepickerDate(endDateInput.val());
         if (new Date(startDate) > new Date(endDate))
             return addToast(
                 "danger",
@@ -284,6 +245,7 @@ async function renderCreatePeriodModal(id, periodSettingId) {
         const { id: newPeriodId } = res;
         await handleUpdateSetting(periodSettingId, newPeriodId + "");
         modalcreatePeriodDiv.modal("hide");
+        renderActiveTabNumber = currentTabIndex;
         fetchData();
     });
 }
@@ -314,23 +276,22 @@ async function fetchData() {
             MAX_STUDENTS_PER_GROUP: maxStudents,
         } = obj;
         const { id, key, value } = receiveUpcomingSolicitudes;
-        const course = capitalizeFirstLetter(
-            convertWordsToAccentWords(formatSetting(key))
+        const course = window.capitalizeFirstLetter(
+            window.convertWordsToAccentWords(window.formatSetting(key))
         );
-        //console.log(activePeriod);
 
         tabDiv.append();
-        const isFirstRender = index == 0;
+        const shouldRender = index == renderActiveTabNumber;
         tabDiv.append(
             `<a class="nav-link ${
-                isFirstRender && " show active"
+                shouldRender && " show active"
             }" id="nav-tab-${id}" data-toggle="tab" href="#nav-${id}" role="tab" aria-controls="nav-${id}" aria-selected="true">
             ${course}
             </a>`
         );
         contentDiv.append(
             `<div class="tab-pane fade ${
-                isFirstRender && "show active"
+                shouldRender && "show active"
             }" id="nav-${id}" role="tabpanel" aria-labelledby="nav-tab-${id}">
             <div class="row">
                 <div id="period-${id}">
@@ -358,7 +319,7 @@ async function fetchData() {
         renderCheckSection(id, key, value);
         renderPeriod(id, activePeriod);
         renderMaxStudents(id, maxStudents);
-        renderCreatePeriodModal(id, activePeriod.id);
+        renderCreatePeriodModal(id, activePeriod.id, index);
     });
 }
 

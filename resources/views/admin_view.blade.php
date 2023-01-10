@@ -1,5 +1,6 @@
 @extends("templates.main_gobmx_template")
 @section("script")
+    @vite(['resources/js/admin.utils.js'])
     @vite(['resources/js/admin_view_config.js'])
     @vite(['resources/js/paginate.js'])
     @vite(['resources/js/admin_view_solicitudes.js'])
