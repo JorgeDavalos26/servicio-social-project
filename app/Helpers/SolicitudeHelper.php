@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Enums\SolicitudeStatus;
+use App\Exceptions\EmailAttachmentCustomException;
 use App\Helpers\MailHelper as HelpersMailHelper;
 use App\Http\Resources\SolicitudeCollection;
 use App\Models\Answer;
@@ -10,6 +11,7 @@ use App\Models\Form;
 use App\Models\Question;
 use App\Models\Solicitude;
 use Illuminate\Support\Facades\Auth;
+
 class SolicitudeHelper
 {
 
@@ -149,12 +151,16 @@ class SolicitudeHelper
     {
         $solicitude = Solicitude::with(['user', 'form', 'group'])->find($solicitudeId);
         $grNameExploded = explode("_", $solicitude->group->name);
-        HelpersMailHelper::sendFormCompletedMail([
-            'to' => $solicitude->user->email,
-            'level' => $solicitude->form->scholar_level,
-            'course' => $solicitude->form->scholar_course,
-            'group_name' => $grNameExploded[array_key_last($grNameExploded)]
-        ]);
+        try {
+            HelpersMailHelper::sendFormCompletedMail([
+                'to' => $solicitude->user->email,
+                'level' => $solicitude->form->scholar_level,
+                'course' => $solicitude->form->scholar_course,
+                'group_name' => $grNameExploded[array_key_last($grNameExploded)]
+            ]);
+        } catch (EmailAttachmentCustomException $e) {
+            // TODO: Log email sending error, show it on a new admin view so it can be manually reattempted
+        }
     }
 
     public static function getSolicitudesOfStudent(int $studentId): SolicitudeCollection
