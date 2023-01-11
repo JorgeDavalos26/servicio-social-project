@@ -35,6 +35,6 @@ class Boolean implements Rule
      */
     public function message()
     {
-        return 'The :attribute attribute must have a boolean value.';
+        return __('The :attribute attribute must have a boolean value');
     }
 }

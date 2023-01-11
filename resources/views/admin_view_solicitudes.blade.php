@@ -70,13 +70,13 @@
 	<table class="table" id="table_admin">
 		<thead>
 			<tr>
-				<th>Número de solicitud</th>
-				<th>Período</th>
-				<th>Curso</th>
-				<th>Nivel</th>
-				<th>Usuario</th>
-                <th>Estado</th>
-                <th>Ver detalles</th>
+				<th>{{ __('Number of solicitude') }}</th>
+				<th>{{ __('Period') }}</th>
+				<th>{{ __('Course') }}</th>
+				<th>{{ __('Level') }}</th>
+				<th>{{ __('User') }}</th>
+				<th>{{ __('State') }}</th>
+				<th>{{ __('Check details') }}</th>
 			</tr>
 		</thead>
 		<tbody id="table_admin_body"> </tbody>

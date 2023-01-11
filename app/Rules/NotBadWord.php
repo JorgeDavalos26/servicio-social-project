@@ -18,7 +18,7 @@ class NotBadWord implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         if (!empty(Profanity::blocker($value)->badWords())) {
-            $fail('The :attribute is offensive.');
+            $fail(__('The :attribute is offensive'));
         }
     }
 }

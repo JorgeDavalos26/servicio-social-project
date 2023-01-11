@@ -38,7 +38,7 @@ return [
 
         'local_custom' => [
             'driver' => 'local',
-            'root' => 'J:\\datos\\pruebas2-archivos',
+            'root' => env('CUSTOM_STORAGE_PATH'),
             'throw' => false,
         ],
 

@@ -17,7 +17,7 @@ class IsLatinName implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         if (!preg_match("/^[\p{Latin}]+(\s[\p{Latin}]+)*$/u", $value)) {
-            $fail('The :attribute has not valid characters.');
+            $fail(__('The :attribute has not valid characters'));
         }
     }
 }

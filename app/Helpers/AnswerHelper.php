@@ -57,6 +57,7 @@ class AnswerHelper
             $question = Question::find($questionAnswer['questionId']);
             $field = $question->field;
             $answerValue = $questionAnswer['answer'];
+
 //            if ($field->type == TypesQuestion::FILE->value) {
 //                $file = base64ToUploadedFile($answerValue);
 //                $value = storage()->storeMedia($file, 'local_custom', $period->label);
@@ -69,15 +70,15 @@ class AnswerHelper
 //                $value = $answerValue;
 //            }
 
-            if ($field->type == TypesQuestion::FILE || $field->type == TypesQuestion::MULTIPLE_FILE) {
+            if ($field->type == TypesQuestion::FILE->value || $field->type == TypesQuestion::MULTIPLE_FILE->value) {
                 continue;
             }
 
-            if ($field->type == TypesQuestion::BOOLEAN && $answerValue != "true" && $answerValue != "false") {
+            if ($field->type == TypesQuestion::BOOLEAN->value && $answerValue != "true" && $answerValue != "false") {
                 continue;
             }
 
-            if ($field->type == TypesQuestion::SELECT || $field->type == TypesQuestion::MULTIPLE) {
+            if ($field->type == TypesQuestion::SELECT->value || $field->type == TypesQuestion::MULTIPLE->value) {
                 $selected = explode("|", $answerValue);
                 $allValuesValid = true;
                 foreach ($selected as $selectValue) {
@@ -109,11 +110,11 @@ class AnswerHelper
         $field = $question->field;
         $answerValue = "";
 
-        if ($field->type == TypesQuestion::FILE) {
+        if ($field->type == TypesQuestion::FILE->value) {
             $file = Arr::first($files);
             $path = storage()->storeMedia($file, 'local_custom', $period->label);
             $answerValue = $path;
-        } else if ($field->type == TypesQuestion::MULTIPLE_FILE) {
+        } else if ($field->type == TypesQuestion::MULTIPLE_FILE->value) {
             foreach ($files as $file) {
                 $path = storage()->storeMedia($file, 'local_custom', $period->label);
                 $answerValue .= $path . "|";
