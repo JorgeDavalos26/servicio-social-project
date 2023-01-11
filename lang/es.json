@@ -81,6 +81,7 @@
     "Email sent successfully": "Email enviado con éxito",
     "Check details": "Ver detalles",
     "Number of solicitude": "Número de solicitud",
+    "Fullname": "Nombre completo",
 
     "The file :file has not been found": "El archivo :file no se pudo encontrar",
     "The :attribute attribute must have a boolean value": "El atributo :attribute debe ser un valor booleano",

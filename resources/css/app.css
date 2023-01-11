@@ -81,3 +81,7 @@
 .application-state-canceled-color {
     background-color: #DC3545;
 }
+
+.required-asterisk {
+    color: #9F2241;
+}

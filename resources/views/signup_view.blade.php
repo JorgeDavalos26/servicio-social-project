@@ -14,15 +14,15 @@
             <hr class="red"><br>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>{{ __('Username') }} *:</strong></span>
+                    <span><strong>{{ __('Fullname') }} <span class="required-asterisk">*</span></strong></span>
                 </div>
                 <div class="col-8">
-                    <input type="text" name="username" placeholder={{ __('Username') }} class="w-100">
+                    <input type="text" name="username" placeholder={{ __('Fullname') }} class="w-100">
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>{{ __('Email') }} *:</strong></span>
+                    <span><strong>{{ __('Email') }} <span class="required-asterisk">*</span></strong></span>
                 </div>
                 <div class="col-8">
                     <input type="text" name="email" placeholder={{ __('Email') }} class="w-100">
@@ -30,7 +30,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>{{ __('Password') }} *:</strong></span>
+                    <span><strong>{{ __('Password') }} <span class="required-asterisk">*</span></strong></span>
                 </div>
                 <div class="col-8">
                     <input type="text" name="password" placeholder={{ __('Password') }} class="w-100">
@@ -38,7 +38,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 text-right">
-                    <span><strong>{{ __('Confirm password') }} *:</strong></span>
+                    <span><strong>{{ __('Confirm password') }} <span class="required-asterisk">*</span></strong></span>
                 </div>
                 <div class="col-8">
                     <input type="text" name="password_confirmation" placeholder={{ __('Confirm password') }} class="w-100">
@@ -47,7 +47,7 @@
             <br>
             <div class="row">
                 <div class="col-4 text-right">
-                    <span><small>* {{ __('Required fields') }}</small></span>
+                    <span><small><span class="required-asterisk">*</span> {{ __('Required fields') }}</small></span>
                 </div>
                 <div class="col-8">
                     <button type="button" class="btn btn-success pull-right" onclick="signup()">{{ __('Sign up') }}</button>

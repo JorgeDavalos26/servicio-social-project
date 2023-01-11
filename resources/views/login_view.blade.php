@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button type="button" class="btn btn-link pull-right">{{ __('Did you forget your password?') }}</button>
+                    {{-- <button type="button" class="btn btn-link pull-right">{{ __('Did you forget your password?') }}</button> --}}
                 </div>
             </div>
             <br>

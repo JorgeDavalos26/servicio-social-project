@@ -15,7 +15,31 @@ window.login = () => {
         {
             console.log(res)
             if(res.error == null) window.location.href=`${env.APP_URL}/inicio`;
-            else addToast('danger', res.error, 5);
+            else {
+                if (typeof res.error === 'string') {
+                    addToast('danger', res.error, 5);
+                }
+                else {
+                    const errors = Object.entries(res.error);
+                    errors.forEach(error => {
+                        error[1].forEach(msg => {
+                            if (msg === 'El campo email es requerido.') {
+                                msg = 'Debe ingresar un correo'
+                            }
+                            else if (msg === 'El campo password es requerido.') {
+                                msg = 'Debe ingresar una contraseña';
+                            }
+                            else if (msg === 'El formato del email no es válido.') {
+                                msg = 'Debe ingresar un correo válido';
+                            }
+                            else {
+                                msg = '???';
+                            }
+                            addToast('danger', msg, 5);
+                        });
+                    });
+                }
+            }
         })
         .catch(error => {
             console.log(error);
