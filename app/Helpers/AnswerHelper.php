@@ -56,7 +56,7 @@ class AnswerHelper
         foreach ($input['answers'] as $questionAnswer) {
             $question = Question::find($questionAnswer['questionId']);
             $field = $question->field;
-            $answerValue = $questionAnswer['answer'];
+            $answerValue = $questionAnswer['answer'] == null ? "" : $questionAnswer['answer'];
 //            if ($field->type == TypesQuestion::FILE->value) {
 //                $file = base64ToUploadedFile($answerValue);
 //                $value = storage()->storeMedia($file, 'local_custom', $period->label);

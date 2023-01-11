@@ -20,7 +20,7 @@ class IsTypeQuestion implements ValidatorAwareRule, InvokableRule
     /**
      * Set the current validator.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param \Illuminate\Validation\Validator $validator
      * @return $this
      */
     public function setValidator($validator)
@@ -32,9 +32,9 @@ class IsTypeQuestion implements ValidatorAwareRule, InvokableRule
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
      * @return void
      */
     public function __invoke($attribute, $value, $fail)
@@ -42,36 +42,37 @@ class IsTypeQuestion implements ValidatorAwareRule, InvokableRule
         $type = Question::find($value['questionId'])->field->type;
         switch ($type) {
             case TypesQuestion::STRING->value:
-                self::validateType($value, ['sometimes', 'required', 'string'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'string'], $fail);
                 break;
             case TypesQuestion::INT->value:
-                self::validateType($value, ['sometimes', 'required', 'integer', 'numeric'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'integer', 'numeric'], $fail);
                 break;
             case TypesQuestion::FLOAT->value:
-                self::validateType($value, ['sometimes', 'required', 'regex:/^\d+(\.\d{1,2})?$/'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'regex:/^\d+(\.\d{1,2})?$/'], $fail);
                 break;
             case TypesQuestion::BOOLEAN->value:
-                self::validateType($value, ['sometimes', 'required', new Boolean], $fail);
+                self::validateType($value, ['sometimes', 'present', new Boolean, 'nullable'], $fail);
                 break;
             case TypesQuestion::DATETIME->value:
-                self::validateType($value, ['sometimes', 'required', 'date', 'date_format:Y-m-d'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'date', 'date_format:Y-m-d'], $fail);
                 break;
             case TypesQuestion::TIME->value:
-                self::validateType($value, ['sometimes', 'required', 'date_format:H:i:s'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'date_format:H:i:s'], $fail);
                 break;
             case TypesQuestion::MULTIPLE->value:
-                self::validateType($value, ['sometimes', 'required', 'string'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'string'], $fail);
                 break;
             case TypesQuestion::SELECT->value:
-                self::validateType($value, ['sometimes', 'required', 'string'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'string'], $fail);
                 break;
             case TypesQuestion::FILE->value:
-                self::validateType($value, ['sometimes', 'required', 'string'], $fail);
+                self::validateType($value, ['sometimes', 'present', 'nullable', 'string'], $fail);
                 break;
         }
     }
 
-    private function validateType($value, Array $rules, $fail) {
+    private function validateType($value, array $rules, $fail)
+    {
         $validator = Validator::make($value, [
             'answer' => $rules,
         ]);

@@ -176,22 +176,18 @@ Route::middleware([AuthWeb::class])->group(function () {
         $adminView = false;
         $solicitudeOwner = null;
         $solicitude = Solicitude::find($solicitudeId);
-        $solicitudeDeliverable = false;
 
         if (user()->isAdmin()) {
             $adminView = true;
             $solicitudeOwner = User::find($solicitude['user_id']);
         } else if (!SolicitudeHelper::isAuthenticatedUserSolicitudesOwner($solicitudeId)) {
             return redirect()->route('home_view');
-        } else {
-            $solicitudeDeliverable = SolicitudeHelper::isSolicitudeCompletelyAnswered($solicitude);
         }
 
         return view('solicitude_view', [
             'solicitude' => json_decode((new SolicitudeCompleteResource($solicitude))->toJson(), true),
             'solicitudeOwner' => $solicitudeOwner,
             'adminView' => $adminView,
-            'solicitudeDeliverable' => $solicitudeDeliverable
         ]);
 
     })->name('solicitude_view');

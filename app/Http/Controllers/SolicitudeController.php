@@ -35,7 +35,7 @@ class SolicitudeController extends Controller
     {
         $input = $request->validated();
         $newSolicitude = SolicitudeHelper::createSolicitude($input);
-        if ($newSolicitude == null) return response()->error(__('Form not found'), 404);
+        if ($newSolicitude == null) return response()->error(__('Form not found'), null, 404);
         return response()->success(new SolicitudeResource($newSolicitude));
     }
 
@@ -49,7 +49,7 @@ class SolicitudeController extends Controller
     public function updateToWaitingPayment(Solicitude $solicitude)
     {
         $updatedSolicitude = SolicitudeHelper::updateSolicitudeToWaitingForPayment($solicitude);
-        if ($updatedSolicitude == null) return response()->error(__('Solicitude not completely answered'), 400);
+        if ($updatedSolicitude == null) return response()->error(__('Solicitude not completely answered'), null, 400);
         $updatedSolicitude = GroupHelper::addSolicitudeToGroup($updatedSolicitude);
         SolicitudeHelper::sendEmailTo($updatedSolicitude->id);
         return response()->success(new SolicitudeResource($updatedSolicitude));
@@ -58,7 +58,7 @@ class SolicitudeController extends Controller
     public function confirmPayment(Solicitude $solicitude)
     {
         $updatedSolicitude = SolicitudeHelper::confirmPayment($solicitude);
-        if ($updatedSolicitude == null) return response()->error(__('Solicitude not ready for payment confirm'), 400);
+        if ($updatedSolicitude == null) return response()->error(__('Solicitude not ready for payment confirm'), null, 400);
         return response()->success(new SolicitudeResource($updatedSolicitude));
     }
 

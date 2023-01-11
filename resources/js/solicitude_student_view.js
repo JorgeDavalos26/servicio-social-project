@@ -21,15 +21,54 @@ solicitudeForm.addEventListener("change", fileInputDelegate((fileInput) => {
 solicitudeForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+});
+
+const saveAnswersButton = document.getElementById("submit_answers");
+saveAnswersButton.addEventListener('click', async (event) => {
+    await submitSolicitudeForm(false)
+});
+
+const toPaymentButton = document.getElementById("proceed_to_payment_btn");
+toPaymentButton.addEventListener("click", async (event) => {
+    await submitSolicitudeForm(true);
+});
+
+const submitSolicitudeForm = async (isSendToPayment) => {
     const solicitudeId = document.URL.split("/").at(-1);
 
+    if (!isSendToPayment) {
+        await storeAnswers(solicitudeId);
+    } else {
+        if (!solicitudeForm.checkValidity()) {
+            solicitudeForm.reportValidity();
+            return;
+        }
+
+        const confirmResult = confirm("¿Seguro que deseas proceder al pago? " +
+            "\nSe utilizará el estado actual de tus respuestas y ya no podrás editar tus respuestas.");
+        if (!confirmResult) return;
+
+        await storeAnswers(solicitudeId);
+        await toPayment(solicitudeId);
+    }
+}
+
+const storeAnswers = async (solicitudeId) => {
     try {
         const completeSolicitude = await getData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/complete`);
+        if (completeSolicitude.status !== 200) {
+            addToast("warning", "Ocurrió un problema, por favor intenta de nuevo.");
+            return;
+        }
 
         const baseAnswers = getBaseAnswersToSend(solicitudeId, completeSolicitude.data.questions);
         const fileAnswers = getFileAnswersToSend(completeSolicitude.data.questions);
 
-        await postData(`${env.APP_URL}/api/answers/storeBulk`, baseAnswers);
+        const storeBulkResponse = await postData(`${env.APP_URL}/api/answers/storeBulk`, baseAnswers);
+        if (storeBulkResponse.status !== 200) {
+            addToast("warning", "Ocurrió un problema, por favor intenta de nuevo.");
+            return;
+        }
 
         for (let i = 0; i < fileAnswers.length; i++) {
             const fileAnswer = fileAnswers[i];
@@ -47,13 +86,11 @@ solicitudeForm.addEventListener('submit', async (event) => {
             );
         }
 
-        addAlert('success', '¡Solicitud actualizada!', 10);
-
-        location.reload();
+        addToast('success', '¡Solicitud actualizada!', 10);
     } catch (error) {
-        console.log(error);
+        addToast("danger", "Estamos encontrando errores, por favor intenta de nuevo más tarde.");
     }
-});
+}
 
 const getBaseAnswersToSend = (solicitudeId, questionsFromApi) => {
     const baseAnswersToSend = {
@@ -120,24 +157,33 @@ const getFileAnswersToSend = (questionsFromApi) => {
     return fileAnswerToSend;
 }
 
-const proceedToPaymentBtn = document.getElementById("proceed_to_payment_btn");
-proceedToPaymentBtn.addEventListener('click', async (event) => {
-    event.preventDefault();
-    const solicitudeId = document.URL.split("/").at(-1);
-
-    const confirmResult = confirm("¿Seguro que deseas proceder al pago? \nYa no podrás editar tus respuestas.");
-    if (!confirmResult) return;
-
+const toPayment = async (solicitudeId) => {
     try {
-        await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toPayment`);
+        const toPaymentResponse = await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/toPayment`);
 
-        addAlert('success', '¡Solicitud esperando confirmación de pago!', 10);
+        if (toPaymentResponse.status === 400) {
+            addToast("warning", "La solicitud no puede ser actualizada en este momento");
+            return;
+        }
 
-        window.location.href = `${env.APP_URL}/inicio`;
+        addToast('success', '¡Solicitud esperando confirmación de pago!', 10);
+
+        saveAnswersButton.disabled = true;
+        toPaymentButton.disabled = true;
+
+        const inputs = solicitudeForm.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+
+        const selects = solicitudeForm.getElementsByTagName("select");
+        for (let i = 0; i < selects.length; i++) {
+            selects[i].disabled = true;
+        }
     } catch (e) {
-        console.log(e);
+        addToast("danger", "Estamos encontrando errores, por favor intenta de nuevo más tarde.");
     }
-});
+};
 
 const cancelButton = document.getElementById('cancel_solicitude_btn');
 cancelButton.addEventListener('click', async (event) => {

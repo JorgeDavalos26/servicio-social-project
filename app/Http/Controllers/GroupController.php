@@ -12,7 +12,7 @@ class GroupController extends Controller
         $input = $request->validated();
         $groups = GroupHelper::getGroups($input);
 
-        if ($groups->isEmpty()) return response()->error("Groups not found", 404);
+        if ($groups->isEmpty()) return response()->error("Groups not found", null, 404);
 
         $completeGroups = GroupHelper::parseGroupsForTableDisplay($groups->items());
 

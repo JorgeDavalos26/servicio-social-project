@@ -159,7 +159,7 @@
                             </button>
                             <button
                                 class="btn btn-primary"
-                                type="submit"
+                                type="button"
                                 id="submit_answers"
                                 {!! $solicitude['status'] != SolicitudeStatus::NEW->value ? 'disabled' : '' !!}
                             >
@@ -171,7 +171,7 @@
                                 type="button"
                                 class="btn btn-primary"
                                 id="proceed_to_payment_btn"
-                                {!! $solicitude['status'] != SolicitudeStatus::NEW->value || !$solicitudeDeliverable ? 'disabled' : '' !!}
+                                {!! $solicitude['status'] != SolicitudeStatus::NEW->value ? 'disabled' : '' !!}
                             >
                                 {{ __('Proceed to payment') }}
                             </button>

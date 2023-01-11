@@ -16,13 +16,16 @@ confirmPaymentBtn.addEventListener('click', async (event) => {
     if (!confirmResult) return;
 
     try {
-        await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/confirmPayment`);
+        const confirmPaymentResponse = await putData(`${env.APP_URL}/api/solicitudes/${solicitudeId}/confirmPayment`);
 
-        addAlert('success', '¡Pago confirmado!', 10);
-
-        window.location.href = `${env.APP_URL}/inicio`;
+        if (confirmPaymentResponse.status === 200) {
+            addAlert('success', '¡Pago confirmado!', 10);
+            window.location.href = `${env.APP_URL}/inicio`;
+        } else if (confirmPaymentResponse.status === 400) {
+            addAlert('warning', '¡Solicitud no apta para confirmación de pago!', 10);
+        }
     } catch (e) {
-        console.log(e);
+        addAlert("danger", "Hubo un error interno, por favor intenta nuevamente.");
     }
 
 });

@@ -10,7 +10,6 @@ const fetchPeriods = async () => {
         return renderPeriodsSelect(res.data);
     }
     addToast("danger", "Error consiguiendo los periodos.", 5);
-    console.log(res.status);
 };
 
 async function renderPeriodsSelect(periods) {
@@ -32,10 +31,13 @@ async function fetchGroups(periodId) {
     try {
         const groupsResponse = await getData(`${env.APP_URL}/api/groups?paginated=0&periodId=${periodId}`);
 
+        if (groupsResponse.status !== 200) {
+            throw new Error("Something went wrong");
+        }
+
         return groupsResponse.data;
     } catch (e) {
-        addToast("danger", "Error retrieving groups", 10);
-        console.log(e);
+        addToast("danger", "Error consiguiendo grupos", 10);
         return null;
     }
 }
@@ -45,7 +47,6 @@ function renderGroups(groups) {
 
     for (let i = 0; i < groups.length; i++) {
         const group = groups[i];
-        console.log(group);
         let tableRows = "";
 
         for (let j = 0; j < group.solicitudes.length; j++) {
