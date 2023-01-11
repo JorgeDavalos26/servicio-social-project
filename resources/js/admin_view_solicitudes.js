@@ -22,13 +22,13 @@ const renderTable = (data = [], tbody = "#table_admin_body") => {
     const tableBody = $(tbody);
     tableBody.empty();
     if (data.length === 0)
-        return addToast("danger", "La búsqueda no produjo resultados", 5);
+        return addToast("warning", "La búsqueda no produjo resultados", 5);
     for (const row of data) {
         //console.log(row);
         tableBody.append(`
         <tr>
         <th scope="row">${row.id}</th>
-        <td>${row.period.label.split('_').at(-1)}</td>
+        <td>${row.period.label.split("_").at(-1)}</td>
         <td>${row.form.scholarCourse}</td>
         <td>${row.form.scholarLevel}</td>
         <td>${row.username}</td>

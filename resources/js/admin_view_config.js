@@ -148,7 +148,7 @@ async function renderMaxStudents(id, maxStudents) {
             return;
         }
         addToast(
-            "danger",
+            "warning",
             "Por favor, escribe un número entero positivo para la cantidad de grupos.",
             4
         );
@@ -207,20 +207,20 @@ async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
         e.preventDefault();
         if (!nameInput.val())
             return addToast(
-                "danger",
+                "warning",
                 "Favor de ingresar un valor al nombre del periodo",
                 4
             );
 
         if (!startDateInput.val())
             return addToast(
-                "danger",
+                "warning",
                 "Favor de ingresar un valor al inicio del periodo",
                 4
             );
         if (!endDateInput.val())
             return addToast(
-                "danger",
+                "warning",
                 "Favor de ingresar un valor al fin del periodo",
                 4
             );
@@ -229,7 +229,7 @@ async function renderCreatePeriodModal(id, periodSettingId, currentTabIndex) {
         const endDate = window.parseDatepickerDate(endDateInput.val());
         if (new Date(startDate) > new Date(endDate))
             return addToast(
-                "danger",
+                "warning",
                 "El inicio del periodo debe empezar antes que el fin del periodo",
                 4
             );
